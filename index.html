@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Know-how Now – der Papiercomputer zum Ausprobieren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700;800&family=Patrick+Hand&display=swap">
+<style>
+:root{
+  --bg:#f3efe6; --panel:#fff; --ink:#1f2633; --muted:#667085; --line:#e2dccd; --soft:#faf7f0;
+  --fire:#e2552c; --fire-d:#b93d1a; --fire-l:#fdebe4; --wood:#e7b46a; --wood-d:#c98f3f;
+  --blue:#2f6fd0; --blue-l:#e8f0fc; --green:#1a8a4a; --green-l:#e6f5ec; --bad:#c62f3b; --bad-l:#fdecee;
+  --paper:#fffdf6; --rule:#cfe0f5; --margin:#f2a0a0; --marker:#fff1a8;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --hand:"Patrick Hand","Comic Sans MS","Segoe Print",cursive;
+  --r:14px; color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;min-height:100vh}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* Kopf */
+header{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#24201b;color:#fff;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff8a3d,#e2552c 60%,#a8321a);display:grid;place-items:center}
+.brand h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.2px}
+.brand h1 span{color:#ffb27a}
+.brand small{display:block;font-size:11px;color:#c8bfb2;font-weight:400}
+.hbtn{border:1px solid #4a4238;background:#332d26;color:#fff;border-radius:9px;padding:7px 11px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.hbtn:hover{background:#40382f}
+.hbtn.tour{background:var(--fire);border-color:var(--fire)}
+.hbtn.tour:hover{background:var(--fire-d)}
+.hbtn.view{border-color:#6b5f50}
+
+/* Layout */
+main{display:grid;gap:12px;padding:12px;grid-template-columns:350px minmax(0,1fr) 340px;grid-template-areas:"prog reg info";height:calc(100vh - 60px);min-height:620px}
+.panel{background:var(--panel);border-radius:var(--r);box-shadow:0 1px 2px rgba(40,30,20,.06),0 0 0 1px var(--line);display:flex;flex-direction:column;min-height:0}
+#progPanel{grid-area:prog}#regPanel{grid-area:reg}#infoPanel{grid-area:info;overflow:auto}
+.ptitle{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.ptitle h2{font-size:14px;margin:0;font-weight:800}
+.ptitle .sp{margin-left:auto;font-size:12px;color:var(--muted)}
+.dot{width:10px;height:10px;border-radius:50%}
+body.lay-tablet main{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"reg reg" "prog info";height:auto;max-width:1200px;margin:0 auto}
+body.lay-tablet #progPanel{height:640px}body.lay-tablet #infoPanel{max-height:640px}
+body.lay-phone header{padding:8px 10px;gap:6px}
+body.lay-phone .brand small{display:none}
+body.lay-phone .brand h1{font-size:16px}
+body.lay-phone .hbtn .t{display:none}
+body.lay-phone .hbtn{padding:7px 9px;font-size:15px}
+body.lay-phone .hbtn.view{font-size:13px}
+body.lay-phone main{grid-template-columns:minmax(0,1fr);grid-template-areas:"p";padding:8px 8px 78px;height:auto;min-height:0;max-width:560px;margin:0 auto}
+body.lay-phone main>.panel{display:none}
+body.lay-phone #progPanel,body.lay-phone #regPanel,body.lay-phone #infoPanel{grid-area:p}
+body.lay-phone main>.panel.pshow{display:flex}
+body.lay-phone #progPanel,body.lay-phone #infoPanel{height:calc(100vh - 150px);height:calc(100dvh - 150px)}
+body.lay-phone .controls{padding:8px;gap:6px}
+body.lay-phone .cbtn{flex:1 1 auto;justify-content:center;padding:9px 10px;font-size:13.5px}
+body.lay-phone .cbtn kbd{display:none}
+body.lay-phone .speed{flex:1 1 100%}
+body.lay-phone .speed input{flex:1}
+body.lay-phone .switch{flex:1 1 100%;justify-content:center;margin-left:0}
+body.lay-phone .regwrap{padding:8px}
+body.lay-phone .regs{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+body.lay-phone .reg{padding:5px 5px 6px;border-radius:10px}
+body.lay-phone .reg .rn .long{display:none}
+body.lay-phone .reg .rn{font-size:12px}
+body.lay-phone .reg .rv{font-size:20px}
+body.lay-phone .sticks{height:62px;margin:4px 0}
+body.lay-phone .bundle{height:28px;gap:2px;margin-right:5px}
+body.lay-phone .stick{width:6px;height:28px}
+body.lay-phone .stick::before{top:5px}
+body.lay-phone .stick::after{width:6px;height:8px}
+body.lay-phone .reg .rb{gap:3px}
+body.lay-phone .reg .rb button{padding:0;font-size:15px}
+body.lay-phone .emptyreg{font-size:11px}
+#phoneNav{display:none}
+body.lay-phone #phoneNav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#24201b;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:6px}
+#phoneNav button{flex:1;border:0;background:none;color:#c8bfb2;font-weight:700;font-size:12px;padding:6px;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+#phoneNav button .i{font-size:18px}
+#phoneNav button.on{background:#40382f;color:#fff}
+#miniNow{display:none}
+body.lay-phone #miniNow{display:block;margin:0 8px 8px;padding:8px 10px;background:var(--fire-l);border-radius:10px;font-size:13px}
+#miniNow b{font-family:var(--mono);color:var(--fire-d)}
+
+/* Tabs + Programmblatt */
+.tabs{display:flex;gap:4px;padding:6px 10px 0;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:none;padding:8px 12px;border-bottom:3px solid transparent;font-weight:700;color:var(--muted)}
+.tabs button.on{color:var(--fire-d);border-color:var(--fire)}
+.tabpane{display:none;flex:1;min-height:0;flex-direction:column}
+.tabpane.on{display:flex}
+.ptools{display:flex;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line);flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{background:var(--soft)}
+.btn.primary{background:var(--fire);border-color:var(--fire);color:#fff}
+.btn.primary:hover{background:var(--fire-d)}
+.btn.small{padding:5px 9px;font-size:12.5px}
+.btn.ghost{border-color:transparent;background:none;color:var(--muted)}
+.btn.on{background:var(--fire-l);border-color:#f4b8a3;color:var(--fire-d)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.paperwrap{flex:1;overflow:auto;min-height:0;background:#efe9db;padding:12px}
+.paper{position:relative;background:var(--paper);border-radius:6px;box-shadow:0 2px 6px rgba(60,40,10,.12);min-height:100%;
+  background-image:linear-gradient(transparent 37px,var(--rule) 37px,var(--rule) 38px,transparent 38px);background-size:100% 38px;background-position:0 30px;padding:30px 0 20px}
+.paper::before{content:"";position:absolute;left:52px;top:0;bottom:0;width:2px;background:var(--margin)}
+.paper .phead{position:absolute;top:6px;left:96px;font-family:var(--hand);color:#9a8f7a;font-size:15px}
+.pl{position:relative;height:38px;display:flex;align-items:center;padding-left:96px;padding-right:86px;cursor:default}
+.pl .no{position:absolute;left:0;width:46px;text-align:right;font-family:var(--hand);font-size:20px;color:#c05050}
+.pl .cmd{font-family:var(--hand);font-size:24px;color:#1d3f8a;min-width:44px}
+.pl .arg{font-family:var(--hand);font-size:24px;color:#1d3f8a;margin-left:8px;min-width:22px}
+.pl .hint{margin-left:12px;font-size:12px;color:#9a8f7a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl.cur{background:linear-gradient(90deg,transparent 54px,var(--marker) 54px)}
+.pl.cur .hint{color:#7a6a3a}
+.pl.err{background:linear-gradient(90deg,transparent 54px,#ffd9d9 54px)}
+.pen{position:absolute;left:55px;top:6px;width:40px;height:24px;transform:scaleX(-1);transition:top .35s cubic-bezier(.5,1.6,.4,1);pointer-events:none;z-index:3;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.25))}
+.pen.gone{opacity:0}
+.jumps{position:absolute;right:0;top:0;width:86px;height:100%;pointer-events:none;overflow:visible}
+.jumps path{fill:none;stroke:#b5a98f;stroke-width:2;opacity:.8}
+.jumps path.hot{stroke:var(--fire);stroke-width:3;opacity:1}
+.jumps path.skip{stroke:var(--blue);stroke-dasharray:4 4;stroke-width:2.5;opacity:1}
+body.proc .pl{cursor:pointer}
+body.proc .pl:hover{background:linear-gradient(90deg,transparent 54px,#ffe8d9 54px)}
+body.proc .pl.cur:hover{background:linear-gradient(90deg,transparent 54px,#ffe48a 54px)}
+.pl.flash-ok{animation:fok .8s}
+.pl.flash-bad{animation:fbad .8s}
+@keyframes fok{0%{background:#bdeccb}100%{}}
+@keyframes fbad{0%,40%{background:#ffc9c9}100%{}}
+/* Bearbeiten */
+.pl.edit{padding-right:8px;padding-left:62px;gap:5px}
+.pl.edit select,.pl.edit input{border:1px solid #d5cdb8;border-radius:7px;padding:3px 6px;background:#fff;font-family:var(--mono);font-size:14px}
+.pl.edit select{width:74px}.pl.edit input{width:52px}
+.pl.edit .ib{border:1px solid #d5cdb8;background:#fff;border-radius:7px;width:28px;height:28px;display:grid;place-items:center;font-size:13px;color:var(--muted);flex:none}
+.pl.edit .ib:hover{background:var(--soft);color:var(--ink)}
+.pl.edit .grow{flex:1}
+.emptyhint{padding:30px 20px 30px 96px;color:#9a8f7a;font-family:var(--hand);font-size:19px}
+.textpane{padding:10px;gap:8px}
+#progText{flex:1;min-height:220px;width:100%;resize:none;border:1px solid var(--line);border-radius:10px;padding:10px;font-family:var(--mono);font-size:14px;line-height:1.6;background:var(--paper);white-space:pre;overflow:auto}
+.errlist{margin:0;padding:0;list-style:none;font-size:12.5px}
+.errlist li{background:var(--bad-l);color:var(--bad);border-radius:8px;padding:6px 9px;margin-bottom:4px}
+.errlist li.warn{background:#fff6e0;color:#7a5200}
+.okline{background:var(--green-l);color:var(--green);border-radius:8px;padding:6px 9px;font-size:12.5px}
+details.syntax{font-size:12.5px;background:var(--soft);border-radius:10px;padding:6px 10px}
+details.syntax summary{cursor:pointer;font-weight:700;color:var(--muted)}
+details.syntax pre{font-family:var(--mono);background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px;margin:6px 0}
+code,.k{font-family:var(--mono);background:var(--soft);border:1px solid var(--line);border-radius:5px;padding:0 4px;font-size:.92em}
+
+/* Register */
+#regPanel{min-width:0}
+.regwrap{flex:1;overflow:auto;padding:14px;min-height:0}
+.regs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.reg{border:2px solid #e3d9c4;border-radius:14px;background:linear-gradient(#fffdf7,#fbf5e8);padding:8px 10px 8px;display:flex;flex-direction:column;position:relative;transition:border-color .2s,box-shadow .2s}
+.reg .rh{display:flex;align-items:baseline;gap:6px}
+.reg .rn{font-weight:800;font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.reg .rv{margin-left:auto;font-family:var(--mono);font-weight:800;font-size:28px;line-height:1;cursor:text;border-radius:6px;padding:0 4px}
+.reg .rv:hover{background:#f3ead7}
+.reg .rv input{width:64px;font-family:var(--mono);font-weight:800;font-size:22px;border:1px solid var(--line);border-radius:6px;padding:0 4px;text-align:right}
+.sticks{height:94px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:3px 0;margin:6px 0 4px;overflow:hidden}
+.bundle{display:flex;gap:3px;margin-right:9px;height:44px}
+.stick{width:7px;height:44px;position:relative}
+.stick::before{content:"";position:absolute;left:1px;right:1px;top:7px;bottom:0;background:linear-gradient(90deg,#d79c4c,#f2cc8a 45%,#d9a157);border-radius:1.5px}
+.stick::after{content:"";position:absolute;left:0;top:0;width:7px;height:11px;border-radius:50% 50% 45% 45%;background:radial-gradient(circle at 35% 30%,#ff8a6a,#d63a1b 60%,#9c2a12)}
+.stick.new{animation:drop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes drop{0%{transform:translateY(-40px) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
+.stick.gone{animation:lift .45s forwards}
+@keyframes lift{0%{opacity:1}100%{transform:translateY(-40px) rotate(30deg);opacity:0}}
+.more{font-family:var(--mono);font-weight:700;color:var(--wood-d);font-size:13px;align-self:center}
+.emptyreg{font-size:12px;color:#b8ab8f;font-style:italic;align-self:center;margin:auto}
+.reg .rb{display:flex;gap:6px}
+.reg .rb button{flex:1;border:1px solid #e3d9c4;background:#fff;border-radius:8px;padding:3px 0;font-weight:800;font-size:16px;color:#7a6a50}
+.reg .rb button:hover{background:#fff4e2;border-color:var(--wood)}
+.reg.hot{border-color:var(--fire);box-shadow:0 0 0 4px var(--fire-l)}
+.reg.test{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-l)}
+.reg .badge{position:absolute;top:-11px;right:10px;background:var(--blue);color:#fff;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 9px;opacity:0;transition:opacity .2s}
+.reg.test .badge{opacity:1}
+.reg.need{border-style:dashed;border-color:var(--fire)}
+body.proc .reg .rb button{border-color:#f4b8a3;background:#fff6f2;color:var(--fire-d)}
+.startnote{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+
+/* Steuerleiste */
+.controls{border-top:1px solid var(--line);padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px;font-weight:700;display:inline-flex;align-items:center;gap:7px;font-size:14px}
+.cbtn:hover{background:var(--soft)}
+.cbtn:disabled{opacity:.4;cursor:not-allowed}
+.cbtn.go{background:var(--green);border-color:var(--green);color:#fff}
+.cbtn.go.pause{background:#c27c00;border-color:#c27c00}
+.cbtn.step{border-color:#f4b8a3;color:var(--fire-d)}
+.cbtn kbd{font-family:var(--mono);font-size:10.5px;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:0 4px;color:var(--muted);font-weight:500}
+.speed{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.speed input{width:110px;accent-color:var(--green)}
+.switch{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;margin-left:auto;cursor:pointer;user-select:none;border:1px dashed var(--fire);border-radius:10px;padding:6px 10px;background:var(--fire-l)}
+.switch input{display:none}
+.switch .tr{width:36px;height:20px;border-radius:999px;background:#d4c9b6;position:relative;transition:.2s}
+.switch .tr::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s}
+.switch input:checked+.tr{background:var(--fire)}
+.switch input:checked+.tr::after{left:18px}
+.statusbar{padding:0 12px 10px;font-size:12.5px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}
+.statusbar b{color:var(--ink);font-family:var(--mono)}
+
+/* Info */
+.card{margin:10px 12px 0;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+.card:last-child{margin-bottom:12px}
+.card h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.nextline{font-family:var(--hand);font-size:28px;color:#1d3f8a;line-height:1.1}
+.nextline small{font-family:var(--sans);font-size:13px;color:var(--muted)}
+.ntxt{margin:6px 0 0;font-size:14px}
+.card.halt{border-color:#f0b9be;background:#fff6f7}
+.card.done{border-color:#b9e0c8;background:#f3fbf6}
+.card.proc{border-color:#f4b8a3;background:#fff8f4}
+.nowop{font-family:var(--mono);font-weight:800;color:var(--fire-d);font-size:15px}
+.feedback{margin-top:8px;border-radius:10px;padding:8px 10px;font-size:13.5px;font-weight:600}
+.feedback.ok{background:var(--green-l);color:var(--green)}
+.feedback.bad{background:var(--bad-l);color:var(--bad)}
+.feedback.info{background:var(--soft);color:var(--muted);font-weight:500}
+.score{display:flex;gap:10px;margin-top:8px;font-size:12.5px}
+.score span{background:var(--soft);border-radius:8px;padding:3px 8px}
+table.cmdref{width:100%;border-collapse:collapse;font-size:12.5px}
+table.cmdref td{padding:5px 4px;border-bottom:1px solid #f1ece0;vertical-align:top}
+table.cmdref td:first-child{font-family:var(--mono);font-weight:800;color:#1d3f8a;white-space:nowrap;width:62px}
+ol.log{margin:6px 0 0;padding-left:0;list-style:none;font-size:12px;font-family:var(--mono);max-height:240px;overflow:auto}
+ol.log li{padding:2px 0;border-bottom:1px dashed #efe9db;color:var(--muted)}
+ol.log li b{color:var(--ink)}
+details.card summary{cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700}
+
+/* Modale */
+.modal-bg{position:fixed;inset:0;background:rgba(30,22,12,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-bg.on{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:760px;width:100%;max-height:calc(100vh - 32px);display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal.wide{max-width:980px}
+.modal.narrow{max-width:460px}
+.mhead{display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.mhead h2{margin:0;font-size:17px;margin-right:auto}
+.mbody{padding:14px 18px;overflow:auto}
+.mfoot{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.xbtn{border:0;background:none;font-size:22px;line-height:1;color:var(--muted);padding:2px 6px}
+.list{display:grid;gap:8px}
+.item{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:12px;align-items:center}
+.item:hover{border-color:#e0c9a6;background:#fffbf3}
+.item .t{font-weight:700}
+.item .d{font-size:12.5px;color:var(--muted)}
+.item .grow{flex:1}
+.tag{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;background:var(--soft);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.task{border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+.task>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;gap:10px;align-items:center}
+.task>summary::-webkit-details-marker{display:none}
+.task[open]>summary{border-bottom:1px solid var(--line)}
+.task .tb{padding:10px 12px;font-size:13.5px}
+.task .num{width:26px;height:26px;border-radius:50%;background:var(--fire-l);color:var(--fire-d);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.task .num.ok{background:var(--green-l);color:var(--green)}
+.res{margin-top:8px;font-size:12.5px}
+.res table{border-collapse:collapse;margin-top:6px}
+.res td,.res th{padding:3px 8px;border:1px solid var(--line);font-family:var(--mono)}
+.res th{font-family:var(--sans);font-size:11.5px;color:var(--muted);background:var(--soft)}
+.pass{color:var(--green);font-weight:700}.fail{color:var(--bad);font-weight:700}
+.warnbox{background:#fff6e0;border:1px solid #f1d58f;color:#7a5200;border-radius:8px;padding:7px 10px;font-size:12.5px}
+.infobox{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;color:var(--muted)}
+pre.sol{font-family:var(--mono);background:var(--soft);border-radius:8px;padding:8px;font-size:12.5px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+textarea.export{width:100%;height:180px;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:8px;padding:8px}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.field>label{font-size:12px;font-weight:700;color:var(--muted)}
+.viewopt{cursor:pointer;padding:12px 14px}
+.viewopt .vi{font-size:26px;width:40px;text-align:center}
+.viewopt.on{border-color:var(--fire);background:var(--fire-l)}
+.viewopt.on .t::after{content:"  ✓ aktiv";color:var(--fire-d);font-size:12.5px}
+.tourlist .item{cursor:pointer}
+.tourlist .kk{width:34px;height:34px;border-radius:10px;background:var(--fire-l);color:var(--fire-d);display:grid;place-items:center;font-weight:800;flex:none}
+.welcome{text-align:center;padding:10px 6px}
+.welcome .big{font-size:40px}
+.welcome p{color:var(--muted)}
+
+/* Hintergrund */
+.bg{display:grid;grid-template-columns:210px 1fr;gap:18px}
+.bg nav{position:sticky;top:0;align-self:start;display:flex;flex-direction:column;gap:2px}
+.bg nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:5px 8px;border-radius:7px}
+.bg nav a:hover{background:var(--soft);color:var(--ink)}
+.bg article{font-size:14.5px;line-height:1.6;max-width:680px}
+.bg article h3{font-size:18px;margin:22px 0 6px;scroll-margin-top:10px}
+.bg article h3:first-child{margin-top:0}
+.bg article p{margin:0 0 10px}
+.bg table{border-collapse:collapse;width:100%;font-size:13.5px;margin:6px 0 12px}
+.bg table th,.bg table td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.bg table th{background:var(--soft);font-size:12.5px}
+.bg .trace td{font-family:var(--mono);text-align:center}
+.bg .box{background:var(--fire-l);border-radius:10px;padding:10px 12px;margin:8px 0 12px}
+.bg pre{font-family:var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px}
+@media (max-width:760px){.bg{grid-template-columns:1fr}.bg nav{display:none}}
+
+/* Toast, Tour */
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:#24201b;color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;opacity:0;transition:.25s;z-index:95;max-width:min(560px,90vw);box-shadow:0 10px 30px rgba(0,0,0,.25);pointer-events:none}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.bad{background:var(--bad)}#toast.ok{background:var(--green)}
+#tourSpot{position:fixed;z-index:70;border-radius:12px;box-shadow:0 0 0 9999px rgba(30,22,12,.55);pointer-events:none;transition:all .25s;outline:3px solid #ffb27a;display:none}
+#tourSpot.center{outline:none;width:0!important;height:0!important}
+#tourCard{position:fixed;z-index:75;width:370px;max-width:calc(100vw - 24px);background:#fff;border-radius:14px;box-shadow:0 18px 45px rgba(0,0,0,.3);padding:14px 16px;display:none;border-top:5px solid var(--fire);max-height:calc(100vh - 24px);overflow:auto}
+#tourCard .tc-top{display:flex;align-items:center;font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+#tourCard .tc-top span{margin-right:auto}
+#tourCard h3{margin:6px 0 6px;font-size:16px}
+#tourCard .tc-body{font-size:13.5px}
+#tourCard .tc-body p{margin:0 0 6px}
+#tourCard .tc-body ul,#tourCard .tc-body ol{margin:0 0 6px;padding-left:18px}
+#tourCard .task-line{background:var(--marker);border-radius:8px;padding:7px 9px;font-weight:600;margin-top:6px;font-size:13px}
+#tourCard .task-line.done{background:var(--green-l);color:var(--green)}
+#tourCard .tc-foot{display:flex;gap:6px;margin-top:10px;align-items:center}
+#tourCard .tc-foot .sp{margin-right:auto;font-size:12px;color:var(--muted)}
+.progress{height:4px;background:var(--soft);border-radius:4px;margin-top:6px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--fire)}
+footer{font-size:11.5px;color:var(--muted);text-align:center;padding:0 12px 12px}
+footer a{color:var(--muted)}
+body.lay-phone footer{padding-bottom:84px}
+
+/* Druck: Papiercomputer */
+#printSheet{display:none}
+@media print{
+  body>*:not(#printSheet){display:none!important}
+  #printSheet{display:block;font-family:var(--sans);color:#000}
+  #printSheet h1{font-size:20pt;margin:0 0 2mm}
+  #printSheet .ps{display:grid;grid-template-columns:1fr 1fr;gap:8mm}
+  #printSheet table{border-collapse:collapse;width:100%}
+  #printSheet td{border-bottom:1px solid #9bb8e0;height:9mm;font-size:13pt}
+  #printSheet td.n{width:12mm;color:#c05050;border-right:2px solid #f2a0a0;text-align:right;padding-right:3mm}
+  #printSheet td.c{padding-left:4mm;font-family:var(--mono)}
+  #printSheet .rg{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+  #printSheet .rg div{border:2px solid #000;border-radius:3mm;height:40mm;padding:2mm;font-weight:700}
+  #printSheet .cmds{margin-top:6mm;font-size:10.5pt}
+}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo"><svg width="22" height="26" viewBox="0 0 22 26"><rect x="9" y="7" width="4" height="19" rx="1.5" fill="#f6d39a"/><ellipse cx="11" cy="6" rx="4.2" ry="5.5" fill="#fff"/><ellipse cx="11" cy="6" rx="3" ry="4.2" fill="#ffd2bf"/></svg></div>
+    <div><h1>Know-how <span>Now</span></h1><small>Der Papiercomputer zum Ausprobieren</small></div>
+  </div>
+  <button class="hbtn" id="btnExamples" title="Beispiele">📂<span class="t"> Beispiele</span></button>
+  <button class="hbtn" id="btnTasks" title="Aufgaben">✅<span class="t"> Aufgaben</span></button>
+  <button class="hbtn" id="btnBg" title="Hintergrund">📖<span class="t"> Hintergrund</span></button>
+  <button class="hbtn" id="btnFile" title="Speichern/Laden">💾<span class="t"> Speichern/Laden</span></button>
+  <button class="hbtn tour" id="btnTour" title="Tour">🎓<span class="t"> Tour</span></button>
+  <button class="hbtn view" id="btnView" title="Ansicht wählen: PC, Tablet oder Handy">📐<span> Ansicht</span></button>
+</header>
+
+<main>
+  <section class="panel" id="progPanel">
+    <div class="ptitle"><span class="dot" style="background:var(--blue)"></span><h2>Programmblatt</h2><span class="sp" id="lineCount"></span></div>
+    <div class="tabs">
+      <button class="on" data-tab="tabSheet" id="tabBtnSheet">Blatt</button>
+      <button data-tab="tabText" id="tabBtnText">Programmtext</button>
+    </div>
+    <div class="tabpane on" id="tabSheet">
+      <div class="ptools">
+        <button class="btn small" id="btnEdit" title="Zeilen bearbeiten">✏️ Bearbeiten</button>
+        <button class="btn small" id="btnAddLine" title="Zeile am Ende anfügen">＋ Zeile</button>
+        <button class="btn small ghost" id="btnClearProg" title="Programm löschen">🗑 Leeren</button>
+      </div>
+      <div class="paperwrap" id="paperWrap"><div class="paper" id="paper"><div class="phead">Programm</div><div id="lines"></div>
+        <svg class="pen" id="pen" viewBox="0 0 44 26"><path d="M4 13 L12 8 L40 8 Q43 8 43 11 L43 15 Q43 18 40 18 L12 18 Z" fill="#f2c14e" stroke="#8a6a1c" stroke-width="1"/><path d="M4 13 L12 8 L12 18 Z" fill="#f4dcb0" stroke="#8a6a1c" stroke-width="1"/><path d="M4 13 L7 11.2 L7 14.8 Z" fill="#333"/><rect x="34" y="8" width="5" height="10" fill="#d9d9d9" stroke="#8a6a1c" stroke-width="1"/><rect x="39" y="8" width="4" height="10" rx="1.5" fill="#f08aa0" stroke="#8a6a1c" stroke-width="1"/></svg>
+        <svg class="jumps" id="jumps"></svg>
+      </div></div>
+    </div>
+    <div class="tabpane textpane" id="tabText">
+      <textarea id="progText" wrap="off" spellcheck="false" aria-label="Programmtext"></textarea>
+      <div id="asmMsg"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn primary" id="btnApplyText">✓ Aufs Programmblatt übernehmen</button>
+        <button class="btn" id="btnFromSheet">⟲ Vom Blatt holen</button>
+      </div>
+      <details class="syntax"><summary>So schreibt man Programme</summary>
+        <p>Jede Zeile ist ein Befehl. Die Zeilen werden automatisch ab 1 nummeriert.</p>
+<pre>isz 2    ; ist Register 2 leer?
+jmp 4    ; nein: springe zu Zeile 4
+stp      ; ja: fertig
+dec 2
+inc 1
+jmp 1</pre>
+        <p>Kommentare beginnen mit <code>;</code>. Zeilennummern am Anfang (<code>1:</code>) sind erlaubt und werden ignoriert. Register 1–8 dürfen auch als A–H geschrieben werden.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="panel" id="regPanel">
+    <div class="ptitle"><span class="dot" style="background:var(--fire)"></span><h2>Register</h2><span class="sp" id="regHint">Jedes Streichholz zählt 1</span></div>
+    <div class="regwrap"><div class="regs" id="regs"></div>
+      <div class="startnote" id="startNote"></div></div>
+    <div class="controls" id="controls">
+      <button class="cbtn" id="btnReset" title="Zurück zum Anfang: Zeile 1 und Startwerte">⟲ Neu starten</button>
+      <button class="cbtn" id="btnUndo" title="Letzten Schritt rückgängig (Strg+Z)">↶ Zurück</button>
+      <button class="cbtn step" id="btnStep" title="Eine Zeile ausführen (Pfeil rechts)">▸ Schritt <kbd>→</kbd></button>
+      <button class="cbtn go" id="btnRun" title="Programm laufen lassen (Leertaste)">▶ Start</button>
+      <div class="speed"><span>Tempo</span><input type="range" id="speed" min="0" max="5" value="2" aria-label="Tempo"><span id="speedLbl">mittel</span></div>
+      <label class="switch" id="procToggle" title="Du führst das Programm selbst aus"><input type="checkbox" id="proc"><span class="tr"></span>Ich bin der Computer</label>
+    </div>
+    <div class="statusbar" id="statusbar"></div>
+    <div id="miniNow"><b id="miniOp">–</b> <span id="miniTxt"></span> <button class="btn small ghost" id="miniMore">Mehr ›</button></div>
+  </section>
+
+  <section class="panel" id="infoPanel">
+    <div class="ptitle"><span class="dot" style="background:var(--green)"></span><h2>Was passiert gerade?</h2></div>
+    <div class="card" id="nextCard"></div>
+    <div class="card" id="nowCard"><h3>Gerade passiert</h3><div class="nowop" id="nowOp">–</div><p class="ntxt" id="nowTxt">Klicke auf <b>Schritt</b> – hier steht dann, was der Computer gemacht hat.</p></div>
+    <div class="card" id="refCard"><h3>Die fünf Befehle</h3><table class="cmdref" id="cmdRef"></table></div>
+    <details class="card" id="logCard"><summary>Protokoll</summary><ol class="log" id="log"></ol></details>
+  </section>
+</main>
+<footer>Nach dem Know-how-Computer von Wolfgang Back und Ulrich Rohde (WDR Computerclub, 1983). Mehr unter <b>📖 Hintergrund</b>.</footer>
+
+<nav id="phoneNav" aria-label="Bereiche">
+  <button data-p="progPanel"><span class="i">📝</span>Programm</button>
+  <button data-p="regPanel" class="on"><span class="i">🔥</span>Register</button>
+  <button data-p="infoPanel"><span class="i">💬</span>Erklärung</button>
+</nav>
+
+<div class="modal-bg" id="mExamples"><div class="modal">
+  <div class="mhead"><h2>Beispielprogramme</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody"><div class="list" id="exList"></div></div>
+</div></div>
+
+<div class="modal-bg" id="mTasks"><div class="modal">
+  <div class="mhead"><h2>Aufgaben mit automatischer Prüfung</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody">
+    <p class="infobox" style="margin-top:0">Schreibe dein Programm aufs Programmblatt. „Prüfen“ lässt es mit verschiedenen Startwerten laufen – deine Register bleiben dabei unverändert. Alle Register, die nicht genannt sind, starten mit 0.</p>
+    <div id="taskList"></div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="mBg"><div class="modal wide">
+  <div class="mhead"><h2>📖 Hintergrund: Der Know-how-Computer</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody" id="bgBody"></div>
+</div></div>
+
+<div class="modal-bg" id="mFile"><div class="modal narrow">
+  <div class="mhead"><h2>Speichern, Laden, Drucken</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody">
+    <div class="field"><label>Programm laden</label><span class="btn filebtn">📂 Textdatei öffnen (.txt)<input type="file" id="fileImport" accept=".txt,.khc,.text"></span></div>
+    <div class="field"><label>Programm speichern</label><div><button class="btn" id="fileExport">💾 Als Textdatei</button></div></div>
+    <div class="field"><label>Papiercomputer zum Ausdrucken</label><div><button class="btn" id="btnPrint">🖨️ Druckvorlage mit diesem Programm</button></div>
+      <p class="infobox" style="margin:6px 0 0">Ein Blatt mit den Programmzeilen und acht leeren Register-Kästchen – für echte Streichhölzer oder Spielsteine.</p></div>
+  </div>
+</div></div>
+
+<div class="modal-bg" id="mExport"><div class="modal narrow">
+  <div class="mhead"><h2>Programm speichern</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody"><textarea class="export" id="exText" readonly></textarea>
+    <p class="infobox" style="margin-bottom:0">Falls der Download nicht startet (z. B. in einer Vorschau): <b>Kopieren</b> und in einer Textdatei speichern.</p></div>
+  <div class="mfoot"><button class="btn" id="exCopy">📋 Kopieren</button><button class="btn primary" id="exDownload">⬇ Herunterladen</button></div>
+</div></div>
+
+<div class="modal-bg" id="mTour"><div class="modal">
+  <div class="mhead"><h2>Geführte Tour</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody"><div class="list tourlist" id="tourList"></div></div>
+</div></div>
+
+<div class="modal-bg" id="mView"><div class="modal narrow">
+  <div class="mhead"><h2>Ansicht wählen</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody"><div class="list" id="viewList"></div>
+  <p class="infobox" style="margin:10px 0 0">Die Auswahl wird gemerkt. Am PC kannst du so auch prüfen, wie die Seite auf Tablet oder Handy aussieht.</p></div>
+</div></div>
+
+<div class="modal-bg" id="mConfirm"><div class="modal narrow">
+  <div class="mhead"><h2 id="cfTitle">Bist du sicher?</h2></div>
+  <div class="mbody" id="cfText"></div>
+  <div class="mfoot"><button class="btn" id="cfNo">Abbrechen</button><button class="btn primary" id="cfYes">OK</button></div>
+</div></div>
+
+<div class="modal-bg" id="mWelcome"><div class="modal narrow">
+  <div class="mbody welcome">
+    <div class="big">🔥📝</div>
+    <h2>Willkommen bei Know-how Now</h2>
+    <p>Ein Computer aus Papier, Stift und Streichhölzern – hier zum Ausprobieren, Zuschauen und Selbst-Rechnen.</p>
+    <p style="font-size:13px">Zum ersten Mal hier? Die Tour erklärt, was der Know-how-Computer ist und wie er funktioniert.</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+      <button class="btn primary" id="wcTour">🎓 Tour starten</button>
+      <button class="btn" id="wcGo">Direkt loslegen</button>
+    </div>
+  </div>
+</div></div>
+
+<div id="printSheet"></div>
+<div id="toast"></div>
+<div id="tourSpot"></div>
+<div id="tourCard"></div>
+
+<script>
+/* ===== Know-how-Computer: Rechenlogik ===== */
+const NREG = 8, MAXREG = 999, MAXLINES = 99;
+const CMDS = {
+  inc: {arg:'reg', short:'Streichholz dazulegen', long:'Lege ein Streichholz in Register {a}. Danach geht es mit der nächsten Zeile weiter.'},
+  dec: {arg:'reg', short:'Streichholz wegnehmen', long:'Nimm ein Streichholz aus Register {a}. Danach geht es mit der nächsten Zeile weiter.'},
+  jmp: {arg:'line', short:'zu einer Zeile springen', long:'Springe zu Zeile {a}: Der Stift wandert dorthin.'},
+  isz: {arg:'reg', short:'ist das Register leer?', long:'Ist Register {a} leer (0)? Dann wird die nächste Zeile übersprungen. Sonst geht es ganz normal mit der nächsten Zeile weiter.'},
+  stp: {arg:null, short:'Programm beenden', long:'Das Programm ist zu Ende.'}
+};
+const ALIAS = {'+':'inc','-':'dec','−':'dec','j':'jmp','jump':'jmp','0':'isz','stop':'stp','hlt':'stp','halt':'stp'};
+
+class KHC {
+  constructor(){ this.regs=new Array(NREG+1).fill(0); this.prog=[null]; this.reset(); this.hist=[]; }
+  reset(){ this.pc=1; this.halted=false; this.error=null; this.steps=0; this.last=null; }
+  snap(){ return {regs:this.regs.slice(),pc:this.pc,halted:this.halted,error:this.error,steps:this.steps,last:this.last}; }
+  push(){ this.hist.push(this.snap()); if(this.hist.length>5000) this.hist.shift(); }
+  undo(){ const s=this.hist.pop(); if(!s) return false; Object.assign(this,s); this.regs=s.regs.slice(); return true; }
+  lines(){ return this.prog.length-1; }
+  // Was würde der nächste Schritt tun? (ohne auszuführen)
+  preview(){
+    const pc=this.pc, L=this.prog[pc];
+    if(this.halted) return {kind:'halted'};
+    if(!L) return {kind:'error', pc, msg: pc>this.lines()
+      ? 'Der Stift ist unter der letzten Zeile angekommen ('+pc+'), aber dort steht kein Befehl. Fehlt am Ende ein stp – oder springt ein jmp an eine Zeile, die es nicht gibt?'
+      : 'Zeile '+pc+' gibt es nicht.'};
+    const r={kind:'ok', pc, op:L.op, arg:L.arg, reg:null, delta:0, next:pc+1, zero:null, stop:false};
+    switch(L.op){
+      case 'inc': r.reg=L.arg; r.delta=1; if(this.regs[L.arg]>=MAXREG) return {kind:'error',pc,msg:'Register '+L.arg+' ist voll ('+MAXREG+' Streichhölzer).'}; break;
+      case 'dec': r.reg=L.arg; r.delta=-1;
+        if(this.regs[L.arg]===0) return {kind:'error',pc,op:'dec',arg:L.arg,msg:'Zeile '+pc+': „dec '+L.arg+'“ – aber Register '+L.arg+' ist leer. Aus einem leeren Register kann man kein Streichholz nehmen. Tipp: vorher mit „isz '+L.arg+'“ prüfen, ob es leer ist.'};
+        break;
+      case 'jmp': r.next=L.arg; break;
+      case 'isz': r.reg=L.arg; r.zero=this.regs[L.arg]===0; r.next=r.zero?pc+2:pc+1; break;
+      case 'stp': r.stop=true; r.next=pc; break;
+    }
+    return r;
+  }
+  step(){
+    if(this.halted) return null;
+    const p=this.preview(); this.push();
+    const before={regs:this.regs.slice(),pc:this.pc};
+    if(p.kind==='error'){ this.error=p.msg; this.halted=true; this.last={...p,before}; return this.last; }
+    if(p.delta) this.regs[p.reg]+=p.delta;
+    if(p.stop) this.halted=true; else this.pc=p.next;
+    this.steps++; this.last={...p,before}; return this.last;
+  }
+}
+
+function explain(r){
+  if(!r) return '';
+  if(r.kind==='error') return r.msg;
+  const b=r.before, z=r.pc;
+  switch(r.op){
+    case 'inc': return 'Zeile '+z+': „inc '+r.arg+'“ – ein Streichholz kommt in Register '+r.arg+' ('+b.regs[r.arg]+' → '+(b.regs[r.arg]+1)+'). Der Stift rutscht eine Zeile weiter zu Zeile '+r.next+'.';
+    case 'dec': return 'Zeile '+z+': „dec '+r.arg+'“ – ein Streichholz wird aus Register '+r.arg+' genommen ('+b.regs[r.arg]+' → '+(b.regs[r.arg]-1)+'). Der Stift rutscht weiter zu Zeile '+r.next+'.';
+    case 'jmp': return 'Zeile '+z+': „jmp '+r.arg+'“ – Sprung! Der Stift wandert zu Zeile '+r.arg+'. Die Register bleiben unverändert.';
+    case 'isz': return r.zero
+      ? 'Zeile '+z+': „isz '+r.arg+'“ – Register '+r.arg+' ist leer (0). Deshalb wird Zeile '+(z+1)+' übersprungen; weiter geht es in Zeile '+r.next+'.'
+      : 'Zeile '+z+': „isz '+r.arg+'“ – Register '+r.arg+' ist nicht leer ('+b.regs[r.arg]+(b.regs[r.arg]===1?' Streichholz':' Streichhölzer')+'). Also nichts überspringen: weiter mit Zeile '+r.next+'.';
+    case 'stp': return 'Zeile '+z+': „stp“ – Das Programm ist beendet. Das Ergebnis steht in den Registern.';
+  }
+  return '';
+}
+
+/* Programmtext → Programm */
+function parseProgram(text){
+  const out=[null], errors=[];
+  text.split(/\r?\n/).forEach((raw,i)=>{
+    let s=raw.replace(/(;|\/\/|#).*$/,'').trim(); if(!s) return;
+    s=s.replace(/^\d+\s*[:.)]\s*/,'').replace(/^\d+\s+(?=[a-zA-Z+\-−])/,'');
+    const m=s.match(/^([a-zA-Z]+|[+\-−])\s*([A-Za-z]|\d+)?\s*$/);
+    if(!m){ errors.push({line:i+1,msg:'Unverständliche Zeile: „'+raw.trim()+'“.'}); return; }
+    let op=m[1].toLowerCase(); op=ALIAS[op]||op;
+    if(!CMDS[op]){ errors.push({line:i+1,msg:'Unbekannter Befehl „'+m[1]+'“. Erlaubt sind inc, dec, jmp, isz und stp.'}); return; }
+    let a=m[2];
+    if(CMDS[op].arg===null){ if(a){ errors.push({line:i+1,msg:'stp braucht keine Zahl.'}); return; } out.push({op,arg:null}); return; }
+    if(a===undefined){ errors.push({line:i+1,msg:op+' braucht '+(CMDS[op].arg==='reg'?'eine Registernummer (1–'+NREG+')':'eine Zeilennummer')+', z. B. „'+op+' 1“.'}); return; }
+    if(/^[A-Za-z]$/.test(a)){ if(CMDS[op].arg!=='reg'){ errors.push({line:i+1,msg:'jmp braucht eine Zeilennummer.'}); return; } a=a.toUpperCase().charCodeAt(0)-64; }
+    a=parseInt(a);
+    if(CMDS[op].arg==='reg' && (a<1||a>NREG)){ errors.push({line:i+1,msg:'Register gibt es nur von 1 bis '+NREG+'.'}); return; }
+    if(CMDS[op].arg==='line' && a<1){ errors.push({line:i+1,msg:'Zeilen beginnen bei 1.'}); return; }
+    out.push({op,arg:a});
+  });
+  if(out.length-1>MAXLINES) errors.push({line:0,msg:'Höchstens '+MAXLINES+' Zeilen.'});
+  out.forEach((L,k)=>{ if(L&&L.op==='jmp'&&L.arg>out.length-1) errors.push({line:0,msg:'Zeile '+k+': „jmp '+L.arg+'“ – das Programm hat nur '+(out.length-1)+' Zeilen.',warn:true}); });
+  return {prog:out, errors};
+}
+function programText(prog){ return prog.slice(1).map(L=>L.op+(L.arg!==null?' '+L.arg:'')).join('\n'); }
+
+/* Headless-Lauf */
+function runHeadless(prog, regs, maxSteps=100000){
+  const k=new KHC(); k.prog=prog; k.regs=regs.slice(); let n=0;
+  while(!k.halted && n<maxSteps){ k.step(); n++; if(k.hist.length>20) k.hist.length=0; }
+  return {k, ok:k.halted&&!k.error, error:k.error, timeout:!k.halted};
+}
+
+if(typeof module!=='undefined'&&module.exports) module.exports={KHC,parseProgram,programText,runHeadless,explain,CMDS,NREG};
+
+/* ===== OBERFLÄCHE ===== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const k=new KHC();
+let startRegs=new Array(NREG+1).fill(0);
+let running=false,runTimer=null,speed=2,proc=false,procRegDone=false,procStats={ok:0,bad:0},editMode=false,lastFx=null;
+const SPEEDS=[{ms:1600,l:'sehr langsam'},{ms:950,l:'langsam'},{ms:520,l:'mittel'},{ms:220,l:'schnell'},{ms:70,l:'sehr schnell'},{turbo:true,l:'Turbo'}];
+
+/* --- Ereignisse, Helfer --- */
+const listeners={};
+function emit(ev,p){(listeners[ev]||[]).forEach(f=>f(p));tourHook(ev,p);}
+let toastT;
+function toast(msg,kind){const t=$('#toast');t.textContent=msg;t.className='on '+(kind||'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3400);}
+function openModal(id){if(tour&&id!=='mConfirm')endTour();$('#'+id).classList.add('on');}
+function closeModal(id){$('#'+id).classList.remove('on');}
+function closeAllModals(){$$('.modal-bg.on').forEach(x=>x.classList.remove('on'));}
+function confirmBox(title,html,yes){return new Promise(res=>{$('#cfTitle').textContent=title;$('#cfText').innerHTML=html;$('#cfYes').textContent=yes||'OK';openModal('mConfirm');
+  $('#cfYes').onclick=()=>{closeModal('mConfirm');res(true)};$('#cfNo').onclick=()=>{closeModal('mConfirm');res(false)};});}
+const regName=r=>'Register '+r;
+function lineHint(L){if(!L)return'';switch(L.op){case'inc':return'R'+L.arg+' + 1';case'dec':return'R'+L.arg+' − 1';case'jmp':return'→ Zeile '+L.arg;case'isz':return'R'+L.arg+' leer?';case'stp':return'Ende';}return'';}
+
+/* --- Programmblatt --- */
+function renderSheet(){
+  const n=k.lines(),box=$('#lines');let h='';
+  if(!n)h='<div class="emptyhint">Noch kein Programm.<br>Lade ein Beispiel (📂) oder klicke auf „＋ Zeile“.</div>';
+  for(let i=1;i<=n;i++){const L=k.prog[i];
+    if(editMode){
+      h+=`<div class="pl edit" data-l="${i}"><span class="no">${i}</span><select data-i="${i}" aria-label="Befehl Zeile ${i}">${Object.keys(CMDS).map(o=>`<option ${o===L.op?'selected':''}>${o}</option>`).join('')}</select>
+      <input data-i="${i}" inputmode="numeric" value="${L.arg??''}" ${L.op==='stp'?'disabled placeholder="–"':''} aria-label="Zahl Zeile ${i}" title="${CMDS[L.op].arg==='reg'?'Registernummer 1–8':'Zeilennummer'}">
+      <span class="grow"></span><button class="ib" data-ins="${i}" title="Neue Zeile darunter einfügen">＋</button><button class="ib" data-del="${i}" title="Zeile löschen">✕</button></div>`;
+    }else h+=`<div class="pl" data-l="${i}"><span class="no">${i}</span><span class="cmd">${L.op}</span><span class="arg">${L.arg??''}</span><span class="hint">${esc(lineHint(L))}</span></div>`;}
+  box.innerHTML=h;
+  $('#lineCount').textContent=n?n+' Zeile'+(n===1?'':'n'):'';
+  if(editMode){
+    $$('#lines select').forEach(s=>s.onchange=()=>{const i=+s.dataset.i,L=k.prog[i];L.op=s.value;
+      if(CMDS[L.op].arg===null)L.arg=null;else if(L.arg===null)L.arg=1;else if(CMDS[L.op].arg==='reg'&&L.arg>NREG)L.arg=1;progChanged(true);});
+    $$('#lines input').forEach(inp=>inp.onchange=()=>{const i=+inp.dataset.i,L=k.prog[i];let v=parseInt(inp.value);
+      if(isNaN(v)||v<1){toast('Bitte eine Zahl ab 1 eingeben.','bad');inp.value=L.arg;return;}
+      if(CMDS[L.op].arg==='reg'&&v>NREG){toast('Register gibt es nur von 1 bis '+NREG+'.','bad');inp.value=L.arg;return;}
+      L.arg=v;progChanged(true);});
+    $$('#lines [data-ins]').forEach(b=>b.onclick=()=>insertLine(+b.dataset.ins));
+    $$('#lines [data-del]').forEach(b=>b.onclick=()=>deleteLine(+b.dataset.del));
+  }else $$('#lines .pl').forEach(r=>r.onclick=()=>lineClick(+r.dataset.l));
+  markLines();drawJumps();
+}
+function markLines(){
+  $$('#lines .pl.cur,#lines .pl.err').forEach(r=>r.classList.remove('cur','err'));
+  const r=document.querySelector(`#lines .pl[data-l="${k.pc}"]`),pen=$('#pen');
+  if(r&&!editMode){r.classList.add(k.error?'err':'cur');pen.classList.remove('gone');pen.style.top=(r.offsetTop+6)+'px';}
+  else pen.classList.add('gone');
+}
+function scrollToLine(i){const r=document.querySelector(`#lines .pl[data-l="${i}"]`),w=$('#paperWrap');if(!r||!w.clientHeight)return;
+  const t=r.offsetTop+30;if(t<w.scrollTop+20||t+40>w.scrollTop+w.clientHeight)w.scrollTop=t-w.clientHeight/3;}
+function drawJumps(){
+  const svg=$('#jumps'),rows=$$('#lines .pl');if(!rows.length||editMode){svg.innerHTML='';return;}
+  const y=i=>{const r=rows[i-1];return r?r.offsetTop+19:null;};
+  const jumps=[];for(let i=1;i<=k.lines();i++){const L=k.prog[i];if(L.op==='jmp'&&L.arg>=1&&L.arg<=k.lines()&&L.arg!==i)jumps.push([i,L.arg]);}
+  jumps.sort((a,b)=>Math.abs(a[0]-a[1])-Math.abs(b[0]-b[1]));
+  let h='<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#b5a98f"/></marker><marker id="ahh" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#e2552c"/></marker><marker id="ahs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" fill="#2f6fd0"/></marker></defs>';
+  const lanes=[];
+  jumps.forEach(([a,b])=>{const lo=Math.min(a,b),hi=Math.max(a,b);let lane=0;while((lanes[lane]||[]).some(([l,hh])=>!(hi<l||lo>hh)))lane++;(lanes[lane]=lanes[lane]||[]).push([lo,hi]);
+    const x0=4,w=16+lane*13,y1=y(a),y2=y(b);const hot=lastFx&&lastFx.jmp===a;
+    h+=`<path class="${hot?'hot':''}" d="M${x0} ${y1} C ${x0+w} ${y1}, ${x0+w} ${y2}, ${x0+2} ${y2}" marker-end="url(#${hot?'ahh':'ah'})"><title>Zeile ${a}: jmp ${b}</title></path>`;});
+  if(lastFx&&lastFx.skip){const a=lastFx.skip,y1=y(a),y2=y(a+2);if(y1!==null&&y2!==null)h+=`<path class="skip" d="M4 ${y1} C 26 ${y1}, 26 ${y2}, 6 ${y2}" marker-end="url(#ahs)"/>`;}
+  svg.innerHTML=h;
+}
+function progChanged(keepEdit){k.reset();k.hist=[];k.regs=startRegs.slice();procRegDone=false;lastFx=null;renderSheet();render();save();emit('prog');if(!keepEdit)scrollToLine(1);}
+function insertLine(i){if(k.lines()>=MAXLINES)return toast('Mehr Zeilen passen nicht aufs Blatt.','bad');
+  k.prog.forEach(L=>{if(L&&L.op==='jmp'&&L.arg>i)L.arg++;});k.prog.splice(i+1,0,{op:'inc',arg:1});progChanged(true);
+  const s=document.querySelector(`#lines select[data-i="${i+1}"]`);if(s)s.focus();}
+function deleteLine(i){k.prog.splice(i,1);k.prog.forEach(L=>{if(L&&L.op==='jmp'&&L.arg>i)L.arg--;});progChanged(true);}
+function setEdit(on){editMode=on;if(on)stopRun();$('#btnEdit').classList.toggle('on',on);$('#btnEdit').innerHTML=on?'✓ Fertig':'✏️ Bearbeiten';renderSheet();emit(on?'edit-on':'edit-off');}
+
+/* --- Register --- */
+function buildRegs(){let h='';for(let r=1;r<=NREG;r++)h+=`<div class="reg" id="reg${r}"><span class="badge" id="bdg${r}"></span><div class="rh"><span class="rn"><span class="long">Register </span>${r}</span><span class="rv" id="rv${r}" title="Klicken, um eine Zahl einzugeben">0</span></div>
+  <div class="sticks" id="st${r}"></div><div class="rb"><button data-r="${r}" data-d="-1" title="Streichholz wegnehmen">−</button><button data-r="${r}" data-d="1" title="Streichholz dazulegen">+</button></div></div>`;
+  $('#regs').innerHTML=h;
+  $$('#regs .rb button').forEach(b=>b.onclick=()=>regClick(+b.dataset.r,+b.dataset.d));
+  $$('#regs .rv').forEach(v=>v.onclick=()=>editRegValue(+v.id.slice(2)));
+}
+function sticksHTML(n,anim){
+  const vis=Math.min(n,40);let h='',inB=0;
+  const total=anim===-1?vis+1:vis;
+  for(let i=0;i<total;i++){if(inB===0)h+='<div class="bundle">';
+    const cls=(anim===1&&i===vis-1)?' new':(anim===-1&&i===total-1)?' gone':'';
+    h+=`<span class="stick${cls}"></span>`;inB++;if(inB===5||i===total-1){h+='</div>';inB=0;}}
+  if(n>40)h+=`<span class="more">+${n-40}</span>`;
+  if(n===0&&anim!==-1)h+='<span class="emptyreg">leer</span>';
+  return h;
+}
+function renderRegs(fx){
+  for(let r=1;r<=NREG;r++){$('#rv'+r).textContent=k.regs[r];const a=fx&&fx.reg===r?fx.delta:0;$('#st'+r).innerHTML=sticksHTML(k.regs[r],a);
+    $('#reg'+r).classList.remove('hot','test');}
+  if(fx&&fx.delta===-1)setTimeout(()=>{$('#st'+fx.reg).innerHTML=sticksHTML(k.regs[fx.reg],0);},460);
+  if(fx&&fx.reg){const el=$('#reg'+fx.reg);if(fx.test){el.classList.add('test');$('#bdg'+fx.reg).textContent=fx.zero?'leer? → ja':'leer? → nein';}else el.classList.add('hot');}
+}
+function editRegValue(r){
+  if(proc)return toast('Im Modus „Ich bin der Computer“ legst du Streichhölzer mit + und −.');
+  const el=$('#rv'+r);if(el.querySelector('input'))return;
+  el.innerHTML=`<input type="number" min="0" max="999" value="${k.regs[r]}">`;const inp=el.querySelector('input');inp.focus();inp.select();
+  let fin=false;const done=ok=>{if(fin)return;fin=true;if(ok){let v=parseInt(inp.value);if(isNaN(v)||v<0||v>999){toast('Bitte 0 bis 999 eingeben.','bad');}else setReg(r,v);}renderRegs();};
+  inp.onkeydown=e=>{if(e.key==='Enter')done(true);if(e.key==='Escape')done(false);};inp.onblur=()=>done(true);
+}
+function setReg(r,v){stopRun();if(k.steps===0&&!k.halted){k.regs[r]=v;startRegs[r]=v;}else{k.push();k.regs[r]=v;}renderRegs();render();save();emit('reg-set',{r,v});}
+function regClick(r,d){
+  if(proc)return procReg(r,d);
+  const v=k.regs[r]+d;if(v<0)return toast('Register '+r+' ist schon leer.');if(v>999)return;
+  setReg(r,v);renderRegs({reg:r,delta:d});
+}
+
+/* --- Info --- */
+function renderCmdRef(){$('#cmdRef').innerHTML=Object.entries(CMDS).map(([o,c])=>`<tr><td>${o}${c.arg?' '+(c.arg==='reg'?'r':'z'):''}</td><td>${c.long.replace(/\{a\}/g,c.arg==='reg'?'r':'z')}</td></tr>`).join('');}
+function renderNext(){
+  const c=$('#nextCard');
+  if(proc){c.className='card proc';c.innerHTML=procHTML();bindProc();return;}
+  if(!k.lines()){c.className='card';c.innerHTML='<h3>Als Nächstes</h3><p class="ntxt">Auf dem Programmblatt steht noch nichts. Lade ein <b>Beispiel</b> oder schreibe ein eigenes Programm.</p>';return;}
+  if(k.halted&&k.error){c.className='card halt';c.innerHTML=`<h3>Angehalten</h3><p class="ntxt">⚠ ${esc(k.error)}</p><p class="ntxt" style="color:var(--muted);font-size:13px">„Neu starten“ beginnt wieder bei Zeile 1 mit den Startwerten.</p>`;return;}
+  if(k.halted){c.className='card done';const used=[];for(let r=1;r<=NREG;r++)if(k.regs[r]||startRegs[r])used.push('R'+r+' = '+k.regs[r]);
+    c.innerHTML=`<h3>Fertig ✓</h3><p class="ntxt">Das Programm hat nach <b>${k.steps} Schritten</b> mit <code>stp</code> angehalten.</p><p class="ntxt">Ergebnis: <b class="k">${used.join(', ')||'alle Register 0'}</b></p>`;return;}
+  const L=k.prog[k.pc];c.className='card';
+  if(!L){c.innerHTML=`<h3>Als Nächstes · Zeile ${k.pc}</h3><p class="ntxt">Hier steht kein Befehl mehr – der nächste Schritt hält das Programm mit einem Fehler an.</p>`;return;}
+  let extra='';if(CMDS[L.op].arg==='reg')extra=` Register ${L.arg} hat gerade <b>${k.regs[L.arg]}</b> Streichh${k.regs[L.arg]===1?'olz':'ölzer'}.`;
+  c.innerHTML=`<h3>Als Nächstes · Zeile ${k.pc}</h3><div class="nextline">${L.op}${L.arg!==null?' '+L.arg:''} <small>${esc(CMDS[L.op].short)}</small></div><p class="ntxt">${esc(CMDS[L.op].long.replace(/\{a\}/g,L.arg))}${extra}</p>`;
+}
+function renderStatus(){
+  $('#statusbar').innerHTML=`<span>Stift in Zeile <b>${k.pc}</b></span><span>Schritte <b>${k.steps}</b></span>${proc?`<span>richtig <b>${procStats.ok}</b> · Fehler <b>${procStats.bad}</b></span>`:''}`;
+  $('#btnStep').disabled=proc||running||k.halted||!k.lines();$('#btnRun').disabled=proc||!k.lines();$('#btnUndo').disabled=!k.hist.length;
+  const b=$('#btnRun');b.classList.toggle('pause',running);b.innerHTML=running?'⏸ Pause':'▶ Start';
+  const sr=[];for(let r=1;r<=NREG;r++)if(startRegs[r])sr.push('R'+r+' = '+startRegs[r]);
+  $('#startNote').innerHTML=k.steps>0||k.halted?`Startwerte: ${sr.join(', ')||'alle 0'} · „Neu starten“ stellt sie wieder her.`:'Startwerte einstellen: mit + und − oder Klick auf die Zahl.';
+}
+function render(){markLines();renderNext();renderStatus();}
+function setNow(op,txt){$('#nowOp').textContent=op;$('#nowTxt').innerHTML=txt;$('#miniOp').textContent=op;$('#miniTxt').innerHTML=txt;}
+const logItems=[];
+function addLog(r){if(!r||r.kind!=='ok')return;logItems.unshift(`<li>Z.${r.pc}: <b>${r.op}${r.arg!==null?' '+r.arg:''}</b> → ${r.stop?'Ende':'Zeile '+r.next}${r.reg?' · R'+r.reg+' = '+k.regs[r.reg]:''}</li>`);if(logItems.length>60)logItems.length=60;$('#log').innerHTML=logItems.join('');}
+
+/* --- Ausführen --- */
+function noProgram(){if(k.lines())return false;toast('Auf dem Programmblatt steht noch kein Programm.');setNow('Kein Programm','Lade ein Beispiel über 📂 oder schreibe ein Programm.');return true;}
+function fxOf(r){if(!r||r.kind!=='ok')return null;return{reg:r.reg,delta:r.delta,test:r.op==='isz',zero:r.zero,jmp:r.op==='jmp'?r.pc:null,skip:r.op==='isz'&&r.zero?r.pc:null};}
+function doStep(anim){
+  if(k.halted)return null;const r=k.step();lastFx=fxOf(r);
+  if(anim!==false){renderRegs(lastFx);drawJumps();setNow(r.kind==='ok'?r.op+(r.arg!==null?' '+r.arg:''):'Fehler',esc(explain(r)));scrollToLine(k.pc);}
+  addLog(r);
+  if(r.kind==='ok'&&r.op==='jmp'&&r.arg===r.pc&&running){stopRun();toast('Endlosschleife: Zeile '+r.pc+' springt immer wieder auf sich selbst.','bad');}
+  return r;
+}
+function stepClick(){if(proc||noProgram())return;if(k.halted)return;const r=doStep();render();emit('step',r);if(k.halted)onHalt();}
+function onHalt(){running=false;clearTimeout(runTimer);render();if(k.error)toast('Angehalten: Fehler in Zeile '+k.pc,'bad');else toast('Fertig – stp erreicht ✓','ok');emit('halted');}
+function tick(){
+  if(!running)return;const sp=SPEEDS[speed];
+  if(sp.turbo){const t0=performance.now();let r=null;while(!k.halted&&running&&performance.now()-t0<30){r=doStep(false);}
+    renderRegs();lastFx=null;drawJumps();if(r)setNow(r.kind==='ok'?r.op+(r.arg!==null?' '+r.arg:''):'Fehler',k.error?esc(k.error):'Turbo: Es geht so schnell, dass nicht jeder Schritt angezeigt wird.');render();scrollToLine(k.pc);}
+  else{const r=doStep();render();emit('step',r);}
+  if(k.halted){onHalt();return;}
+  if(running)runTimer=setTimeout(tick,sp.turbo?0:sp.ms);
+}
+function startRun(){if(proc||noProgram())return;if(k.halted)doReset(true);if(editMode)setEdit(false);running=true;renderStatus();emit('run');tick();}
+function stopRun(){if(!running)return;running=false;clearTimeout(runTimer);render();}
+function doUndo(){stopRun();const s=k.hist[k.hist.length-1];if(!k.undo())return toast('Nichts mehr zum Zurücknehmen.');delete k.procRegDone;procRegDone=!!(s&&s.procRegDone);lastFx=null;renderRegs();drawJumps();setNow('↶ zurück','Der letzte Schritt wurde rückgängig gemacht.');render();scrollToLine(k.pc);emit('undo');}
+function doReset(quiet){stopRun();k.reset();k.hist=[];k.regs=startRegs.slice();procRegDone=false;procStats={ok:0,bad:0};lastFx=null;renderRegs();drawJumps();logItems.length=0;$('#log').innerHTML='';
+  if(!quiet)setNow('–','Neu gestartet: Der Stift steht wieder in Zeile 1, die Register haben ihre Startwerte.');else setNow('–','Neustart.');render();scrollToLine(1);emit('reset');}
+
+/* --- „Ich bin der Computer“ --- */
+let procMsg=null;
+function setProc(on){stopRun();if(on&&editMode)setEdit(false);proc=on;$('#proc').checked=on;document.body.classList.toggle('proc',on);procRegDone=false;procMsg=null;
+  if(on&&k.halted)doReset(true);render();emit(on?'proc-on':'proc-off');}
+function procPreview(){if(!procRegDone)return k.preview();const L=k.prog[k.pc];const t=new KHC();t.prog=k.prog;t.regs=k.regs.slice();t.pc=k.pc;if(L&&(L.op==='inc'||L.op==='dec'))t.regs[L.arg]-=(L.op==='inc'?1:-1);return t.preview();}
+function procHint(){
+  const p=procPreview();if(p.kind!=='ok')return p.msg||'';
+  const L='Zeile '+p.pc+': „'+p.op+(p.arg!==null?' '+p.arg:'')+'“. ';
+  switch(p.op){
+    case'inc':return L+(procRegDone?'Das Streichholz liegt schon. Jetzt den Stift eine Zeile weiter: Klicke auf Zeile '+p.next+'.':'Lege mit + ein Streichholz in Register '+p.arg+'. Danach den Stift auf Zeile '+p.next+'.');
+    case'dec':return L+(procRegDone?'Das Streichholz ist weg. Jetzt den Stift eine Zeile weiter: Klicke auf Zeile '+p.next+'.':'Nimm mit − ein Streichholz aus Register '+p.arg+'. Danach den Stift auf Zeile '+p.next+'.');
+    case'jmp':return L+'Ein Sprung: Klicke auf Zeile '+p.arg+'.';
+    case'isz':return L+'Schau in Register '+p.arg+': '+(p.zero?'Es ist leer – also Zeile '+(p.pc+1)+' überspringen und auf Zeile '+p.next+' klicken.':'Es ist nicht leer – also ganz normal Zeile '+p.next+' anklicken.');
+    case'stp':return L+'Das ist das Ende. Klicke auf diese Zeile, um das Programm zu beenden.';
+  }return'';
+}
+function procHTML(){
+  if(!k.lines())return '<h3>Ich bin der Computer</h3><p class="ntxt">Lade zuerst ein Programm (📂 Beispiele).</p>';
+  if(k.halted&&!k.error)return `<h3>Ich bin der Computer</h3><p class="ntxt"><b>Programm beendet ✓</b> – du hast ${procStats.ok} Schritte richtig ausgeführt${procStats.bad?' (mit '+procStats.bad+' Fehlversuch'+(procStats.bad===1?'':'en')+')':' – ohne einen einzigen Fehler!'}.</p><button class="btn small" id="procAgain">⟲ Nochmal</button>`;
+  const L=k.prog[k.pc];
+  const txt=!L?'Der Stift ist in einer Zeile ohne Befehl.':`<div class="nextline">Zeile ${k.pc}: ${L.op}${L.arg!==null?' '+L.arg:''}</div>`;
+  const what=procRegDone?'Jetzt: <b>Stift weitersetzen</b> – klicke auf die richtige Zeile.':'Was musst du tun? Leg ein Streichholz (<b>+</b>), nimm eines weg (<b>−</b>) oder setze den <b>Stift</b> auf eine Zeile (Zeile anklicken).';
+  return `<h3>Ich bin der Computer</h3>${txt}<p class="ntxt">${what}</p>${procMsg?`<div class="feedback ${procMsg.kind}">${esc(procMsg.text)}</div>`:''}<div class="score"><span>✓ ${procStats.ok}</span><span>✗ ${procStats.bad}</span><button class="btn small ghost" id="procTip">💡 Tipp</button></div>`;
+}
+function bindProc(){const t=$('#procTip');if(t)t.onclick=()=>{procMsg={kind:'info',text:procHint()};renderNext();};const a=$('#procAgain');if(a)a.onclick=()=>{doReset(true);};}
+function procFeedback(kind,text){procMsg={kind,text};if(kind==='bad')procStats.bad++;render();}
+function procReg(r,d){
+  if(k.halted)return;const p=procPreview();
+  if(p.kind!=='ok'){procFeedback('bad',p.msg);return;}
+  const L='In Zeile '+p.pc+' steht „'+p.op+(p.arg!==null?' '+p.arg:'')+'“';
+  if(p.op==='jmp'||p.op==='isz'||p.op==='stp')return procFeedback('bad',L+' – dabei wird kein Streichholz gelegt oder weggenommen.'+(p.op==='isz'?' isz schaut nur nach, ob das Register leer ist.':''));
+  if(procRegDone)return procFeedback('bad','Das Streichholz ist schon erledigt. Jetzt den Stift weitersetzen (Zeile anklicken).');
+  if(p.reg!==r)return procFeedback('bad',L+' – das betrifft Register '+p.reg+', nicht Register '+r+'.');
+  if(p.delta!==d)return procFeedback('bad',L+' – '+(p.op==='inc'?'inc heißt dazulegen (+).':'dec heißt wegnehmen (−).'));
+  k.push();k.hist[k.hist.length-1].procRegDone=false;k.regs[r]+=d;procRegDone=true;renderRegs({reg:r,delta:d});
+  procMsg={kind:'ok',text:'Richtig! Jetzt den Stift weitersetzen: Welche Zeile kommt als Nächstes?'};render();emit('proc-reg',{r,d});
+}
+function lineClick(i){
+  if(!proc)return;if(k.halted){toast('Das Programm ist beendet.');return;}
+  const p=procPreview(),row=document.querySelector(`#lines .pl[data-l="${i}"]`);
+  const flash=c=>{if(row){row.classList.remove('flash-ok','flash-bad');void row.offsetWidth;row.classList.add(c);}};
+  if(p.kind!=='ok'){k.push();k.error=p.msg;k.halted=true;procMsg={kind:'bad',text:p.msg};render();return;}
+  const L='In Zeile '+p.pc+' steht „'+p.op+(p.arg!==null?' '+p.arg:'')+'“';
+  if(p.stop){if(i===p.pc){k.push();k.hist[k.hist.length-1].procRegDone=procRegDone;k.halted=true;k.steps++;procStats.ok++;procMsg=null;flash('flash-ok');addLog({...p,kind:'ok'});render();emit('proc-step',p);onHalt();return;}
+    flash('flash-bad');return procFeedback('bad',L+' – das Programm ist hier zu Ende. Klicke auf Zeile '+p.pc+' selbst, um es zu beenden.');}
+  if((p.op==='inc'||p.op==='dec')&&!procRegDone){flash('flash-bad');return procFeedback('bad',L+' – zuerst das Streichholz: '+(p.op==='inc'?'leg eines in Register '+p.reg+' (+).':'nimm eines aus Register '+p.reg+' (−).'));}
+  if(i!==p.next){flash('flash-bad');
+    let why='';
+    if(p.op==='jmp')why=' – jmp '+p.arg+' heißt: Der Stift springt zu Zeile '+p.arg+'.';
+    else if(p.op==='isz')why=p.zero?' – Register '+p.reg+' ist leer, also wird die nächste Zeile übersprungen.':' – Register '+p.reg+' ist nicht leer ('+k.regs[p.reg]+'), also wird nichts übersprungen.';
+    else why=' – danach geht es einfach mit der nächsten Zeile weiter.';
+    return procFeedback('bad',L+why);}
+  k.push();k.hist[k.hist.length-1].procRegDone=procRegDone;
+  if(p.op==='isz'){lastFx=fxOf({...p,kind:'ok'});renderRegs(lastFx);}else lastFx=fxOf({...p,kind:'ok'});
+  const before={regs:k.regs.slice(),pc:k.pc};k.pc=p.next;k.steps++;procRegDone=false;procStats.ok++;
+  addLog({...p,kind:'ok'});drawJumps();flash('flash-ok');
+  procMsg={kind:'ok',text:'✓ '+explain({...p,kind:'ok',before:p.delta?{regs:before.regs.map((v,j)=>j===p.reg?v-p.delta:v),pc:p.pc}:before})};
+  setNow(p.op+(p.arg!==null?' '+p.arg:''),esc(procMsg.text.slice(2)));render();scrollToLine(k.pc);emit('proc-step',p);
+}
+
+/* --- Programmtext --- */
+let textDirty=false;
+function showTab(id){ensurePanelFor($('#progPanel'));$$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));$$('.tabpane').forEach(p=>p.classList.toggle('on',p.id===id));
+  if(id==='tabText'){if(!textDirty)$('#progText').value=programText(k.prog);emit('tab-text');}else{markLines();drawJumps();}}
+function applyText(){
+  const r=parseProgram($('#progText').value),hard=r.errors.filter(e=>!e.warn);
+  $('#asmMsg').innerHTML=r.errors.length?'<ul class="errlist">'+r.errors.map(e=>`<li class="${e.warn?'warn':''}">${e.line?'Zeile '+e.line+': ':''}${esc(e.msg)}</li>`).join('')+'</ul>':'';
+  if(hard.length)return false;
+  k.prog=r.prog;textDirty=false;progChanged();$('#asmMsg').innerHTML+=`<div class="okline">✓ ${k.lines()} Zeilen aufs Programmblatt übernommen.</div>`;emit('applied');toast('Programm übernommen ✓','ok');return true;
+}
+
+/* --- Beispiele --- */
+const EX=[
+ {id:'add',title:'Addieren',d:'Register 2 wird zu Register 1 addiert – Streichholz für Streichholz. Das klassische Einstiegsprogramm.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1'},
+ {id:'clear',title:'Register leeren',d:'Eine Schleife nimmt so lange Streichhölzer aus Register 1, bis es leer ist.',regs:{1:5},text:'isz 1\njmp 4\nstp\ndec 1\njmp 1'},
+ {id:'dbl',title:'Verdoppeln',d:'Für jedes Streichholz aus Register 1 kommen zwei in Register 2.',regs:{1:4},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\ninc 2\njmp 1'},
+ {id:'sub',title:'Subtrahieren',d:'Register 1 minus Register 2. Was passiert, wenn Register 2 größer ist? Ausprobieren!',regs:{1:7,2:3},text:'isz 2\njmp 4\nstp\ndec 2\ndec 1\njmp 1'},
+ {id:'copy',title:'Kopieren mit Hilfsregister',d:'Register 1 wird nach Register 2 kopiert – und bleibt dabei erhalten. Trick: Register 3 merkt sich die Streichhölzer.',regs:{1:4},text:'isz 1\njmp 4\njmp 8\ndec 1\ninc 2\ninc 3\njmp 1\nisz 3\njmp 11\nstp\ndec 3\ninc 1\njmp 8'},
+ {id:'mul',title:'Multiplizieren',d:'Register 1 · Register 2 → Register 3. Zwei Schleifen ineinander, Register 4 hilft.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\nisz 1\njmp 8\njmp 12\ndec 1\ninc 3\ninc 4\njmp 5\nisz 4\njmp 15\njmp 1\ndec 4\ninc 1\njmp 12'},
+ {id:'gt',title:'Vergleichen',d:'Ist Register 1 größer als Register 2? Dann liegt am Ende ein Streichholz in Register 3, sonst keins.',regs:{1:5,2:3},text:'isz 2\njmp 6\nisz 1\ninc 3\nstp\nisz 1\njmp 9\nstp\ndec 1\ndec 2\njmp 1'},
+ {id:'empty',title:'Leeres Blatt',d:'Alles löschen und selbst programmieren.',regs:{},text:''}
+];
+function loadExample(id,quiet){const ex=EX.find(e=>e.id===id);const r=parseProgram(ex.text);k.prog=r.prog;startRegs=new Array(NREG+1).fill(0);for(const a in ex.regs)startRegs[a]=ex.regs[a];
+  textDirty=false;$('#progText').value=ex.text;$('#asmMsg').innerHTML='';if(editMode)setEdit(false);progChanged();doReset(true);closeModal('mExamples');
+  setNow('–','Beispiel „'+esc(ex.title)+'“ geladen. Klicke auf <b>Schritt</b> oder <b>Start</b>.');if(!quiet)toast('Beispiel „'+ex.title+'“ geladen');emit('example',id);}
+function renderExamples(){$('#exList').innerHTML=EX.map(e=>`<div class="item"><div class="grow"><div class="t">${esc(e.title)}</div><div class="d">${esc(e.d)}</div>${Object.keys(e.regs).length?`<div class="d" style="margin-top:3px">Startwerte: ${Object.entries(e.regs).map(([r,v])=>'R'+r+' = '+v).join(', ')}</div>`:''}</div><button class="btn primary small" data-ex="${e.id}">Laden</button></div>`).join('');
+  $$('#exList [data-ex]').forEach(b=>b.onclick=async()=>{if(k.lines()&&!(await confirmBox('Programmblatt ersetzen?','Das Beispiel ersetzt dein aktuelles Programm und die Register.','Laden')))return;loadExample(b.dataset.ex);});}
+
+/* --- Aufgaben --- */
+const T=[
+ {title:'Register leeren',text:'Am Ende soll Register 1 leer sein – egal, wie viele Streichhölzer am Anfang drin liegen.',hint:'Eine Schleife: Prüfe mit isz, ob Register 1 leer ist. Wenn nicht: dec 1 und zurückspringen.',tests:[[{1:5},{1:0}],[{1:0},{1:0}],[{1:12},{1:0}]],sol:'isz 1\njmp 4\nstp\ndec 1\njmp 1'},
+ {title:'Verdoppeln',text:'In Register 2 soll am Ende das Doppelte von Register 1 stehen. Register 1 darf sich dabei verändern.',hint:'Für jedes Streichholz, das du aus Register 1 nimmst, legst du zwei in Register 2.',tests:[[{1:3},{2:6}],[{1:0},{2:0}],[{1:7},{2:14}]],sol:'isz 1\njmp 4\nstp\ndec 1\ninc 2\ninc 2\njmp 1'},
+ {title:'Addieren',text:'Addiere Register 2 zu Register 1. Das Ergebnis steht am Ende in Register 1.',hint:'Solange Register 2 nicht leer ist: eins aus Register 2 nehmen, eins in Register 1 legen.',tests:[[{1:3,2:4},{1:7}],[{1:0,2:5},{1:5}],[{1:6,2:0},{1:6}]],sol:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1'},
+ {title:'Subtrahieren',text:'Berechne Register 1 − Register 2. Das Ergebnis steht in Register 1. (Register 1 ist nie kleiner als Register 2.)',hint:'Wie beim Addieren – nur nimmst du aus beiden Registern je ein Streichholz.',tests:[[{1:7,2:3},{1:4}],[{1:5,2:5},{1:0}],[{1:4,2:0},{1:4}]],sol:'isz 2\njmp 4\nstp\ndec 2\ndec 1\njmp 1'},
+ {title:'Summe in Register 3',text:'Register 3 soll am Ende Register 1 + Register 2 enthalten. Register 1 und 2 dürfen dabei leer werden.',hint:'Zwei Schleifen hintereinander: erst Register 1 nach Register 3 „umfüllen“, dann Register 2.',tests:[[{1:3,2:4},{3:7}],[{1:0,2:5},{3:5}],[{1:6,2:0},{3:6}]],sol:'isz 1\njmp 4\njmp 7\ndec 1\ninc 3\njmp 1\nisz 2\njmp 10\nstp\ndec 2\ninc 3\njmp 7'},
+ {title:'Kopieren',text:'Kopiere Register 1 nach Register 2. Register 1 soll am Ende wieder seinen alten Wert haben. Register 3 darfst du als Hilfe benutzen.',hint:'Beim Umfüllen aus Register 1 legst du jedes Streichholz in Register 2 UND in Register 3. Danach füllst du Register 3 zurück in Register 1.',tests:[[{1:4},{1:4,2:4}],[{1:0},{1:0,2:0}],[{1:9},{1:9,2:9}]],sol:EX[4].text},
+ {title:'Multiplizieren',text:'Register 3 soll am Ende Register 1 · Register 2 enthalten. Register 4 darfst du als Hilfe benutzen.',hint:'Für jedes Streichholz aus Register 2 wird Register 1 einmal zu Register 3 addiert – und dabei mit Register 4 erhalten (wie beim Kopieren).',tests:[[{1:3,2:4},{3:12}],[{1:0,2:5},{3:0}],[{1:6,2:0},{3:0}],[{1:5,2:5},{3:25}]],sol:EX[5].text},
+ {title:'Vergleichen',text:'In Register 3 soll am Ende 1 stehen, wenn Register 1 größer ist als Register 2 – sonst 0.',hint:'Nimm aus beiden Registern abwechselnd je ein Streichholz. Welches ist zuerst leer?',tests:[[{1:5,2:3},{3:1}],[{1:3,2:5},{3:0}],[{1:4,2:4},{3:0}],[{1:1,2:0},{3:1}],[{1:0,2:0},{3:0}]],sol:EX[6].text}
+];
+let solved={};
+function renderTasks(){
+  $('#taskList').innerHTML=T.map((t,i)=>`<details class="task" data-i="${i}"><summary><span class="num ${solved[i]?'ok':''}">${solved[i]?'✓':i+1}</span><b style="flex:1">${esc(t.title)}</b></summary><div class="tb">
+   <p style="margin-top:0">${esc(t.text)}</p><details><summary style="cursor:pointer;color:var(--muted);font-weight:600">💡 Tipp</summary><p>${esc(t.hint)}</p></details>
+   <div style="margin-top:8px"><button class="btn primary small" data-check="${i}">▶ Prüfen</button></div><div class="res" id="res${i}"></div>
+   <details style="margin-top:8px"><summary style="cursor:pointer;color:var(--muted);font-weight:600">Musterlösung zeigen</summary><pre class="sol">${esc(t.sol)}</pre><button class="btn small" data-sol="${i}">Aufs Programmblatt übernehmen</button></details></div></details>`).join('');
+  $$('#taskList [data-check]').forEach(b=>b.onclick=()=>checkTask(+b.dataset.check));
+  $$('#taskList [data-sol]').forEach(b=>b.onclick=()=>{const t=T[+b.dataset.sol];k.prog=parseProgram(t.sol).prog;textDirty=false;progChanged();closeModal('mTasks');toast('Musterlösung aufs Blatt übernommen');});
+}
+function checkTask(i){
+  const t=T[i],out=$('#res'+i);if(!k.lines()){out.innerHTML='<div class="warnbox">Auf dem Programmblatt steht noch nichts.</div>';return;}
+  let rows='',all=true,note='';
+  for(const [inp,exp] of t.tests){const regs=new Array(NREG+1).fill(0);for(const r in inp)regs[r]=inp[r];
+    const x=runHeadless(k.prog,regs,200000);let ok=x.ok;for(const r in exp)if(x.k.regs[r]!==exp[r])ok=false;
+    if(!x.ok)note=x.timeout?'Dein Programm hält nicht an – vielleicht eine Endlosschleife?':x.error;all=all&&ok;
+    rows+=`<tr><td>${Object.entries(inp).map(([r,v])=>'R'+r+'='+v).join(', ')}</td><td>${Object.entries(exp).map(([r,v])=>'R'+r+'='+v).join(', ')}</td><td>${x.ok?Object.keys(exp).map(r=>'R'+r+'='+x.k.regs[r]).join(', '):'—'}</td><td class="${ok?'pass':'fail'}">${ok?'✓':'✗'}</td></tr>`;}
+  out.innerHTML=`<div class="${all?'okline':'warnbox'}">${all?'✓ Alle Tests bestanden – stark!':'Noch nicht ganz. '+esc(note||'Vergleiche erwartetes und tatsächliches Ergebnis.')}</div><table><tr><th>Start</th><th>erwartet</th><th>dein Ergebnis</th><th></th></tr>${rows}</table>`;
+  if(all){solved[i]=true;try{localStorage.setItem('khn-solved',JSON.stringify(solved))}catch(e){}const n=$(`#taskList details[data-i="${i}"] .num`);n.classList.add('ok');n.textContent='✓';}
+}
+
+/* --- Hintergrund --- */
+function traceTable(){
+  const x=new KHC();x.prog=parseProgram(EX[0].text).prog;x.regs[1]=2;x.regs[2]=1;
+  let h='<table class="trace"><tr><th>Schritt</th><th>Zeile</th><th>Befehl</th><th>R1</th><th>R2</th><th>nächste Zeile</th></tr>';let n=0;
+  h+=`<tr><td>Start</td><td>–</td><td>–</td><td>2</td><td>1</td><td>1</td></tr>`;
+  while(!x.halted&&n<30){const r=x.step();n++;h+=`<tr><td>${n}</td><td>${r.pc}</td><td>${r.op}${r.arg!==null?' '+r.arg:''}</td><td>${x.regs[1]}</td><td>${x.regs[2]}</td><td>${r.stop?'Ende':r.next}</td></tr>`;}
+  return h+'</table>';
+}
+function renderBg(){
+  const S=[['was','Was ist das?'],['gesch','Geschichte'],['aufbau','Aufbau'],['befehle','Die fünf Befehle'],['ablauf','Ein Programm läuft'],['muster','Programmier-Muster'],['koennen','Was kann er berechnen?'],['vn','Vergleich mit Von-Neumann'],['unterricht','Im Unterricht'],['sim','Dieser Simulator'],['quellen','Quellen']];
+  $('#bgBody').innerHTML=`<div class="bg"><nav>${S.map(([a,t])=>`<a href="#" data-to="${a}">${t}</a>`).join('')}</nav><article>
+<h3 id="bg-was">Was ist der Know-how-Computer?</h3>
+<p>Der Know-how-Computer ist ein <b>Computer aus Papier</b>. Man braucht nur ein Blatt mit einem Programm, einen Stift und ein paar Streichhölzer. Der Mensch spielt selbst den Prozessor: Er liest Zeile für Zeile, legt Streichhölzer in Kästchen oder nimmt sie heraus und folgt den Sprüngen.</p>
+<p>So wird sichtbar, was jeder echte Computer tut: Er führt <b>sehr einfache Befehle</b> stur nacheinander aus – nur unvorstellbar viel schneller.</p>
+<h3 id="bg-gesch">Geschichte</h3>
+<p>Entwickelt wurde der Know-how-Computer von <b>Wolfgang Back</b> und <b>Ulrich Rohde</b>. Vorgestellt wurde er <b>1983</b> in der Fernsehsendung <b>WDR Computerclub</b>; außerdem erschien er in der Computerzeitschrift <i>mc</i>. Damals hatten nur wenige Menschen in Deutschland Zugang zu einem Computer – der Papiercomputer machte das Prinzip trotzdem für alle erlebbar. Er wurde mehrere hunderttausend Mal verbreitet.</p>
+<p>Bis heute wird er im Unterricht eingesetzt; eine abgewandelte Form wird zum Beispiel in Namibia in der Schulbildung verwendet. Inzwischen gibt es auch Simulatoren am Computer – wie diesen hier.</p>
+<h3 id="bg-aufbau">Aufbau</h3>
+<table><tr><th>Teil</th><th>Auf dem Papier</th><th>Im echten Computer</th></tr>
+<tr><td>Programm</td><td>nummerierte Zeilen mit je einem Befehl (im Original bis zu 21)</td><td>Maschinenprogramm</td></tr>
+<tr><td>Register</td><td>8 Kästchen; die Anzahl der Streichhölzer ist die gespeicherte Zahl</td><td>Register / Speicher für Daten</td></tr>
+<tr><td>Stift</td><td>markiert die Zeile, die als Nächstes ausgeführt wird</td><td>Befehlszähler (Programmzähler)</td></tr>
+<tr><td>Mensch</td><td>liest, legt, nimmt, springt</td><td>Prozessor (Steuerwerk)</td></tr></table>
+<h3 id="bg-befehle">Die fünf Befehle</h3>
+<table><tr><th>Befehl</th><th>Bedeutung</th><th>danach</th></tr>
+<tr><td><code>inc r</code></td><td>ein Streichholz in Register r legen (+1)</td><td>nächste Zeile</td></tr>
+<tr><td><code>dec r</code></td><td>ein Streichholz aus Register r nehmen (−1)</td><td>nächste Zeile</td></tr>
+<tr><td><code>jmp z</code></td><td>Sprung</td><td>Zeile z</td></tr>
+<tr><td><code>isz r</code></td><td>„is zero?“ – ist Register r leer?</td><td>ja: übernächste Zeile · nein: nächste Zeile</td></tr>
+<tr><td><code>stp</code></td><td>Stopp</td><td>Programmende</td></tr></table>
+<p>In der ursprünglichen Zeitungsfassung standen statt der Kürzel Zeichen: <b>+</b> und <b>−</b> für das Ändern eines Registers, <b>(J)</b> für den Sprung, <b>0</b> für den Null-Test und <b>Stop</b>.</p>
+<div class="box"><b>Merke:</b> Es gibt keinen Befehl für „addiere“, „vergleiche“ oder „wiederhole“. Alles entsteht aus diesen fünf Bausteinen – genau wie im echten Prozessor aus wenigen Grundoperationen.</div>
+<h3 id="bg-ablauf">Ein Programm läuft</h3>
+<p>Das Beispiel <b>Addieren</b> legt den Inhalt von Register 2 zu Register 1:</p>
+<pre>1  isz 2   ; ist Register 2 leer?
+2  jmp 4   ; nein → weiter in Zeile 4
+3  stp     ; ja → fertig
+4  dec 2   ; ein Streichholz aus R2 …
+5  inc 1   ; … und in R1 legen
+6  jmp 1   ; zurück zum Anfang</pre>
+<p>So läuft es mit den Startwerten R1 = 2 und R2 = 1 ab (eine solche Tabelle heißt <b>Ablaufprotokoll</b> oder Trace-Tabelle):</p>
+${traceTable()}
+<h3 id="bg-muster">Programmier-Muster</h3>
+<p><b>Schleife „solange Register r nicht leer“</b> – das wichtigste Muster:</p>
+<pre>isz r     ; leer?
+jmp …     ; nein → in den Schleifenkörper
+stp       ; ja → raus (oder jmp weiter)
+…         ; Schleifenkörper, enthält dec r
+jmp 1     ; zurück zur Prüfung</pre>
+<p><b>Verzweigung</b>: <code>isz r</code> gefolgt von einem <code>jmp</code> wirkt wie „wenn r leer ist, dann … sonst …“.</p>
+<p><b>Kopieren</b>: Weil man beim Auslesen eines Registers die Streichhölzer herausnehmen muss, wird der Wert zerstört. Mit einem <b>Hilfsregister</b> merkt man sich die Streichhölzer und legt sie danach zurück (Beispiel „Kopieren“).</p>
+<p><b>Unterprogramm-Idee</b>: Multiplizieren ist „wiederholtes Addieren“ – zwei Schleifen ineinander (Beispiel „Multiplizieren“).</p>
+<h3 id="bg-koennen">Was kann er berechnen?</h3>
+<p>Erstaunlich viel: Der kleine Befehlssatz ist <b>Turing-vollständig</b>. Mit genügend Registern, Zeilen und Zeit lässt sich alles berechnen, was überhaupt ein Computer berechnen kann. Mathematisch ist der Know-how-Computer eine <b>Registermaschine</b> (nach dem Modell von Shepherdson und Sturgis).</p>
+<p>Die Grenzen sind praktischer Natur: Es gibt nur natürliche Zahlen (0, 1, 2, …), und Programme werden schnell lang und langsam – Multiplizieren von 7 · 7 braucht schon fast 600 Schritte.</p>
+<h3 id="bg-vn">Vergleich mit dem Von-Neumann-Rechner</h3>
+<table><tr><th></th><th>Know-how-Computer</th><th>Von-Neumann-Rechner (z. B. HarriSimulator, Johnny)</th></tr>
+<tr><td>Programm</td><td>steht <b>getrennt</b> auf dem Papier</td><td>steht <b>im selben Speicher</b> wie die Daten</td></tr>
+<tr><td>Daten</td><td>8 Register</td><td>Speicherzellen mit Adressen</td></tr>
+<tr><td>Befehlszähler</td><td>Stift</td><td>Programmzähler</td></tr>
+<tr><td>Rechnen</td><td>nur +1 und −1</td><td>Akkumulator mit Addition, Subtraktion …</td></tr>
+<tr><td>Befehl holen</td><td>Ablesen der Zeile</td><td>eigene Holphase über den Bus</td></tr></table>
+<p>Der Know-how-Computer eignet sich deshalb gut als <b>Einstieg</b>: erst das Prinzip „einfache Befehle nacheinander“, danach die Von-Neumann-Idee „Programm und Daten im selben Speicher“.</p>
+<h3 id="bg-unterricht">Im Unterricht</h3>
+<p><b>Erst unplugged, dann am Rechner.</b> Mit der Druckvorlage (💾 → Drucken) und echten Streichhölzern, Muggelsteinen oder Büroklammern spielen Paare das Programm durch: Eine Person ist der Prozessor, die andere kontrolliert und führt das Ablaufprotokoll.</p>
+<p><b>Im Simulator</b> helfen die Erklärungen, der Schritt zurück und der Modus <b>„Ich bin der Computer“</b>, in dem die Lernenden selbst Streichhölzer legen und den Stift setzen – mit Rückmeldung bei jedem Schritt.</p>
+<p><b>Differenzierung:</b> Die Aufgaben steigen von „Register leeren“ bis „Vergleichen“ an. Leistungsstarke können eigene Befehle „nachbauen“ (z. B. ein Register auf einen bestimmten Wert setzen) oder untersuchen, wie viele Schritte ein Programm braucht.</p>
+<h3 id="bg-sim">Dieser Simulator</h3>
+<p>Know-how Now hält sich an den Befehlssatz des Originals. Zwei Dinge sind bewusst festgelegt: Das Programmblatt darf bis zu ${MAXLINES} Zeilen lang sein, und <code>dec</code> auf ein leeres Register hält das Programm mit einer Erklärung an – auf Papier gibt es schließlich kein „minus ein Streichholz“.</p>
+<h3 id="bg-quellen">Quellen und Links</h3>
+<p><a href="https://en.wikipedia.org/wiki/WDR_paper_computer" target="_blank" rel="noopener">Wikipedia: WDR paper computer</a><br>
+<a href="http://www.wolfgang-back.com/knowhow_home.php" target="_blank" rel="noopener">Wolfgang Back: Der Know-how Computer</a><br>
+<a href="https://esolangs.org/wiki/Der_Know_How_Computer" target="_blank" rel="noopener">Esolang-Wiki: Der Know How Computer</a></p>
+</article></div>`;
+  $$('#bgBody nav a').forEach(a=>a.onclick=e=>{e.preventDefault();const t=$('#bg-'+a.dataset.to);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});
+}
+
+/* --- Dateien, Drucken --- */
+let dlCap=null;try{if(window.claude&&window.claude.use)window.claude.use('downloads').then(d=>{dlCap=d;}).catch(()=>{});}catch(e){}
+function openExport(name,text){$('#exText').value=text;openModal('mExport');
+  $('#exDownload').onclick=async()=>{if(dlCap){try{await dlCap.save({filename:name,data:text});toast('Gespeichert ✓','ok');}catch(e){if(!e||e.code!=='declined')toast('Download hier nicht möglich – bitte kopieren.','bad');}return;}
+    try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800);}catch(e){toast('Download nicht möglich – bitte kopieren.','bad');}};
+  $('#exCopy').onclick=async()=>{try{await navigator.clipboard.writeText(text);toast('Kopiert ✓','ok');}catch(e){$('#exText').select();try{document.execCommand('copy');toast('Kopiert ✓','ok');}catch(_){toast('Bitte markieren und kopieren.');}}};}
+function printSheet(){
+  const n=Math.max(21,k.lines());let rows='';for(let i=1;i<=n;i++){const L=k.prog[i];rows+=`<tr><td class="n">${i}</td><td class="c">${L?L.op+(L.arg!==null?' '+L.arg:''):''}</td></tr>`;}
+  let regs='';for(let r=1;r<=NREG;r++)regs+=`<div>Register ${r}</div>`;
+  $('#printSheet').innerHTML=`<h1>Know-how-Computer</h1><div class="ps"><div><b>Programm</b><table>${rows}</table></div><div><b>Register</b><div class="rg">${regs}</div>
+   <div class="cmds"><b>Befehle:</b> inc r – Streichholz in Register r legen · dec r – Streichholz herausnehmen · jmp z – springe zu Zeile z · isz r – Register r leer? Dann eine Zeile überspringen · stp – Ende</div></div></div>`;
+  toast('Druckansicht wird geöffnet … (in der Vorschau ggf. gesperrt – dann über GitHub öffnen)');
+  try{window.print();}catch(e){}
+}
+
+/* --- Speichern im Browser --- */
+const LS='khn-state-v1';let saveT;
+function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(LS,JSON.stringify({prog:programText(k.prog),regs:k.regs,startRegs,pc:k.pc,steps:k.steps,speed}))}catch(e){}},400);}
+function restore(){try{const s=JSON.parse(localStorage.getItem(LS));if(!s)return false;k.prog=parseProgram(s.prog||'').prog;startRegs=(s.startRegs||[]).map(v=>+v||0);while(startRegs.length<=NREG)startRegs.push(0);
+  k.regs=startRegs.slice();if(s.speed!==undefined)speed=s.speed;try{solved=JSON.parse(localStorage.getItem('khn-solved'))||{}}catch(e){}return true;}catch(e){return false;}}
+
+/* ===== Ansicht ===== */
+let layPref='auto',layNow=null,phonePanel='regPanel';
+function curLayout(){if(layPref!=='auto')return layPref;const w=innerWidth;return w>=1280?'pc':w>=820?'tablet':'phone';}
+function applyLayout(){const l=curLayout();if(l===layNow)return;layNow=l;document.body.classList.remove('lay-pc','lay-tablet','lay-phone');document.body.classList.add('lay-'+l);showPanel(phonePanel);setTimeout(()=>{markLines();drawJumps();if(tour)tourPlace();},60);}
+function showPanel(id){phonePanel=id;$$('main>.panel').forEach(p=>p.classList.toggle('pshow',p.id===id));$$('#phoneNav button').forEach(b=>b.classList.toggle('on',b.dataset.p===id));if(id==='progPanel')setTimeout(()=>{markLines();drawJumps();scrollToLine(k.pc);},30);}
+function ensurePanelFor(el){if(layNow!=='phone'||!el||!el.closest)return;const p=el.closest('main>.panel');if(p&&p.id!==phonePanel)showPanel(p.id);}
+const VIEWS=[['auto','📐','Automatisch','passt sich an die Bildschirmgröße an'],['pc','🖥️','PC / Beamer','Programm, Register und Erklärung nebeneinander'],['tablet','📱','Tablet','Register oben, Programm und Erklärung darunter'],['phone','📲','Handy','ein Bereich, Wechsel über die Leiste unten']];
+function renderViewList(){$('#viewList').innerHTML=VIEWS.map(([v,i,t,d])=>`<div class="item viewopt ${v===layPref?'on':''}" data-v="${v}"><span class="vi">${i}</span><div class="grow"><div class="t">${t}</div><div class="d">${d}</div></div></div>`).join('');
+  $$('#viewList .viewopt').forEach(e=>e.onclick=()=>setLayout(e.dataset.v));}
+function setLayout(v){closeModal('mView');layPref=v;try{localStorage.setItem('khn-layout',v)}catch(e){}layNow=null;applyLayout();if(v!=='auto')toast({pc:'PC-Ansicht',tablet:'Tablet-Ansicht',phone:'Handy-Ansicht: unten zwischen Programm, Register und Erklärung wechseln'}[v]);}
+
+/* ===== TOUR ===== */
+const W=(ev,task,test)=>({ev,task,test});
+const TOURS=[
+ {id:'intro',title:'Worum geht es?',d:'Für den allerersten Kontakt: Was ist der Know-how-Computer, woher kommt er, warum ist er so einfach – und trotzdem mächtig?',min:4,steps:[
+  {before:()=>{if(proc)setProc(false);},title:'Ein Computer aus Papier',html:'<p>Stell dir vor, du hast keinen Computer – nur ein Blatt Papier, einen Stift und ein paar Streichhölzer. Kann man damit einen Computer bauen?</p><p><b>Ja!</b> Genau das ist der <b>Know-how-Computer</b>. Du selbst bist dabei der Prozessor.</p>'},
+  {title:'Woher kommt er?',html:'<p>Erfunden haben ihn <b>Wolfgang Back</b> und <b>Ulrich Rohde</b>. 1983 wurde er im Fernsehen vorgestellt, in der Sendung <b>WDR Computerclub</b>.</p><p>Damals hatte kaum jemand einen eigenen Computer. Mit dem Papiercomputer konnte trotzdem jede und jeder ausprobieren, wie ein Computer arbeitet. Er wurde mehrere hunderttausend Mal verbreitet.</p>'},
+  {sel:'#progPanel',title:'Teil 1: Das Programm',html:'<p>Auf dem <b>Programmblatt</b> stehen nummerierte Zeilen. In jeder Zeile steht genau <b>ein Befehl</b>.</p><p>Der Computer arbeitet die Zeilen nacheinander ab – außer, ein Befehl sagt etwas anderes.</p>'},
+  {sel:'#regs',title:'Teil 2: Die Register',html:'<p>Die acht Kästchen sind die <b>Register</b> – der Speicher für Zahlen. Eine Zahl wird durch <b>Streichhölzer</b> dargestellt: 3 Streichhölzer bedeuten die Zahl 3.</p><p>Zum leichteren Zählen liegen sie hier in Fünfergruppen.</p>'},
+  {sel:'#pen',title:'Teil 3: Der Stift',html:'<p>Der <b>Stift</b> zeigt auf die Zeile, die als Nächstes ausgeführt wird. Im echten Computer heißt das <b>Befehlszähler</b>.</p>'},
+  {sel:'#refCard',title:'Nur fünf Befehle',html:'<ul><li><code>inc r</code> – Streichholz in Register r legen</li><li><code>dec r</code> – Streichholz herausnehmen</li><li><code>jmp z</code> – zu Zeile z springen</li><li><code>isz r</code> – ist Register r leer? Dann eine Zeile überspringen</li><li><code>stp</code> – Ende</li></ul><p>Das ist alles. Kein „plus“, kein „mal“, kein „wiederhole“!</p>'},
+  {title:'Klein, aber mächtig',html:'<p>Mit diesen fünf Befehlen kann man addieren, subtrahieren, multiplizieren, vergleichen … Fachleute sagen: Der Befehlssatz ist <b>Turing-vollständig</b>. Mit genug Registern und Zeit lässt sich alles berechnen, was überhaupt ein Computer berechnen kann.</p><p>Echte Prozessoren machen es im Prinzip genauso: Sie setzen alles aus wenigen, sehr einfachen Befehlen zusammen – nur milliardenfach schneller.</p>'},
+  {title:'Und wozu der Simulator?',html:'<p>Hier kannst du Programme in Zeitlupe laufen lassen, jeden Schritt erklärt bekommen, Schritte zurücknehmen – und es gehen keine Streichhölzer verloren. 😉</p><p>Als Nächstes zeigt dir der <b>Rundgang</b>, wo was auf dem Bildschirm ist.</p>'}]},
+ {id:'ui',title:'Rundgang',d:'Programmblatt, Register, Steuerleiste und Erklärungen kennenlernen.',min:3,steps:[
+  {sel:'#progPanel',before:()=>{if(proc)setProc(false);if(!k.lines())loadExample('add',true);showTab('tabSheet');},title:'Das Programmblatt',html:'<p>Links steht das Programm, Zeile für Zeile. Rechts neben jedem Befehl siehst du in Grau, was er bedeutet.</p>'},
+  {sel:'#jumps',title:'Sprungpfeile',html:'<p>Die Bögen am rechten Rand zeigen die <b>Sprünge</b> (<code>jmp</code>). So erkennst du Schleifen auf einen Blick: Ein Pfeil, der nach oben zeigt, bedeutet „nochmal von vorn“.</p>'},
+  {sel:'#btnEdit',title:'Bearbeiten',html:'<p>Mit <b>Bearbeiten</b> kannst du Befehle ändern, Zeilen einfügen oder löschen. Sprungziele werden dabei automatisch angepasst. Im Reiter <b>Programmtext</b> kannst du das Programm auch einfach eintippen.</p>'},
+  {sel:'#reg1',title:'Ein Register',html:'<p>Oben steht die Zahl, darunter liegen die Streichhölzer. Mit <b>+</b> und <b>−</b> – oder per Klick auf die Zahl – stellst du die <b>Startwerte</b> ein.</p>'},
+  {sel:'#controls',title:'Die Steuerleiste',html:'<p><b>Schritt</b>: eine Zeile ausführen. <b>Start</b>: alles laufen lassen (Tempo einstellbar). <b>Zurück</b>: letzten Schritt rückgängig. <b>Neu starten</b>: Stift auf Zeile 1, Register auf die Startwerte.</p>'},
+  {sel:'#procToggle',title:'Ich bin der Computer',html:'<p>In diesem Modus führst <b>du</b> das Programm aus: Streichhölzer legen und den Stift setzen. Der Simulator prüft jeden Schritt.</p>'},
+  {sel:'#infoPanel',title:'Was passiert gerade?',html:'<p>Hier steht, welcher Befehl als Nächstes kommt, was er bedeutet und was der letzte Schritt bewirkt hat. Darunter: alle fünf Befehle zum Nachschlagen.</p>'},
+  {sel:'#btnBg',title:'Hintergrund',html:'<p>Unter <b>Hintergrund</b> findest du alles Wissenswerte: Geschichte, Befehle, Programmier-Muster, den Vergleich mit dem Von-Neumann-Rechner und Ideen für den Unterricht.</p><p>Weiter geht es mit <b>„Das erste Programm“</b>.</p>'}]},
+ {id:'first',title:'Das erste Programm',d:'Das Additionsprogramm Schritt für Schritt verfolgen. Ersetzt das Programmblatt.',min:4,steps:[
+  {sel:'#progPanel',before:()=>{if(proc)setProc(false);loadExample('add',true);showTab('tabSheet');},title:'Addieren mit Streichhölzern',html:'<p>Geladen ist das Programm <b>Addieren</b>. In Register 1 liegen 3, in Register 2 liegen 2 Streichhölzer.</p><p>Die Idee: Solange Register 2 nicht leer ist, nimm dort eins weg und lege es in Register 1.</p>'},
+  {sel:'#btnStep',title:'Zeile 1: isz 2',html:'<p>Ist Register 2 leer? Nein – es liegen 2 Streichhölzer darin. Also wird <b>nichts übersprungen</b>.</p>',wait:W('step','Klicke auf „Schritt“.')},
+  {sel:'#nowCard',title:'Was ist passiert?',html:'<p>Unter „Gerade passiert“ steht die Erklärung. Der Stift steht jetzt in Zeile 2: <code>jmp 4</code>.</p>'},
+  {sel:'#btnStep',title:'Bis ein Streichholz wandert',html:'<p>Zeile 2 springt zu Zeile 4. Dort wird ein Streichholz aus Register 2 genommen (<code>dec 2</code>) und in Register 1 gelegt (<code>inc 1</code>). Beobachte die Register!</p>',wait:W('step','Klicke weiter auf „Schritt“, bis Register 1 vier Streichhölzer hat.',()=>k.regs[1]===4)},
+  {sel:'#jumps',title:'Die Schleife',html:'<p>Zeile 6 heißt <code>jmp 1</code>: zurück zum Anfang. Der Pfeil am Rand zeigt diese Schleife.</p>',wait:W('step','Mach noch einen Schritt und sieh dir den Sprung an.',r=>r&&r.op==='jmp'&&r.arg===1)},
+  {sel:'#btnRun',title:'Den Rest erledigt der Computer',html:'<p>Jetzt läuft alles noch einmal: Prüfen, Streichholz umlegen, zurückspringen – bis Register 2 leer ist. Dann überspringt <code>isz 2</code> die Zeile 2, und Zeile 3 (<code>stp</code>) beendet das Programm.</p>',wait:W('halted','Klicke auf „Start“ und warte, bis das Programm fertig ist.')},
+  {sel:'#regs',title:'Ergebnis: 3 + 2 = 5',html:'<p>In Register 1 liegen jetzt <b>5</b> Streichhölzer, Register 2 ist leer. Das Programm hat addiert – nur mit Streichholz-Umlegen, Prüfen und Springen!</p><p>Mit <b>Zurück</b> kannst du jeden Schritt rückwärts ansehen.</p>'}]},
+ {id:'proc',title:'Ich bin der Computer',d:'Du führst das Additionsprogramm selbst aus – mit Rückmeldung bei jedem Schritt. Ersetzt das Programmblatt.',min:5,steps:[
+  {before:()=>{if(proc)setProc(false);loadExample('add',true);startRegs[1]=2;startRegs[2]=1;doReset(true);showTab('tabSheet');},title:'Jetzt bist du dran',html:'<p>Register 1 hat 2, Register 2 hat 1 Streichholz. Du rechnest <b>2 + 1</b> – als Prozessor!</p><p>Bei jedem Befehl musst du entweder ein Streichholz legen/wegnehmen und danach den Stift weitersetzen – oder nur den Stift setzen.</p>'},
+  {sel:'#procToggle',title:'Modus einschalten',html:'<p>Dann bewegt sich nichts mehr von allein.</p>',wait:W('proc-on','Schalte „Ich bin der Computer“ ein.')},
+  {sel:'#progPanel',title:'Zeile 1: isz 2',html:'<p>Ist Register 2 leer? Es liegt 1 Streichholz darin – also <b>nicht leer</b>. Dann geht es ganz normal weiter.</p>',wait:W('proc-step','Klicke auf Zeile 2.',()=>k.pc===2)},
+  {sel:'#progPanel',title:'Zeile 2: jmp 4',html:'<p>Ein Sprung.</p>',wait:W('proc-step','Klicke auf Zeile 4.',()=>k.pc===4)},
+  {sel:'#reg2',title:'Zeile 4: dec 2',html:'<p>Erst das Streichholz: <b>−</b> bei Register 2.</p>',wait:W('proc-reg','Nimm ein Streichholz aus Register 2.')},
+  {sel:'#progPanel',title:'Stift weiter',html:'<p>Nach <code>dec</code> geht es in der nächsten Zeile weiter.</p>',wait:W('proc-step','Klicke auf Zeile 5.',()=>k.pc===5)},
+  {sel:'#reg1',title:'Zeile 5: inc 1',html:'<p>Jetzt ein Streichholz in Register 1 legen – und danach den Stift auf Zeile 6.</p>',wait:W('proc-step','Lege ein Streichholz in Register 1 (+) und klicke dann auf Zeile 6.',()=>k.pc===6)},
+  {sel:'#progPanel',title:'Zeile 6: jmp 1',html:'<p>Zurück zum Anfang.</p>',wait:W('proc-step','Klicke auf Zeile 1.',()=>k.pc===1)},
+  {sel:'#progPanel',title:'Zeile 1: isz 2 – nochmal',html:'<p>Jetzt aufpassen: Register 2 ist <b>leer</b>! Dann wird die nächste Zeile <b>übersprungen</b>.</p>',wait:W('proc-step','Welche Zeile ist jetzt dran? Klicke sie an.',()=>k.pc===3)},
+  {sel:'#progPanel',title:'Zeile 3: stp',html:'<p>Das Ende. Klicke auf die Zeile mit <code>stp</code>, um das Programm zu beenden.</p>',wait:W('proc-step','Klicke auf Zeile 3.',()=>k.halted)},
+  {sel:'#infoPanel',title:'Geschafft! 🎉',html:'<p>Register 1 hat jetzt 3 Streichhölzer: 2 + 1 = 3. Du hast als Prozessor gearbeitet – genau so, wie es ein Computer tut.</p><p>Tipp für den Unterricht: Erst so im Simulator, dann mit echtem Papier und Streichhölzern (💾 → Druckvorlage).</p>'}]},
+ {id:'code',title:'Selbst programmieren',d:'Programme schreiben, ändern und mit Aufgaben testen.',min:3,steps:[
+  {sel:'#btnEdit',before:()=>{if(proc)setProc(false);showTab('tabSheet');},title:'Bearbeiten einschalten',html:'<p>Im Bearbeiten-Modus wählst du in jeder Zeile den Befehl und die Zahl.</p>',wait:W('edit-on','Klicke auf „Bearbeiten“.')},
+  {sel:'#lines',title:'Zeilen ändern',html:'<p><b>＋</b> fügt darunter eine neue Zeile ein, <b>✕</b> löscht eine Zeile. Sprungziele (<code>jmp</code>) werden dabei automatisch angepasst – praktisch!</p>'},
+  {sel:'#btnEdit',title:'Fertig',html:'<p>Mit <b>Fertig</b> siehst du wieder das Programmblatt mit Stift und Sprungpfeilen.</p>',wait:W('edit-off','Klicke auf „Fertig“.')},
+  {sel:'#tabBtnText',title:'Oder einfach tippen',html:'<p>Im Reiter <b>Programmtext</b> schreibst du das Programm wie auf Papier: eine Zeile pro Befehl, z. B. <code>isz 2</code>. Mit „Aufs Programmblatt übernehmen“ wird es geprüft und übernommen.</p>'},
+  {sel:'#btnTasks',title:'Aufgaben',html:'<p>Unter <b>Aufgaben</b> warten acht Aufträge – von „Register leeren“ bis „Vergleichen“. Dein Programm wird automatisch mit verschiedenen Startwerten getestet.</p><p>Viel Spaß! 🔥</p>'}]}
+];
+let tour=null,tourIv=null;
+function renderTourMenu(){$('#tourList').innerHTML=TOURS.map((t,i)=>`<div class="item" data-t="${t.id}"><div class="kk">${i+1}</div><div class="grow"><div class="t">${esc(t.title)}</div><div class="d">${esc(t.d)}</div></div><span class="tag">ca. ${t.min} Min.</span></div>`).join('');$$('#tourList .item').forEach(e=>e.onclick=()=>startTour(e.dataset.t));}
+function startTour(id){closeAllModals();stopRun();tour={t:TOURS.find(x=>x.id===id),i:0,done:false};tourShow();clearInterval(tourIv);tourIv=setInterval(tourPlace,350);}
+function endTour(){tour=null;clearInterval(tourIv);$('#tourSpot').style.display='none';$('#tourCard').style.display='none';}
+async function tourShow(){const st=tour.t.steps[tour.i];tour.done=!st.wait;if(st.before){try{await st.before();}catch(e){console.error(e)}}
+  tourCard();const el=st.sel&&$(st.sel);ensurePanelFor(el);if(el&&el.scrollIntoView)el.scrollIntoView({block:'nearest',inline:'nearest'});setTimeout(tourPlace,80);}
+function tourCard(){const t=tour.t,st=t.steps[tour.i],n=t.steps.length,last=tour.i===n-1,c=$('#tourCard');
+  c.innerHTML=`<div class="tc-top"><span>${esc(t.title)}</span><button class="xbtn" id="tcX" title="Tour beenden">×</button></div><div class="progress"><i style="width:${(tour.i+1)/n*100}%"></i></div><h3>${esc(st.title)}</h3><div class="tc-body">${st.html}</div>${st.wait?`<div class="task-line ${tour.done?'done':''}">${tour.done?'✓ Geschafft!':'👉 '+esc(st.wait.task)}</div>`:''}<div class="tc-foot"><span class="sp">${tour.i+1} / ${n}</span>${tour.i>0?'<button class="btn small ghost" id="tcBack">Zurück</button>':''}<button class="btn small ${st.wait&&!tour.done?'':'primary'}" id="tcNext">${st.wait&&!tour.done?'Überspringen':last?'Fertig ✓':'Weiter →'}</button></div>`;
+  c.style.display='block';$('#tcX').onclick=endTour;if($('#tcBack'))$('#tcBack').onclick=()=>{tour.i--;tourShow();};
+  $('#tcNext').onclick=()=>{if(last){const id=tour.t.id;endTour();const nx=TOURS[TOURS.findIndex(x=>x.id===id)+1];toast(nx?'Nächstes Kapitel: „'+nx.title+'“ (über 🎓 Tour)':'Tour beendet – viel Spaß!','ok');return;}tour.i++;tourShow();};}
+function tourHook(ev,p){if(!tour||tour.done)return;const st=tour.t.steps[tour.i];if(!st.wait||st.wait.ev!==ev)return;if(st.wait.test&&!st.wait.test(p))return;
+  tour.done=true;tourCard();tourPlace();const i=tour.i,t=tour.t;setTimeout(()=>{if(tour&&tour.t===t&&tour.i===i){tour.i++;if(tour.i<t.steps.length)tourShow();else endTour();}},1100);}
+function tourPlace(){if(!tour)return;const st=tour.t.steps[tour.i],spot=$('#tourSpot'),c=$('#tourCard'),vw=innerWidth,vh=innerHeight,cw=c.offsetWidth,ch=c.offsetHeight,g=16;
+  const el=st.sel&&$(st.sel);spot.style.display='block';
+  if(!el||!el.getClientRects().length){spot.classList.add('center');spot.style.left=vw/2+'px';spot.style.top=vh/2+'px';c.style.left=(vw-cw)/2+'px';c.style.top=Math.max(12,(vh-ch)/2)+'px';return;}
+  spot.classList.remove('center');const r=el.getBoundingClientRect(),p=6;Object.assign(spot.style,{left:r.left-p+'px',top:r.top-p+'px',width:r.width+2*p+'px',height:r.height+2*p+'px'});
+  const cy=y=>Math.max(10,Math.min(vh-ch-10,y)),cx=x=>Math.max(10,Math.min(vw-cw-10,x));
+  const cands=[[r.right+g,cy(r.top),r.right+g+cw<=vw-8],[r.left-g-cw,cy(r.top),r.left-g-cw>=8],[cx(r.left),r.bottom+g,r.bottom+g+ch<=vh-8],[cx(r.left),r.top-g-ch,r.top-g-ch>=8]];
+  const ok=cands.find(x=>x[2]);let x,y;if(ok){x=ok[0];y=ok[1];}else{x=vw-cw-14;y=vh-ch-14;}c.style.left=x+'px';c.style.top=y+'px';}
+
+/* ===== Start ===== */
+function init(){
+  try{layPref=localStorage.getItem('khn-layout')||'auto'}catch(e){}
+  applyLayout();window.addEventListener('resize',()=>{applyLayout();drawJumps();markLines();tourPlace();});
+  $('#btnView').onclick=()=>{renderViewList();openModal('mView');};
+  $$('#phoneNav button').forEach(b=>b.onclick=()=>showPanel(b.dataset.p));$('#miniMore').onclick=()=>showPanel('infoPanel');
+  buildRegs();renderCmdRef();
+  const had=restore();if(!had||!k.lines()){loadExample('add',true);}else{progChanged();}
+  $('#speed').value=speed;$('#speedLbl').textContent=SPEEDS[speed].l;
+  renderRegs();renderExamples();renderTasks();renderBg();renderTourMenu();render();
+  $('#btnStep').onclick=stepClick;$('#btnRun').onclick=()=>running?stopRun():startRun();$('#btnUndo').onclick=doUndo;$('#btnReset').onclick=()=>doReset();
+  $('#speed').oninput=e=>{speed=+e.target.value;$('#speedLbl').textContent=SPEEDS[speed].l;save();};
+  $('#proc').onchange=e=>setProc(e.target.checked);
+  $('#btnEdit').onclick=()=>setEdit(!editMode);
+  $('#btnAddLine').onclick=()=>{if(!editMode)setEdit(true);insertLine(k.lines());};
+  $('#btnClearProg').onclick=async()=>{if(!k.lines())return;if(await confirmBox('Programmblatt leeren?','Alle Zeilen werden gelöscht.','Leeren')){k.prog=[null];progChanged();}};
+  $$('.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+  $('#progText').oninput=()=>{textDirty=true;};
+  $('#progText').onkeydown=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();applyText();}};
+  $('#btnApplyText').onclick=applyText;$('#btnFromSheet').onclick=()=>{textDirty=false;$('#progText').value=programText(k.prog);$('#asmMsg').innerHTML='';};
+  $('#btnExamples').onclick=()=>openModal('mExamples');$('#btnTasks').onclick=()=>openModal('mTasks');$('#btnBg').onclick=()=>openModal('mBg');$('#btnFile').onclick=()=>openModal('mFile');$('#btnTour').onclick=()=>openModal('mTour');
+  $$('[data-close]').forEach(b=>b.onclick=()=>b.closest('.modal-bg').classList.remove('on'));
+  $$('.modal-bg').forEach(bg=>bg.addEventListener('mousedown',e=>{if(e.target===bg&&bg.id!=='mConfirm')bg.classList.remove('on');}));
+  $('#fileExport').onclick=()=>{closeModal('mFile');openExport('programm.txt',programText(k.prog));};
+  $('#fileImport').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const r=parseProgram(String(rd.result));const hard=r.errors.filter(x=>!x.warn);
+    if(hard.length){toast('Die Datei enthält Fehler: '+hard[0].msg,'bad');}else{k.prog=r.prog;textDirty=false;progChanged();closeModal('mFile');toast('„'+f.name+'“ geladen ✓','ok');}e.target.value='';};rd.readAsText(f);};
+  $('#btnPrint').onclick=printSheet;
+  $('#wcTour').onclick=()=>{closeModal('mWelcome');startTour('intro');};$('#wcGo').onclick=()=>closeModal('mWelcome');
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){if($('.modal-bg.on')&&!$('#mConfirm.on')){closeAllModals();return;}if(tour){endTour();return;}}
+    if(e.target.closest('input,textarea,select')||$('.modal-bg.on'))return;
+    if(e.key==='ArrowRight'){e.preventDefault();stepClick();}
+    else if(e.key===' '){e.preventDefault();running?stopRun():startRun();}
+    else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();doUndo();}});
+  let first=true;try{first=!localStorage.getItem('khn-welcome');localStorage.setItem('khn-welcome','1');}catch(e){}
+  if(first)openModal('mWelcome');
+}
+init();
+
+</script>
+</body>
+</html>
