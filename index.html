@@ -327,6 +327,91 @@ body.lay-phone footer{padding-bottom:84px}
   #printSheet .cmds{margin-top:6mm;font-size:10.5pt}
 }
 
+/* ===== Junior / Profi ===== */
+.seg{display:inline-flex;background:#3a332b;border-radius:10px;padding:3px;gap:2px;margin-right:6px}
+.seg button{border:0;background:transparent;color:#d9cfc1;padding:6px 11px;border-radius:8px;font-weight:700;font-size:13px}
+.seg button.on{background:#fff;color:#24201b}
+body.lay-phone .seg button{padding:5px 8px;font-size:12px}
+#btnReal,.palette{display:none}
+body.junior #btnReal{display:inline-flex}
+#btnReal.on{background:var(--fire-l);border-color:#f4b8a3;color:var(--fire-d)}
+body.junior.editing .palette{display:flex}
+.palette{gap:6px;flex-wrap:wrap;padding:8px 10px;border-bottom:1px solid var(--line);background:#fffaf2;align-items:center}
+.palette .plbl{font-size:12px;color:var(--muted);font-weight:700;width:100%}
+.pcard{display:inline-flex;align-items:center;gap:6px;border-radius:12px;padding:7px 11px;font-weight:800;font-size:14px;background:var(--b);color:var(--c);border:2px solid var(--c);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.pcard:active{cursor:grabbing}
+.pcard .ic,.jcard .ic{font-size:16px}
+/* Karten auf dem Blatt */
+.jcard{display:inline-flex;align-items:center;gap:7px;height:30px;border-radius:10px;padding:0 12px 0 9px;background:var(--b);color:var(--c);border:2px solid var(--c);font-weight:800;font-size:15.5px;white-space:nowrap}
+.kchip{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-weight:800;font-size:13px;background:var(--k)}
+.pl .real{margin-left:10px;font-family:var(--mono);font-size:12px;color:#8a7d64}
+.pl.edit .argsel,.pl.edit .opsel{border:1px solid #d5cdb8;border-radius:7px;padding:3px 6px;background:#fff;font-size:14px}
+body.junior .pl.edit .opsel{width:118px;font-family:var(--sans);font-weight:700}
+body.junior .pl.edit .argsel{width:60px;font-family:var(--sans);font-weight:700}
+.dropline{position:absolute;left:54px;right:8px;height:4px;border-radius:3px;background:var(--fire);display:none;z-index:4;pointer-events:none}
+.dropline.on{display:block}
+/* Murmeln */
+.mgrid{display:grid;grid-template-columns:repeat(5,18px);gap:4px 4px;align-content:start}
+.marble{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#fff 0 12%,color-mix(in srgb,var(--mc) 55%,#fff) 25%,var(--mc) 62%,color-mix(in srgb,var(--mc) 70%,#000) 100%);box-shadow:0 1px 1.5px rgba(0,0,0,.3)}
+.marble.new{animation:mdrop .45s cubic-bezier(.3,1.6,.5,1)}
+.marble.gone{animation:lift .45s forwards}
+@keyframes mdrop{0%{transform:translateY(-34px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
+body.junior .sticks{display:block}
+body.junior .reg .rn{text-transform:none;font-size:15px;color:var(--ink);letter-spacing:0;display:flex;align-items:center;gap:6px}
+body.junior .reg{border-color:color-mix(in srgb,var(--kc) 35%,#e3d9c4);background:linear-gradient(color-mix(in srgb,var(--kc) 6%,#fff),color-mix(in srgb,var(--kc) 12%,#fff))}
+body.junior .reg .rv{color:var(--kc)}
+.reg.hidden{display:none}
+.sticks{touch-action:none;cursor:grab}
+.reg.drop{border-color:var(--green)!important;box-shadow:0 0 0 5px var(--green-l)!important;transform:scale(1.02)}
+/* Vorrat */
+.pot{margin:14px auto 0;max-width:460px;display:flex;align-items:center;gap:12px;border:2px dashed #d9c7a3;border-radius:14px;padding:10px 14px;background:#fffaf0;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.pot:hover{border-color:var(--wood-d);background:#fff4e2}
+.pot.drop{border-color:var(--green);background:var(--green-l)}
+.potic{flex:none;width:58px;height:40px;display:grid;place-items:center}
+.pottxt{font-size:12.5px;color:var(--muted)}
+.pottxt b{color:var(--ink)}
+body.proc .pot{border-color:var(--fire);background:#fff6f2}
+.dragghost{position:fixed;z-index:120;pointer-events:none;transform:translate(-50%,-60%) rotate(-8deg);filter:drop-shadow(0 6px 6px rgba(0,0,0,.25))}
+.dragghost .marble{width:28px;height:28px}
+.dragghost .stick{transform:scale(1.4)}
+/* Rätsel */
+.levelbar{border:2px solid #f4b8a3;background:linear-gradient(#fff8f2,#fff);border-radius:14px;padding:10px 12px;margin-bottom:12px}
+.levelbar[hidden]{display:none}
+.lv-top{display:flex;align-items:center;gap:8px}
+.lv-top b{font-size:15px}
+.lv-top .xbtn{margin-left:auto}
+.levelbar p{margin:6px 0 8px;font-size:14px}
+.lv-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lv-cards{display:flex;gap:4px;font-size:12px;color:var(--muted);align-items:center}
+.lv-cards span{font-size:16px}
+.pred{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-weight:700}
+.pred input{width:58px;font-size:18px;font-weight:800;text-align:center;border:2px solid var(--line);border-radius:9px;padding:3px}
+.lvres{margin-top:8px;border-radius:10px;padding:8px 10px;font-size:14px;font-weight:600}
+.lvres.ok{background:var(--green-l);color:var(--green)}
+.lvres.bad{background:var(--bad-l);color:var(--bad)}
+.stars{color:#f5b301;letter-spacing:1px;font-size:16px;white-space:nowrap}
+.stars .off{color:#e2dccd}
+.lvitem{cursor:pointer}
+.lvitem .kk{width:34px;height:34px;border-radius:10px;background:var(--fire-l);color:var(--fire-d);display:grid;place-items:center;font-weight:800;flex:none}
+.lvitem .tag{margin-left:6px}
+.confetti{position:fixed;z-index:110;pointer-events:none;font-size:26px;animation:conf 1.4s ease-out forwards}
+@keyframes conf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}}
+/* Weiche bei „leer?“ */
+body.junior .jumps path.skip{stroke-width:4;stroke-dasharray:6 5}
+.hop{position:absolute;right:22px;background:var(--blue);color:#fff;font-weight:800;font-size:12px;border-radius:999px;padding:2px 8px;z-index:4;pointer-events:none;animation:hop .9s ease-out forwards}
+@keyframes hop{0%{opacity:0;transform:translateY(8px) scale(.8)}20%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-6px)}}
+
+.nextline .jcard{font-family:var(--sans);font-size:17px;height:34px;vertical-align:middle}
+table.cmdref td .jcard{font-size:12.5px;height:26px;padding:0 9px 0 7px;font-family:var(--sans)}
+table.cmdref td .jcard .kchip{width:18px;height:18px;font-size:11px}
+body.junior table.cmdref td:first-child{width:auto}
+body.junior .pl.edit .opsel{background:var(--b);color:var(--c);border:2px solid var(--c)}
+
+body.lay-phone .mgrid{grid-template-columns:repeat(5,12px);gap:3px}
+body.lay-phone .marble{width:12px;height:12px}
+body.lay-phone #toast{bottom:88px}
+body.lay-phone.junior .reg .rv{font-size:22px}
+
 </style>
 </head>
 <body>
@@ -334,6 +419,9 @@ body.lay-phone footer{padding-bottom:84px}
   <div class="brand">
     <div class="logo"><svg width="22" height="26" viewBox="0 0 22 26"><rect x="9" y="7" width="4" height="19" rx="1.5" fill="#f6d39a"/><ellipse cx="11" cy="6" rx="4.2" ry="5.5" fill="#fff"/><ellipse cx="11" cy="6" rx="3" ry="4.2" fill="#ffd2bf"/></svg></div>
     <div><h1>Know-how <span>Now</span></h1><small>Der Papiercomputer zum Ausprobieren</small></div>
+  </div>
+  <div class="seg" id="modeSeg" title="Junior: Kisten, Murmeln und Bildkarten für Klasse 5/6 · Profi: das Original">
+    <button data-m="junior">🧒 Junior</button><button data-m="profi" class="on">🎓 Profi</button>
   </div>
   <button class="hbtn" id="btnExamples" title="Beispiele">📂<span class="t"> Beispiele</span></button>
   <button class="hbtn" id="btnTasks" title="Aufgaben">✅<span class="t"> Aufgaben</span></button>
@@ -345,7 +433,7 @@ body.lay-phone footer{padding-bottom:84px}
 
 <main>
   <section class="panel" id="progPanel">
-    <div class="ptitle"><span class="dot" style="background:var(--blue)"></span><h2>Programmblatt</h2><span class="sp" id="lineCount"></span></div>
+    <div class="ptitle"><span class="dot" style="background:var(--blue)"></span><h2 id="progTitle">Programmblatt</h2><span class="sp" id="lineCount"></span></div>
     <div class="tabs">
       <button class="on" data-tab="tabSheet" id="tabBtnSheet">Blatt</button>
       <button data-tab="tabText" id="tabBtnText">Programmtext</button>
@@ -355,8 +443,10 @@ body.lay-phone footer{padding-bottom:84px}
         <button class="btn small" id="btnEdit" title="Zeilen bearbeiten">✏️ Bearbeiten</button>
         <button class="btn small" id="btnAddLine" title="Zeile am Ende anfügen">＋ Zeile</button>
         <button class="btn small ghost" id="btnClearProg" title="Programm löschen">🗑 Leeren</button>
+        <button class="btn small" id="btnReal" title="Unter jeder Karte den echten Befehl des Know-how-Computers zeigen">🔤 echte Befehle</button>
       </div>
-      <div class="paperwrap" id="paperWrap"><div class="paper" id="paper"><div class="phead">Programm</div><div id="lines"></div>
+      <div class="palette" id="palette"></div>
+      <div class="paperwrap" id="paperWrap"><div class="paper" id="paper"><div class="phead" id="phead">Programm</div><div id="lines"></div><div class="dropline" id="dropLine"></div>
         <svg class="pen" id="pen" viewBox="0 0 44 26"><path d="M4 13 L12 8 L40 8 Q43 8 43 11 L43 15 Q43 18 40 18 L12 18 Z" fill="#f2c14e" stroke="#8a6a1c" stroke-width="1"/><path d="M4 13 L12 8 L12 18 Z" fill="#f4dcb0" stroke="#8a6a1c" stroke-width="1"/><path d="M4 13 L7 11.2 L7 14.8 Z" fill="#333"/><rect x="34" y="8" width="5" height="10" fill="#d9d9d9" stroke="#8a6a1c" stroke-width="1"/><rect x="39" y="8" width="4" height="10" rx="1.5" fill="#f08aa0" stroke="#8a6a1c" stroke-width="1"/></svg>
         <svg class="jumps" id="jumps"></svg>
       </div></div>
@@ -382,8 +472,9 @@ jmp 1</pre>
   </section>
 
   <section class="panel" id="regPanel">
-    <div class="ptitle"><span class="dot" style="background:var(--fire)"></span><h2>Register</h2><span class="sp" id="regHint">Jedes Streichholz zählt 1</span></div>
-    <div class="regwrap"><div class="regs" id="regs"></div>
+    <div class="ptitle"><span class="dot" style="background:var(--fire)"></span><h2 id="regTitle">Register</h2><span class="sp" id="regHint">Jedes Streichholz zählt 1</span></div>
+    <div class="regwrap"><div class="levelbar" id="levelBar" hidden></div><div class="regs" id="regs"></div>
+      <div class="pot" id="pot"><span class="potic" id="potIc"></span><span class="pottxt" id="potTxt"></span></div>
       <div class="startnote" id="startNote"></div></div>
     <div class="controls" id="controls">
       <button class="cbtn" id="btnReset" title="Zurück zum Anfang: Zeile 1 und Startwerte">⟲ Neu starten</button>
@@ -424,6 +515,11 @@ jmp 1</pre>
     <p class="infobox" style="margin-top:0">Schreibe dein Programm aufs Programmblatt. „Prüfen“ lässt es mit verschiedenen Startwerten laufen – deine Register bleiben dabei unverändert. Alle Register, die nicht genannt sind, starten mit 0.</p>
     <div id="taskList"></div>
   </div>
+</div></div>
+
+<div class="modal-bg" id="mLevels"><div class="modal">
+  <div class="mhead"><h2>⭐ Rätsel</h2><button class="xbtn" data-close>×</button></div>
+  <div class="mbody"><p class="infobox" style="margin-top:0">Löse die Rätsel der Reihe nach. Für jedes gelöste Rätsel gibt es Sterne – je weniger Karten du brauchst, desto mehr!</p><div class="list" id="levelList"></div></div>
 </div></div>
 
 <div class="modal-bg" id="mBg"><div class="modal wide">
@@ -475,6 +571,7 @@ jmp 1</pre>
       <button class="btn primary" id="wcTour">🎓 Tour starten</button>
       <button class="btn" id="wcGo">Direkt loslegen</button>
     </div>
+    <p style="font-size:13px;margin-top:16px">Für Klasse 5/6: <button class="btn small" id="wcJunior">🧒 Junior-Modus mit Murmeln und Bildkarten</button></p>
   </div>
 </div></div>
 
@@ -603,21 +700,69 @@ function confirmBox(title,html,yes){return new Promise(res=>{$('#cfTitle').textC
 const regName=r=>'Register '+r;
 function lineHint(L){if(!L)return'';switch(L.op){case'inc':return'R'+L.arg+' + 1';case'dec':return'R'+L.arg+' − 1';case'jmp':return'→ Zeile '+L.arg;case'isz':return'R'+L.arg+' leer?';case'stp':return'Ende';}return'';}
 
+/* ===== Junior / Profi: Wortschatz ===== */
+let junior=false,showReal=false;
+const KCOL=['','#2f6fd0','#e2552c','#1a8a4a','#8b3fd1','#0e9aa7','#c2185b','#a16207','#475569'];
+const LET=r=>String.fromCharCode(64+r);
+const JCARD={inc:{ic:'➕',name:'lege',c:'#157a41',b:'#e6f5ec'},dec:{ic:'➖',name:'nimm',c:'#c62f3b',b:'#fdecee'},jmp:{ic:'↪️',name:'springe',c:'#2f6fd0',b:'#e8f0fc'},isz:{ic:'❓',name:'leer?',c:'#9a5b00',b:'#fff4d6'},stp:{ic:'🛑',name:'stopp',c:'#475569',b:'#eef1f5'}};
+const JLONG={inc:'Lege eine Murmel in die Kiste.',dec:'Nimm eine Murmel aus der Kiste.',jmp:'Der Stift springt zu einer anderen Karte.',isz:'Ist die Kiste leer? Dann hüpft der Stift über die nächste Karte. Sonst geht es normal weiter.',stp:'Das Programm ist fertig.'};
+const V={
+  reg:r=>junior?'Kiste '+LET(r):'Register '+r,
+  item:n=>junior?(n===1?'Murmel':'Murmeln'):(n===1?'Streichholz':'Streichhölzer'),
+  one:()=>junior?'eine Murmel':'ein Streichholz',
+  line:()=>junior?'Karte':'Zeile'
+};
+function cmdText(L){
+  if(!L)return'';if(!junior)return L.op+(L.arg!==null&&L.arg!==undefined?' '+L.arg:'');
+  switch(L.op){case'inc':return'lege 1 in '+LET(L.arg);case'dec':return'nimm 1 aus '+LET(L.arg);case'jmp':return'springe zu '+L.arg;case'isz':return'ist '+LET(L.arg)+' leer?';case'stp':return'stopp';}
+  return'';
+}
+function kchip(r){return `<span class="kchip" style="--k:${KCOL[r]||'#555'}">${LET(r)}</span>`;}
+function cardHTML(L){
+  const J=JCARD[L.op];let t='';
+  switch(L.op){case'inc':t='lege 1 in '+kchip(L.arg);break;case'dec':t='nimm 1 aus '+kchip(L.arg);break;case'jmp':t='springe zu '+L.arg;break;case'isz':t='ist '+kchip(L.arg)+' leer?';break;case'stp':t='stopp';}
+  return `<span class="jcard" style="--c:${J.c};--b:${J.b}"><span class="ic">${J.ic}</span>${t}</span>`;
+}
+function errText(p){
+  if(!junior)return p.msg;
+  if(p.op==='dec')return 'Karte '+p.pc+': '+V.reg(p.arg)+' ist leer – da kann man keine Murmel herausnehmen! Tipp: Prüfe vorher mit „ist '+LET(p.arg)+' leer?“.';
+  if(p.pc>k.lines())return 'Der Stift ist unter der letzten Karte angekommen – da fehlt eine Stopp-Karte 🛑 (oder ein „springe“ zeigt auf eine Karte, die es nicht gibt).';
+  return p.msg;
+}
+function explainV(r){
+  if(!r)return'';if(r.kind==='error')return errText(r);if(!junior)return explain(r);
+  const b=r.before,z=r.pc,K=r.arg!==null?V.reg(r.arg):'';
+  switch(r.op){
+    case'inc':{const n=b.regs[r.arg]+1;return `Karte ${z}: „${cmdText(r)}“ – eine Murmel kommt in ${K}. Jetzt sind es ${n}. Weiter mit Karte ${r.next}.`;}
+    case'dec':{const n=b.regs[r.arg]-1;return `Karte ${z}: „${cmdText(r)}“ – eine Murmel wird aus ${K} genommen. Jetzt sind es ${n}. Weiter mit Karte ${r.next}.`;}
+    case'jmp':return `Karte ${z}: „${cmdText(r)}“ – der Stift springt zu Karte ${r.arg}.`;
+    case'isz':return r.zero?`Karte ${z}: „${cmdText(r)}“ – Ja, ${K} ist leer! Der Stift hüpft über Karte ${z+1} – weiter mit Karte ${r.next}.`:`Karte ${z}: „${cmdText(r)}“ – Nein, in ${K} ${b.regs[r.arg]===1?'ist noch 1 Murmel':'sind noch '+b.regs[r.arg]+' Murmeln'}. Also ganz normal weiter mit Karte ${r.next}.`;
+    case'stp':return `Karte ${z}: Stopp! Das Programm ist fertig.`;
+  }return'';
+}
+function usedRegs(){const u=new Set();for(let r=1;r<=4;r++)u.add(r);for(let i=1;i<=k.lines();i++){const L=k.prog[i];if(L&&CMDS[L.op].arg==='reg')u.add(L.arg);}for(let r=1;r<=NREG;r++)if(k.regs[r]||startRegs[r])u.add(r);return u;}
+
 /* --- Programmblatt --- */
 function renderSheet(){
   const n=k.lines(),box=$('#lines');let h='';
-  if(!n)h='<div class="emptyhint">Noch kein Programm.<br>Lade ein Beispiel (📂) oder klicke auf „＋ Zeile“.</div>';
+  if(!n)h=`<div class="emptyhint">${junior?'Noch keine Karten.<br>Tippe auf „Bearbeiten“ und zieh Karten hierher.':'Noch kein Programm.<br>Lade ein Beispiel (📂) oder klicke auf „＋ Zeile“.'}</div>`;
   for(let i=1;i<=n;i++){const L=k.prog[i];
     if(editMode){
-      h+=`<div class="pl edit" data-l="${i}"><span class="no">${i}</span><select data-i="${i}" aria-label="Befehl Zeile ${i}">${Object.keys(CMDS).map(o=>`<option ${o===L.op?'selected':''}>${o}</option>`).join('')}</select>
-      <input data-i="${i}" inputmode="numeric" value="${L.arg??''}" ${L.op==='stp'?'disabled placeholder="–"':''} aria-label="Zahl Zeile ${i}" title="${CMDS[L.op].arg==='reg'?'Registernummer 1–8':'Zeilennummer'}">
-      <span class="grow"></span><button class="ib" data-ins="${i}" title="Neue Zeile darunter einfügen">＋</button><button class="ib" data-del="${i}" title="Zeile löschen">✕</button></div>`;
-    }else h+=`<div class="pl" data-l="${i}"><span class="no">${i}</span><span class="cmd">${L.op}</span><span class="arg">${L.arg??''}</span><span class="hint">${esc(lineHint(L))}</span></div>`;}
+      const ops=Object.keys(CMDS).filter(o=>!junior||allowedCards().includes(o)||o===L.op);
+      const opSel=`<select class="opsel" data-i="${i}" aria-label="Befehl ${i}">${ops.map(o=>`<option value="${o}" ${o===L.op?'selected':''}>${junior?JCARD[o].ic+' '+JCARD[o].name:o}</option>`).join('')}</select>`;
+      let arg='';
+      if(junior&&CMDS[L.op].arg){const opts=CMDS[L.op].arg==='reg'?[...new Set([1,2,3,4,L.arg])].map(r=>[r,LET(r)]):Array.from({length:Math.max(n,L.arg)},(_,j)=>[j+1,'Karte '+(j+1)]);
+        arg=`<select class="argsel" data-a="${i}" aria-label="Wert ${i}">${opts.map(([v,t])=>`<option value="${v}" ${v===L.arg?'selected':''}>${t}</option>`).join('')}</select>`;}
+      else if(!junior)arg=`<input data-i="${i}" inputmode="numeric" value="${L.arg??''}" ${L.op==='stp'?'disabled placeholder="–"':''} aria-label="Zahl Zeile ${i}" title="${CMDS[L.op].arg==='reg'?'Registernummer 1–8':'Zeilennummer'}">`;
+      h+=`<div class="pl edit" data-l="${i}" style="--c:${JCARD[L.op].c};--b:${JCARD[L.op].b}"><span class="no">${i}</span>${opSel}${arg}<span class="grow"></span><button class="ib" data-ins="${i}" title="Neue ${V.line()} darunter einfügen">＋</button><button class="ib" data-del="${i}" title="${V.line()} löschen">✕</button></div>`;
+    }else if(junior)h+=`<div class="pl jc" data-l="${i}"><span class="no">${i}</span>${cardHTML(L)}${showReal?`<span class="real">${L.op}${L.arg!==null?' '+L.arg:''}</span>`:''}</div>`;
+    else h+=`<div class="pl" data-l="${i}"><span class="no">${i}</span><span class="cmd">${L.op}</span><span class="arg">${L.arg??''}</span><span class="hint">${esc(lineHint(L))}</span></div>`;}
   box.innerHTML=h;
-  $('#lineCount').textContent=n?n+' Zeile'+(n===1?'':'n'):'';
+  $('#lineCount').textContent=n?n+' '+(junior?(n===1?'Karte':'Karten'):(n===1?'Zeile':'Zeilen')):'';
   if(editMode){
-    $$('#lines select').forEach(s=>s.onchange=()=>{const i=+s.dataset.i,L=k.prog[i];L.op=s.value;
-      if(CMDS[L.op].arg===null)L.arg=null;else if(L.arg===null)L.arg=1;else if(CMDS[L.op].arg==='reg'&&L.arg>NREG)L.arg=1;progChanged(true);});
+    $$('#lines .opsel').forEach(s=>s.onchange=()=>{const i=+s.dataset.i,L=k.prog[i];L.op=s.value;
+      if(CMDS[L.op].arg===null)L.arg=null;else if(L.arg===null||L.arg===undefined)L.arg=1;else if(CMDS[L.op].arg==='reg'&&L.arg>NREG)L.arg=1;progChanged(true);});
+    $$('#lines .argsel').forEach(s=>s.onchange=()=>{k.prog[+s.dataset.a].arg=+s.value;progChanged(true);});
     $$('#lines input').forEach(inp=>inp.onchange=()=>{const i=+inp.dataset.i,L=k.prog[i];let v=parseInt(inp.value);
       if(isNaN(v)||v<1){toast('Bitte eine Zahl ab 1 eingeben.','bad');inp.value=L.arg;return;}
       if(CMDS[L.op].arg==='reg'&&v>NREG){toast('Register gibt es nur von 1 bis '+NREG+'.','bad');inp.value=L.arg;return;}
@@ -648,23 +793,26 @@ function drawJumps(){
   if(lastFx&&lastFx.skip){const a=lastFx.skip,y1=y(a),y2=y(a+2);if(y1!==null&&y2!==null)h+=`<path class="skip" d="M4 ${y1} C 26 ${y1}, 26 ${y2}, 6 ${y2}" marker-end="url(#ahs)"/>`;}
   svg.innerHTML=h;
 }
-function progChanged(keepEdit){k.reset();k.hist=[];k.regs=startRegs.slice();procRegDone=false;lastFx=null;renderSheet();render();save();emit('prog');if(!keepEdit)scrollToLine(1);}
-function insertLine(i){if(k.lines()>=MAXLINES)return toast('Mehr Zeilen passen nicht aufs Blatt.','bad');
-  k.prog.forEach(L=>{if(L&&L.op==='jmp'&&L.arg>i)L.arg++;});k.prog.splice(i+1,0,{op:'inc',arg:1});progChanged(true);
-  const s=document.querySelector(`#lines select[data-i="${i+1}"]`);if(s)s.focus();}
+function progChanged(keepEdit){k.reset();k.hist=[];k.regs=startRegs.slice();procRegDone=false;lastFx=null;renderSheet();renderRegs();render();save();emit('prog');if(!keepEdit)scrollToLine(1);}
+function insertLine(i,L){insertLineAt(i+1,L||{op:'inc',arg:1});
+  const s=document.querySelector(`#lines .opsel[data-i="${i+1}"]`);if(s)s.focus({preventScroll:true});}
+function insertLineAt(pos,L){if(k.lines()>=MAXLINES)return toast('Mehr passt nicht aufs Blatt.','bad');
+  k.prog.forEach(x=>{if(x&&x.op==='jmp'&&x.arg>=pos)x.arg++;});k.prog.splice(pos,0,{...L});progChanged(true);emit('card-add',L.op);}
 function deleteLine(i){k.prog.splice(i,1);k.prog.forEach(L=>{if(L&&L.op==='jmp'&&L.arg>i)L.arg--;});progChanged(true);}
-function setEdit(on){editMode=on;if(on)stopRun();$('#btnEdit').classList.toggle('on',on);$('#btnEdit').innerHTML=on?'✓ Fertig':'✏️ Bearbeiten';renderSheet();emit(on?'edit-on':'edit-off');}
-
+function setEdit(on){editMode=on;if(on)stopRun();document.body.classList.toggle('editing',on);$('#btnEdit').classList.toggle('on',on);$('#btnEdit').innerHTML=on?'✓ Fertig':'✏️ Bearbeiten';renderPalette();renderSheet();emit(on?'edit-on':'edit-off');}
 /* --- Register --- */
-function buildRegs(){let h='';for(let r=1;r<=NREG;r++)h+=`<div class="reg" id="reg${r}"><span class="badge" id="bdg${r}"></span><div class="rh"><span class="rn"><span class="long">Register </span>${r}</span><span class="rv" id="rv${r}" title="Klicken, um eine Zahl einzugeben">0</span></div>
-  <div class="sticks" id="st${r}"></div><div class="rb"><button data-r="${r}" data-d="-1" title="Streichholz wegnehmen">−</button><button data-r="${r}" data-d="1" title="Streichholz dazulegen">+</button></div></div>`;
+function buildRegs(){let h='';for(let r=1;r<=NREG;r++)h+=`<div class="reg" id="reg${r}" data-r="${r}" style="--kc:${KCOL[r]}"><span class="badge" id="bdg${r}"></span><div class="rh"><span class="rn" id="rn${r}"></span><span class="rv" id="rv${r}" title="Klicken, um eine Zahl einzugeben">0</span></div>
+  <div class="sticks" id="st${r}" data-r="${r}"></div><div class="rb"><button data-r="${r}" data-d="-1" title="eins wegnehmen">−</button><button data-r="${r}" data-d="1" title="eins dazulegen">+</button></div></div>`;
   $('#regs').innerHTML=h;
   $$('#regs .rb button').forEach(b=>b.onclick=()=>regClick(+b.dataset.r,+b.dataset.d));
   $$('#regs .rv').forEach(v=>v.onclick=()=>editRegValue(+v.id.slice(2)));
+  $$('#regs .sticks').forEach(s=>s.addEventListener('pointerdown',e=>{const r=+s.dataset.r;if(k.regs[r]<=0)return;startDrag(e,'out',{r});}));
 }
-function sticksHTML(n,anim){
-  const vis=Math.min(n,40);let h='',inB=0;
-  const total=anim===-1?vis+1:vis;
+function sticksHTML(n,anim,r){
+  if(junior){const vis=Math.min(n,20),total=anim===-1?vis+1:vis;let h='<div class="mgrid">';
+    for(let i=0;i<total;i++){const cls=(anim===1&&i===vis-1)?' new':(anim===-1&&i===total-1)?' gone':'';h+=`<span class="marble${cls}" style="--mc:${KCOL[r]}"></span>`;}
+    h+='</div>';if(n>20)h+=`<span class="more">+${n-20}</span>`;if(n===0&&anim!==-1)h+='<span class="emptyreg">leer</span>';return h;}
+  const vis=Math.min(n,40);let h='',inB=0;const total=anim===-1?vis+1:vis;
   for(let i=0;i<total;i++){if(inB===0)h+='<div class="bundle">';
     const cls=(anim===1&&i===vis-1)?' new':(anim===-1&&i===total-1)?' gone':'';
     h+=`<span class="stick${cls}"></span>`;inB++;if(inB===5||i===total-1){h+='</div>';inB=0;}}
@@ -673,10 +821,14 @@ function sticksHTML(n,anim){
   return h;
 }
 function renderRegs(fx){
-  for(let r=1;r<=NREG;r++){$('#rv'+r).textContent=k.regs[r];const a=fx&&fx.reg===r?fx.delta:0;$('#st'+r).innerHTML=sticksHTML(k.regs[r],a);
+  const used=junior?usedRegs():null;
+  for(let r=1;r<=NREG;r++){
+    $('#rn'+r).innerHTML=junior?`${kchip(r)}<span class="long"> Kiste ${LET(r)}</span>`:`<span class="long">Register </span>${r}`;
+    $('#reg'+r).classList.toggle('hidden',!!used&&!used.has(r));
+    $('#rv'+r).textContent=k.regs[r];const a=fx&&fx.reg===r?fx.delta:0;$('#st'+r).innerHTML=sticksHTML(k.regs[r],a,r);
     $('#reg'+r).classList.remove('hot','test');}
-  if(fx&&fx.delta===-1)setTimeout(()=>{$('#st'+fx.reg).innerHTML=sticksHTML(k.regs[fx.reg],0);},460);
-  if(fx&&fx.reg){const el=$('#reg'+fx.reg);if(fx.test){el.classList.add('test');$('#bdg'+fx.reg).textContent=fx.zero?'leer? → ja':'leer? → nein';}else el.classList.add('hot');}
+  if(fx&&fx.delta===-1)setTimeout(()=>{$('#st'+fx.reg).innerHTML=sticksHTML(k.regs[fx.reg],0,fx.reg);},460);
+  if(fx&&fx.reg){const el=$('#reg'+fx.reg);if(fx.test){el.classList.add('test');$('#bdg'+fx.reg).textContent=fx.zero?(junior?'leer? → ja, hüpfen!':'leer? → ja'):(junior?'leer? → nein':'leer? → nein');}else el.classList.add('hot');}
 }
 function editRegValue(r){
   if(proc)return toast('Im Modus „Ich bin der Computer“ legst du Streichhölzer mit + und −.');
@@ -688,48 +840,52 @@ function editRegValue(r){
 function setReg(r,v){stopRun();if(k.steps===0&&!k.halted){k.regs[r]=v;startRegs[r]=v;}else{k.push();k.regs[r]=v;}renderRegs();render();save();emit('reg-set',{r,v});}
 function regClick(r,d){
   if(proc)return procReg(r,d);
-  const v=k.regs[r]+d;if(v<0)return toast('Register '+r+' ist schon leer.');if(v>999)return;
+  const v=k.regs[r]+d;if(v<0)return toast(V.reg(r)+' ist schon leer.');if(v>999)return;
   setReg(r,v);renderRegs({reg:r,delta:d});
 }
-
 /* --- Info --- */
-function renderCmdRef(){$('#cmdRef').innerHTML=Object.entries(CMDS).map(([o,c])=>`<tr><td>${o}${c.arg?' '+(c.arg==='reg'?'r':'z'):''}</td><td>${c.long.replace(/\{a\}/g,c.arg==='reg'?'r':'z')}</td></tr>`).join('');}
+function renderCmdRef(){
+  $('#refCard h3').textContent=junior?'Die fünf Karten':'Die fünf Befehle';
+  if(junior){$('#cmdRef').innerHTML=Object.keys(CMDS).map(o=>`<tr><td>${cardHTML({op:o,arg:o==='jmp'?1:o==='stp'?null:1})}</td><td>${JLONG[o]}${showReal?` <span class="real">(${o})</span>`:''}</td></tr>`).join('');return;}
+  $('#cmdRef').innerHTML=Object.entries(CMDS).map(([o,c])=>`<tr><td>${o}${c.arg?' '+(c.arg==='reg'?'r':'z'):''}</td><td>${c.long.replace(/\{a\}/g,c.arg==='reg'?'r':'z')}</td></tr>`).join('');
+}
 function renderNext(){
   const c=$('#nextCard');
   if(proc){c.className='card proc';c.innerHTML=procHTML();bindProc();return;}
-  if(!k.lines()){c.className='card';c.innerHTML='<h3>Als Nächstes</h3><p class="ntxt">Auf dem Programmblatt steht noch nichts. Lade ein <b>Beispiel</b> oder schreibe ein eigenes Programm.</p>';return;}
-  if(k.halted&&k.error){c.className='card halt';c.innerHTML=`<h3>Angehalten</h3><p class="ntxt">⚠ ${esc(k.error)}</p><p class="ntxt" style="color:var(--muted);font-size:13px">„Neu starten“ beginnt wieder bei Zeile 1 mit den Startwerten.</p>`;return;}
-  if(k.halted){c.className='card done';const used=[];for(let r=1;r<=NREG;r++)if(k.regs[r]||startRegs[r])used.push('R'+r+' = '+k.regs[r]);
-    c.innerHTML=`<h3>Fertig ✓</h3><p class="ntxt">Das Programm hat nach <b>${k.steps} Schritten</b> mit <code>stp</code> angehalten.</p><p class="ntxt">Ergebnis: <b class="k">${used.join(', ')||'alle Register 0'}</b></p>`;return;}
+  if(!k.lines()){c.className='card';c.innerHTML=`<h3>Als Nächstes</h3><p class="ntxt">${junior?'Noch keine Karten. Tippe auf <b>Bearbeiten</b> und leg Karten aufs Blatt – oder lade ein Beispiel.':'Auf dem Programmblatt steht noch nichts. Lade ein <b>Beispiel</b> oder schreibe ein eigenes Programm.'}</p>`;return;}
+  if(k.halted&&k.error){c.className='card halt';c.innerHTML=`<h3>Angehalten</h3><p class="ntxt">⚠ ${esc(errText({msg:k.error,op:k.last&&k.last.op,arg:k.last&&k.last.arg,pc:k.pc}))}</p><p class="ntxt" style="color:var(--muted);font-size:13px">„Neu starten“ beginnt wieder bei ${V.line()} 1 mit den Startwerten.</p>`;return;}
+  if(k.halted){c.className='card done';const used=[];for(let r=1;r<=NREG;r++)if(k.regs[r]||startRegs[r])used.push((junior?LET(r):'R'+r)+' = '+k.regs[r]);
+    c.innerHTML=`<h3>Fertig ✓</h3><p class="ntxt">Das Programm hat nach <b>${k.steps} Schritten</b> ${junior?'bei der Stopp-Karte':'mit <code>stp</code>'} angehalten.</p><p class="ntxt">Ergebnis: <b class="k">${used.join(', ')||'alles 0'}</b></p>`;return;}
   const L=k.prog[k.pc];c.className='card';
-  if(!L){c.innerHTML=`<h3>Als Nächstes · Zeile ${k.pc}</h3><p class="ntxt">Hier steht kein Befehl mehr – der nächste Schritt hält das Programm mit einem Fehler an.</p>`;return;}
-  let extra='';if(CMDS[L.op].arg==='reg')extra=` Register ${L.arg} hat gerade <b>${k.regs[L.arg]}</b> Streichh${k.regs[L.arg]===1?'olz':'ölzer'}.`;
-  c.innerHTML=`<h3>Als Nächstes · Zeile ${k.pc}</h3><div class="nextline">${L.op}${L.arg!==null?' '+L.arg:''} <small>${esc(CMDS[L.op].short)}</small></div><p class="ntxt">${esc(CMDS[L.op].long.replace(/\{a\}/g,L.arg))}${extra}</p>`;
+  if(!L){c.innerHTML=`<h3>Als Nächstes · ${V.line()} ${k.pc}</h3><p class="ntxt">Hier steht nichts mehr – der nächste Schritt hält das Programm mit einem Fehler an.</p>`;return;}
+  let extra='';if(CMDS[L.op].arg==='reg')extra=` In ${V.reg(L.arg)} ${k.regs[L.arg]===1?'ist':'sind'} gerade <b>${k.regs[L.arg]}</b> ${V.item(k.regs[L.arg])}.`;
+  const big=junior?cardHTML(L):`${L.op}${L.arg!==null?' '+L.arg:''} <small>${esc(CMDS[L.op].short)}</small>`;
+  const txt=junior?JLONG[L.op]:CMDS[L.op].long.replace(/\{a\}/g,L.arg);
+  c.innerHTML=`<h3>Als Nächstes · ${V.line()} ${k.pc}</h3><div class="nextline">${big}</div><p class="ntxt">${esc(txt)}${extra}</p>`;
 }
 function renderStatus(){
-  $('#statusbar').innerHTML=`<span>Stift in Zeile <b>${k.pc}</b></span><span>Schritte <b>${k.steps}</b></span>${proc?`<span>richtig <b>${procStats.ok}</b> · Fehler <b>${procStats.bad}</b></span>`:''}`;
+  $('#statusbar').innerHTML=`<span>Stift auf ${V.line()} <b>${k.pc}</b></span><span>Schritte <b>${k.steps}</b></span>${proc?`<span>richtig <b>${procStats.ok}</b> · Fehler <b>${procStats.bad}</b></span>`:''}`;
   $('#btnStep').disabled=proc||running||k.halted||!k.lines();$('#btnRun').disabled=proc||!k.lines();$('#btnUndo').disabled=!k.hist.length;
-  const b=$('#btnRun');b.classList.toggle('pause',running);b.innerHTML=running?'⏸ Pause':'▶ Start';
-  const sr=[];for(let r=1;r<=NREG;r++)if(startRegs[r])sr.push('R'+r+' = '+startRegs[r]);
-  $('#startNote').innerHTML=k.steps>0||k.halted?`Startwerte: ${sr.join(', ')||'alle 0'} · „Neu starten“ stellt sie wieder her.`:'Startwerte einstellen: mit + und − oder Klick auf die Zahl.';
+  const b=$('#btnRun');b.classList.toggle('pause',running);b.innerHTML=running?'⏸ Pause':(junior?'▶ Los!':'▶ Start');
+  const sr=[];for(let r=1;r<=NREG;r++)if(startRegs[r])sr.push((junior?LET(r):'R'+r)+' = '+startRegs[r]);
+  $('#startNote').innerHTML=k.steps>0||k.halted?`Startwerte: ${sr.join(', ')||'alle 0'} · „Neu starten“ stellt sie wieder her.`:(junior?'Murmeln vorher hineinlegen: aus dem Topf ziehen, mit + und − oder Klick auf die Zahl.':'Startwerte einstellen: Streichhölzer aus der Schachtel ziehen, mit + und − oder Klick auf die Zahl.');
 }
 function render(){markLines();renderNext();renderStatus();}
 function setNow(op,txt){$('#nowOp').textContent=op;$('#nowTxt').innerHTML=txt;$('#miniOp').textContent=op;$('#miniTxt').innerHTML=txt;}
 const logItems=[];
-function addLog(r){if(!r||r.kind!=='ok')return;logItems.unshift(`<li>Z.${r.pc}: <b>${r.op}${r.arg!==null?' '+r.arg:''}</b> → ${r.stop?'Ende':'Zeile '+r.next}${r.reg?' · R'+r.reg+' = '+k.regs[r.reg]:''}</li>`);if(logItems.length>60)logItems.length=60;$('#log').innerHTML=logItems.join('');}
-
+function addLog(r){if(!r||r.kind!=='ok')return;logItems.unshift(`<li>${junior?'K':'Z'}.${r.pc}: <b>${esc(cmdText(r))}</b> → ${r.stop?'Ende':V.line()+' '+r.next}${r.reg?' · '+(junior?LET(r.reg):'R'+r.reg)+' = '+k.regs[r.reg]:''}</li>`);if(logItems.length>60)logItems.length=60;$('#log').innerHTML=logItems.join('');}
 /* --- Ausführen --- */
 function noProgram(){if(k.lines())return false;toast('Auf dem Programmblatt steht noch kein Programm.');setNow('Kein Programm','Lade ein Beispiel über 📂 oder schreibe ein Programm.');return true;}
 function fxOf(r){if(!r||r.kind!=='ok')return null;return{reg:r.reg,delta:r.delta,test:r.op==='isz',zero:r.zero,jmp:r.op==='jmp'?r.pc:null,skip:r.op==='isz'&&r.zero?r.pc:null};}
 function doStep(anim){
   if(k.halted)return null;const r=k.step();lastFx=fxOf(r);
-  if(anim!==false){renderRegs(lastFx);drawJumps();setNow(r.kind==='ok'?r.op+(r.arg!==null?' '+r.arg:''):'Fehler',esc(explain(r)));scrollToLine(k.pc);}
+  if(anim!==false){renderRegs(lastFx);drawJumps();if(lastFx&&lastFx.skip&&junior)showHop(r.pc);setNow(r.kind==='ok'?cmdText(r):'Fehler',esc(explainV(r)));scrollToLine(k.pc);}
   addLog(r);
-  if(r.kind==='ok'&&r.op==='jmp'&&r.arg===r.pc&&running){stopRun();toast('Endlosschleife: Zeile '+r.pc+' springt immer wieder auf sich selbst.','bad');}
+  if(r.kind==='ok'&&r.op==='jmp'&&r.arg===r.pc&&running){stopRun();toast('Endlosschleife: '+V.line()+' '+r.pc+' springt immer wieder auf sich selbst.','bad');}
   return r;
 }
 function stepClick(){if(proc||noProgram())return;if(k.halted)return;const r=doStep();render();emit('step',r);if(k.halted)onHalt();}
-function onHalt(){running=false;clearTimeout(runTimer);render();if(k.error)toast('Angehalten: Fehler in Zeile '+k.pc,'bad');else toast('Fertig – stp erreicht ✓','ok');emit('halted');}
+function onHalt(){running=false;clearTimeout(runTimer);render();if(pendingPredict&&curLevel!==null){finishPredict();emit('halted');return;}if(k.error)toast('Angehalten: Fehler in Zeile '+k.pc,'bad');else toast('Fertig – stp erreicht ✓','ok');emit('halted');}
 function tick(){
   if(!running)return;const sp=SPEEDS[speed];
   if(sp.turbo){const t0=performance.now();let r=null;while(!k.halted&&running&&performance.now()-t0<30){r=doStep(false);}
@@ -750,60 +906,61 @@ function setProc(on){stopRun();if(on&&editMode)setEdit(false);proc=on;$('#proc')
   if(on&&k.halted)doReset(true);render();emit(on?'proc-on':'proc-off');}
 function procPreview(){if(!procRegDone)return k.preview();const L=k.prog[k.pc];const t=new KHC();t.prog=k.prog;t.regs=k.regs.slice();t.pc=k.pc;if(L&&(L.op==='inc'||L.op==='dec'))t.regs[L.arg]-=(L.op==='inc'?1:-1);return t.preview();}
 function procHint(){
-  const p=procPreview();if(p.kind!=='ok')return p.msg||'';
-  const L='Zeile '+p.pc+': „'+p.op+(p.arg!==null?' '+p.arg:'')+'“. ';
+  const p=procPreview();if(p.kind!=='ok')return errText(p);
+  const L=V.line()+' '+p.pc+': „'+cmdText(p)+'“. ';const R=p.reg?V.reg(p.reg):'';
+  const src=junior?'aus dem Topf':'aus der Schachtel',dst=junior?'zurück in den Topf':'zurück in die Schachtel';
   switch(p.op){
-    case'inc':return L+(procRegDone?'Das Streichholz liegt schon. Jetzt den Stift eine Zeile weiter: Klicke auf Zeile '+p.next+'.':'Lege mit + ein Streichholz in Register '+p.arg+'. Danach den Stift auf Zeile '+p.next+'.');
-    case'dec':return L+(procRegDone?'Das Streichholz ist weg. Jetzt den Stift eine Zeile weiter: Klicke auf Zeile '+p.next+'.':'Nimm mit − ein Streichholz aus Register '+p.arg+'. Danach den Stift auf Zeile '+p.next+'.');
-    case'jmp':return L+'Ein Sprung: Klicke auf Zeile '+p.arg+'.';
-    case'isz':return L+'Schau in Register '+p.arg+': '+(p.zero?'Es ist leer – also Zeile '+(p.pc+1)+' überspringen und auf Zeile '+p.next+' klicken.':'Es ist nicht leer – also ganz normal Zeile '+p.next+' anklicken.');
-    case'stp':return L+'Das ist das Ende. Klicke auf diese Zeile, um das Programm zu beenden.';
+    case'inc':return L+(procRegDone?'Erledigt. Jetzt den Stift weiter: Tippe auf '+V.line()+' '+p.next+'.':'Zieh '+V.one()+' '+src+' in '+R+' (oder +). Danach den Stift auf '+V.line()+' '+p.next+'.');
+    case'dec':return L+(procRegDone?'Erledigt. Jetzt den Stift weiter: Tippe auf '+V.line()+' '+p.next+'.':'Zieh '+V.one()+' aus '+R+' '+dst+' (oder −). Danach den Stift auf '+V.line()+' '+p.next+'.');
+    case'jmp':return L+'Ein Sprung: Tippe auf '+V.line()+' '+p.arg+'.';
+    case'isz':return L+'Schau in '+R+': '+(p.zero?'Sie ist leer – also über '+V.line()+' '+(p.pc+1)+' hüpfen und auf '+V.line()+' '+p.next+' tippen.':'Nicht leer – also ganz normal auf '+V.line()+' '+p.next+' tippen.').replace('Sie ist',junior?'Sie ist':'Es ist');
+    case'stp':return L+'Das ist das Ende. Tippe auf diese '+V.line()+', um das Programm zu beenden.';
   }return'';
 }
 function procHTML(){
   if(!k.lines())return '<h3>Ich bin der Computer</h3><p class="ntxt">Lade zuerst ein Programm (📂 Beispiele).</p>';
   if(k.halted&&!k.error)return `<h3>Ich bin der Computer</h3><p class="ntxt"><b>Programm beendet ✓</b> – du hast ${procStats.ok} Schritte richtig ausgeführt${procStats.bad?' (mit '+procStats.bad+' Fehlversuch'+(procStats.bad===1?'':'en')+')':' – ohne einen einzigen Fehler!'}.</p><button class="btn small" id="procAgain">⟲ Nochmal</button>`;
   const L=k.prog[k.pc];
-  const txt=!L?'Der Stift ist in einer Zeile ohne Befehl.':`<div class="nextline">Zeile ${k.pc}: ${L.op}${L.arg!==null?' '+L.arg:''}</div>`;
-  const what=procRegDone?'Jetzt: <b>Stift weitersetzen</b> – klicke auf die richtige Zeile.':'Was musst du tun? Leg ein Streichholz (<b>+</b>), nimm eines weg (<b>−</b>) oder setze den <b>Stift</b> auf eine Zeile (Zeile anklicken).';
+  const txt=!L?'Der Stift ist an einer Stelle ohne Befehl.':`<div class="nextline">${junior?cardHTML(L):V.line()+' '+k.pc+': '+cmdText(L)}</div>`;
+  const what=procRegDone?`Jetzt: <b>Stift weitersetzen</b> – tippe auf die richtige ${V.line()}.`:(junior?'Was musst du tun? Zieh eine Murmel in eine Kiste oder aus einer Kiste heraus – oder tippe auf die Karte, zu der der Stift als Nächstes wandert.':'Was musst du tun? Leg ein Streichholz hinein, nimm eines heraus (ziehen oder + / −) – oder setze den <b>Stift</b> auf eine Zeile (Zeile anklicken).');
   return `<h3>Ich bin der Computer</h3>${txt}<p class="ntxt">${what}</p>${procMsg?`<div class="feedback ${procMsg.kind}">${esc(procMsg.text)}</div>`:''}<div class="score"><span>✓ ${procStats.ok}</span><span>✗ ${procStats.bad}</span><button class="btn small ghost" id="procTip">💡 Tipp</button></div>`;
 }
 function bindProc(){const t=$('#procTip');if(t)t.onclick=()=>{procMsg={kind:'info',text:procHint()};renderNext();};const a=$('#procAgain');if(a)a.onclick=()=>{doReset(true);};}
 function procFeedback(kind,text){procMsg={kind,text};if(kind==='bad')procStats.bad++;render();}
 function procReg(r,d){
   if(k.halted)return;const p=procPreview();
-  if(p.kind!=='ok'){procFeedback('bad',p.msg);return;}
-  const L='In Zeile '+p.pc+' steht „'+p.op+(p.arg!==null?' '+p.arg:'')+'“';
-  if(p.op==='jmp'||p.op==='isz'||p.op==='stp')return procFeedback('bad',L+' – dabei wird kein Streichholz gelegt oder weggenommen.'+(p.op==='isz'?' isz schaut nur nach, ob das Register leer ist.':''));
-  if(procRegDone)return procFeedback('bad','Das Streichholz ist schon erledigt. Jetzt den Stift weitersetzen (Zeile anklicken).');
-  if(p.reg!==r)return procFeedback('bad',L+' – das betrifft Register '+p.reg+', nicht Register '+r+'.');
-  if(p.delta!==d)return procFeedback('bad',L+' – '+(p.op==='inc'?'inc heißt dazulegen (+).':'dec heißt wegnehmen (−).'));
+  if(p.kind!=='ok'){procFeedback('bad',errText(p));return;}
+  const L=(junior?'Auf ':'In ')+V.line()+' '+p.pc+' steht „'+cmdText(p)+'“';
+  if(p.op==='jmp'||p.op==='isz'||p.op==='stp')return procFeedback('bad',L+' – dabei wird nichts hineingelegt oder herausgenommen.'+(p.op==='isz'?' Es wird nur nachgeschaut, ob '+V.reg(p.reg)+' leer ist.':''));
+  if(procRegDone)return procFeedback('bad','Das ist schon erledigt. Jetzt den Stift weitersetzen (auf die '+V.line()+' tippen).');
+  if(p.reg!==r)return procFeedback('bad',L+' – das betrifft '+V.reg(p.reg)+', nicht '+V.reg(r)+'.');
+  if(p.delta!==d)return procFeedback('bad',L+' – '+(p.op==='inc'?(junior?'„lege“ heißt hineinlegen.':'inc heißt dazulegen.'):(junior?'„nimm“ heißt herausnehmen.':'dec heißt wegnehmen.')));
   k.push();k.hist[k.hist.length-1].procRegDone=false;k.regs[r]+=d;procRegDone=true;renderRegs({reg:r,delta:d});
-  procMsg={kind:'ok',text:'Richtig! Jetzt den Stift weitersetzen: Welche Zeile kommt als Nächstes?'};render();emit('proc-reg',{r,d});
+  procMsg={kind:'ok',text:'Richtig! Jetzt den Stift weitersetzen: Welche '+V.line()+' kommt als Nächstes?'};render();emit('proc-reg',{r,d});
 }
 function lineClick(i){
   if(!proc)return;if(k.halted){toast('Das Programm ist beendet.');return;}
   const p=procPreview(),row=document.querySelector(`#lines .pl[data-l="${i}"]`);
   const flash=c=>{if(row){row.classList.remove('flash-ok','flash-bad');void row.offsetWidth;row.classList.add(c);}};
-  if(p.kind!=='ok'){k.push();k.error=p.msg;k.halted=true;procMsg={kind:'bad',text:p.msg};render();return;}
-  const L='In Zeile '+p.pc+' steht „'+p.op+(p.arg!==null?' '+p.arg:'')+'“';
+  if(p.kind!=='ok'){k.push();k.error=p.msg;k.halted=true;k.last=p;procMsg={kind:'bad',text:errText(p)};render();return;}
+  const Ln=V.line(),L=(junior?'Auf ':'In ')+Ln+' '+p.pc+' steht „'+cmdText(p)+'“';
   if(p.stop){if(i===p.pc){k.push();k.hist[k.hist.length-1].procRegDone=procRegDone;k.halted=true;k.steps++;procStats.ok++;procMsg=null;flash('flash-ok');addLog({...p,kind:'ok'});render();emit('proc-step',p);onHalt();return;}
-    flash('flash-bad');return procFeedback('bad',L+' – das Programm ist hier zu Ende. Klicke auf Zeile '+p.pc+' selbst, um es zu beenden.');}
-  if((p.op==='inc'||p.op==='dec')&&!procRegDone){flash('flash-bad');return procFeedback('bad',L+' – zuerst das Streichholz: '+(p.op==='inc'?'leg eines in Register '+p.reg+' (+).':'nimm eines aus Register '+p.reg+' (−).'));}
+    flash('flash-bad');return procFeedback('bad',L+' – das Programm ist hier zu Ende. Tippe auf '+Ln+' '+p.pc+' selbst, um es zu beenden.');}
+  if((p.op==='inc'||p.op==='dec')&&!procRegDone){flash('flash-bad');return procFeedback('bad',L+' – zuerst '+(p.op==='inc'?V.one()+' in '+V.reg(p.reg)+' legen.':V.one()+' aus '+V.reg(p.reg)+' nehmen.'));}
   if(i!==p.next){flash('flash-bad');
     let why='';
-    if(p.op==='jmp')why=' – jmp '+p.arg+' heißt: Der Stift springt zu Zeile '+p.arg+'.';
-    else if(p.op==='isz')why=p.zero?' – Register '+p.reg+' ist leer, also wird die nächste Zeile übersprungen.':' – Register '+p.reg+' ist nicht leer ('+k.regs[p.reg]+'), also wird nichts übersprungen.';
-    else why=' – danach geht es einfach mit der nächsten Zeile weiter.';
+    if(p.op==='jmp')why=' – der Stift springt zu '+Ln+' '+p.arg+'.';
+    else if(p.op==='isz')why=p.zero?' – '+V.reg(p.reg)+' ist leer, also hüpft der Stift über die nächste '+Ln+'.':' – '+V.reg(p.reg)+' ist nicht leer ('+k.regs[p.reg]+'), also wird nichts übersprungen.';
+    else why=' – danach geht es einfach mit der nächsten '+Ln+' weiter.';
     return procFeedback('bad',L+why);}
   k.push();k.hist[k.hist.length-1].procRegDone=procRegDone;
-  if(p.op==='isz'){lastFx=fxOf({...p,kind:'ok'});renderRegs(lastFx);}else lastFx=fxOf({...p,kind:'ok'});
+  lastFx=fxOf({...p,kind:'ok'});if(p.op==='isz'){renderRegs(lastFx);if(p.zero&&junior)showHop(p.pc);}
   const before={regs:k.regs.slice(),pc:k.pc};k.pc=p.next;k.steps++;procRegDone=false;procStats.ok++;
   addLog({...p,kind:'ok'});drawJumps();flash('flash-ok');
-  procMsg={kind:'ok',text:'✓ '+explain({...p,kind:'ok',before:p.delta?{regs:before.regs.map((v,j)=>j===p.reg?v-p.delta:v),pc:p.pc}:before})};
-  setNow(p.op+(p.arg!==null?' '+p.arg:''),esc(procMsg.text.slice(2)));render();scrollToLine(k.pc);emit('proc-step',p);
+  const ex=explainV({...p,kind:'ok',before:p.delta?{regs:before.regs.map((v,j)=>j===p.reg?v-p.delta:v),pc:p.pc}:before});
+  procMsg={kind:'ok',text:'✓ '+ex};
+  setNow(cmdText(p),esc(ex));render();scrollToLine(k.pc);emit('proc-step',p);
 }
-
 /* --- Programmtext --- */
 let textDirty=false;
 function showTab(id){ensurePanelFor($('#progPanel'));$$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));$$('.tabpane').forEach(p=>p.classList.toggle('on',p.id===id));
@@ -818,6 +975,7 @@ function applyText(){
 /* --- Beispiele --- */
 const EX=[
  {id:'add',title:'Addieren',d:'Register 2 wird zu Register 1 addiert – Streichholz für Streichholz. Das klassische Einstiegsprogramm.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1'},
+ {id:'copyAB',title:'Umfüllen',d:'Alles aus Register 1 (Kiste A) wandert nach Register 2 (Kiste B) – Stück für Stück.',regs:{1:3},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\njmp 1'},
  {id:'clear',title:'Register leeren',d:'Eine Schleife nimmt so lange Streichhölzer aus Register 1, bis es leer ist.',regs:{1:5},text:'isz 1\njmp 4\nstp\ndec 1\njmp 1'},
  {id:'dbl',title:'Verdoppeln',d:'Für jedes Streichholz aus Register 1 kommen zwei in Register 2.',regs:{1:4},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\ninc 2\njmp 1'},
  {id:'sub',title:'Subtrahieren',d:'Register 1 minus Register 2. Was passiert, wenn Register 2 größer ist? Ausprobieren!',regs:{1:7,2:3},text:'isz 2\njmp 4\nstp\ndec 2\ndec 1\njmp 1'},
@@ -839,9 +997,9 @@ const T=[
  {title:'Addieren',text:'Addiere Register 2 zu Register 1. Das Ergebnis steht am Ende in Register 1.',hint:'Solange Register 2 nicht leer ist: eins aus Register 2 nehmen, eins in Register 1 legen.',tests:[[{1:3,2:4},{1:7}],[{1:0,2:5},{1:5}],[{1:6,2:0},{1:6}]],sol:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1'},
  {title:'Subtrahieren',text:'Berechne Register 1 − Register 2. Das Ergebnis steht in Register 1. (Register 1 ist nie kleiner als Register 2.)',hint:'Wie beim Addieren – nur nimmst du aus beiden Registern je ein Streichholz.',tests:[[{1:7,2:3},{1:4}],[{1:5,2:5},{1:0}],[{1:4,2:0},{1:4}]],sol:'isz 2\njmp 4\nstp\ndec 2\ndec 1\njmp 1'},
  {title:'Summe in Register 3',text:'Register 3 soll am Ende Register 1 + Register 2 enthalten. Register 1 und 2 dürfen dabei leer werden.',hint:'Zwei Schleifen hintereinander: erst Register 1 nach Register 3 „umfüllen“, dann Register 2.',tests:[[{1:3,2:4},{3:7}],[{1:0,2:5},{3:5}],[{1:6,2:0},{3:6}]],sol:'isz 1\njmp 4\njmp 7\ndec 1\ninc 3\njmp 1\nisz 2\njmp 10\nstp\ndec 2\ninc 3\njmp 7'},
- {title:'Kopieren',text:'Kopiere Register 1 nach Register 2. Register 1 soll am Ende wieder seinen alten Wert haben. Register 3 darfst du als Hilfe benutzen.',hint:'Beim Umfüllen aus Register 1 legst du jedes Streichholz in Register 2 UND in Register 3. Danach füllst du Register 3 zurück in Register 1.',tests:[[{1:4},{1:4,2:4}],[{1:0},{1:0,2:0}],[{1:9},{1:9,2:9}]],sol:EX[4].text},
- {title:'Multiplizieren',text:'Register 3 soll am Ende Register 1 · Register 2 enthalten. Register 4 darfst du als Hilfe benutzen.',hint:'Für jedes Streichholz aus Register 2 wird Register 1 einmal zu Register 3 addiert – und dabei mit Register 4 erhalten (wie beim Kopieren).',tests:[[{1:3,2:4},{3:12}],[{1:0,2:5},{3:0}],[{1:6,2:0},{3:0}],[{1:5,2:5},{3:25}]],sol:EX[5].text},
- {title:'Vergleichen',text:'In Register 3 soll am Ende 1 stehen, wenn Register 1 größer ist als Register 2 – sonst 0.',hint:'Nimm aus beiden Registern abwechselnd je ein Streichholz. Welches ist zuerst leer?',tests:[[{1:5,2:3},{3:1}],[{1:3,2:5},{3:0}],[{1:4,2:4},{3:0}],[{1:1,2:0},{3:1}],[{1:0,2:0},{3:0}]],sol:EX[6].text}
+ {title:'Kopieren',text:'Kopiere Register 1 nach Register 2. Register 1 soll am Ende wieder seinen alten Wert haben. Register 3 darfst du als Hilfe benutzen.',hint:'Beim Umfüllen aus Register 1 legst du jedes Streichholz in Register 2 UND in Register 3. Danach füllst du Register 3 zurück in Register 1.',tests:[[{1:4},{1:4,2:4}],[{1:0},{1:0,2:0}],[{1:9},{1:9,2:9}]],sol:EX.find(e=>e.id==='copy').text},
+ {title:'Multiplizieren',text:'Register 3 soll am Ende Register 1 · Register 2 enthalten. Register 4 darfst du als Hilfe benutzen.',hint:'Für jedes Streichholz aus Register 2 wird Register 1 einmal zu Register 3 addiert – und dabei mit Register 4 erhalten (wie beim Kopieren).',tests:[[{1:3,2:4},{3:12}],[{1:0,2:5},{3:0}],[{1:6,2:0},{3:0}],[{1:5,2:5},{3:25}]],sol:EX.find(e=>e.id==='mul').text},
+ {title:'Vergleichen',text:'In Register 3 soll am Ende 1 stehen, wenn Register 1 größer ist als Register 2 – sonst 0.',hint:'Nimm aus beiden Registern abwechselnd je ein Streichholz. Welches ist zuerst leer?',tests:[[{1:5,2:3},{3:1}],[{1:3,2:5},{3:0}],[{1:4,2:4},{3:0}],[{1:1,2:0},{3:1}],[{1:0,2:0},{3:0}]],sol:EX.find(e=>e.id==='gt').text}
 ];
 let solved={};
 function renderTasks(){
@@ -872,7 +1030,7 @@ function traceTable(){
   return h+'</table>';
 }
 function renderBg(){
-  const S=[['was','Was ist das?'],['gesch','Geschichte'],['aufbau','Aufbau'],['befehle','Die fünf Befehle'],['ablauf','Ein Programm läuft'],['muster','Programmier-Muster'],['koennen','Was kann er berechnen?'],['vn','Vergleich mit Von-Neumann'],['unterricht','Im Unterricht'],['sim','Dieser Simulator'],['quellen','Quellen']];
+  const S=[['was','Was ist das?'],['gesch','Geschichte'],['aufbau','Aufbau'],['befehle','Die fünf Befehle'],['ablauf','Ein Programm läuft'],['muster','Programmier-Muster'],['koennen','Was kann er berechnen?'],['vn','Vergleich mit Von-Neumann'],['unterricht','Im Unterricht'],['junior','Junior-Modus (Kl. 5/6)'],['sim','Dieser Simulator'],['quellen','Quellen']];
   $('#bgBody').innerHTML=`<div class="bg"><nav>${S.map(([a,t])=>`<a href="#" data-to="${a}">${t}</a>`).join('')}</nav><article>
 <h3 id="bg-was">Was ist der Know-how-Computer?</h3>
 <p>Der Know-how-Computer ist ein <b>Computer aus Papier</b>. Man braucht nur ein Blatt mit einem Programm, einen Stift und ein paar Streichhölzer. Der Mensch spielt selbst den Prozessor: Er liest Zeile für Zeile, legt Streichhölzer in Kästchen oder nimmt sie heraus und folgt den Sprüngen.</p>
@@ -930,6 +1088,12 @@ jmp 1     ; zurück zur Prüfung</pre>
 <p><b>Erst unplugged, dann am Rechner.</b> Mit der Druckvorlage (💾 → Drucken) und echten Streichhölzern, Muggelsteinen oder Büroklammern spielen Paare das Programm durch: Eine Person ist der Prozessor, die andere kontrolliert und führt das Ablaufprotokoll.</p>
 <p><b>Im Simulator</b> helfen die Erklärungen, der Schritt zurück und der Modus <b>„Ich bin der Computer“</b>, in dem die Lernenden selbst Streichhölzer legen und den Stift setzen – mit Rückmeldung bei jedem Schritt.</p>
 <p><b>Differenzierung:</b> Die Aufgaben steigen von „Register leeren“ bis „Vergleichen“ an. Leistungsstarke können eigene Befehle „nachbauen“ (z. B. ein Register auf einen bestimmten Wert setzen) oder untersuchen, wie viele Schritte ein Programm braucht.</p>
+<h3 id="bg-junior">Junior-Modus für Klasse 5/6</h3>
+<p>Der Junior-Modus (Umschalter oben) zeigt <b>dasselbe Modell</b> in kindgerechter Form: <b>Kisten A–D</b> statt Registern, <b>bunte Murmeln</b> statt Streichhölzern und <b>Bildkarten</b> statt Kürzeln.</p>
+<table><tr><th>Bildkarte</th><th>Original</th></tr><tr><td>➕ lege 1 in A</td><td><code>inc 1</code></td></tr><tr><td>➖ nimm 1 aus A</td><td><code>dec 1</code></td></tr><tr><td>↪️ springe zu 4</td><td><code>jmp 4</code></td></tr><tr><td>❓ ist A leer?</td><td><code>isz 1</code></td></tr><tr><td>🛑 stopp</td><td><code>stp</code></td></tr></table>
+<p><b>Didaktische Ideen dahinter:</b> Die Murmeln liegen in Fünferreihen (wie im Zehnerfeld), damit Mengen auf einen Blick erfassbar sind. Das Überspringen bei „leer?“ wird als blauer Hüpf-Bogen sichtbar. Programme entstehen durch Ziehen von Karten – Tippfehler sind ausgeschlossen. Im Modus „Ich bin der Computer“ ziehen die Kinder die Murmeln selbst und tippen die nächste Karte an.</p>
+<p><b>Rätsel</b> statt Aufgabenliste: Sie führen die Befehle schrittweise ein (erst ➕ und 🛑, dann ➖, dann Schleifen) und mischen drei Aufgabentypen: <b>bauen</b>, <b>vorhersagen</b> (erst überlegen, dann zuschauen) und <b>Fehler finden</b>. Sterne belohnen kurze Programme.</p>
+<p><b>Brücke zum Original:</b> Der Knopf <b>🔤 echte Befehle</b> blendet unter jeder Karte den Befehl des Know-how-Computers ein. Programme bleiben beim Umschalten erhalten – das Bildkarten-Programm ist im Profi-Modus genau dasselbe Programm.</p>
 <h3 id="bg-sim">Dieser Simulator</h3>
 <p>Know-how Now hält sich an den Befehlssatz des Originals. Zwei Dinge sind bewusst festgelegt: Das Programmblatt darf bis zu ${MAXLINES} Zeilen lang sein, und <code>dec</code> auf ein leeres Register hält das Programm mit einer Erklärung an – auf Papier gibt es schließlich kein „minus ein Streichholz“.</p>
 <h3 id="bg-quellen">Quellen und Links</h3>
@@ -960,6 +1124,138 @@ const LS='khn-state-v1';let saveT;
 function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(LS,JSON.stringify({prog:programText(k.prog),regs:k.regs,startRegs,pc:k.pc,steps:k.steps,speed}))}catch(e){}},400);}
 function restore(){try{const s=JSON.parse(localStorage.getItem(LS));if(!s)return false;k.prog=parseProgram(s.prog||'').prog;startRegs=(s.startRegs||[]).map(v=>+v||0);while(startRegs.length<=NREG)startRegs.push(0);
   k.regs=startRegs.slice();if(s.speed!==undefined)speed=s.speed;try{solved=JSON.parse(localStorage.getItem('khn-solved'))||{}}catch(e){}return true;}catch(e){return false;}}
+
+/* ===== Karten-Palette (Junior) ===== */
+function allowedCards(){return (curLevel!==null&&LEVELS[curLevel].cards)?LEVELS[curLevel].cards:Object.keys(CMDS);}
+function defaultCard(op){return {op,arg:op==='stp'?null:1};}
+function renderPalette(){
+  const p=$('#palette');if(!junior||!editMode){p.innerHTML='';return;}
+  p.innerHTML='<span class="plbl">Karte aufs Blatt ziehen – oder antippen, dann kommt sie ans Ende:</span>'+allowedCards().map(o=>{const J=JCARD[o];return `<span class="pcard" data-op="${o}" style="--c:${J.c};--b:${J.b}"><span class="ic">${J.ic}</span>${J.name}</span>`;}).join('');
+  $$('#palette .pcard').forEach(c=>c.addEventListener('pointerdown',e=>startDrag(e,'card',{op:c.dataset.op})));
+}
+
+/* ===== Ziehen per Hand (Maus und Finger) ===== */
+let drag=null;
+function ghostHTML(kind,data){
+  if(kind==='card'){const J=JCARD[data.op];return `<span class="pcard" style="--c:${J.c};--b:${J.b}"><span class="ic">${J.ic}</span>${J.name}</span>`;}
+  const r=data.r||1;return junior?`<span class="marble" style="--mc:${data.r?KCOL[r]:'#e2552c'}"></span>`:'<span class="stick"></span>';
+}
+function startDrag(e,kind,data){
+  if(e.button!==undefined&&e.button!==0)return;e.preventDefault();
+  if(running)stopRun();
+  const g=document.createElement('div');g.className='dragghost';g.innerHTML=ghostHTML(kind,data);g.style.display='none';document.body.appendChild(g);
+  drag={kind,data,g,x0:e.clientX,y0:e.clientY,moved:false,over:null};
+  document.addEventListener('pointermove',dragMove);document.addEventListener('pointerup',dragEnd);document.addEventListener('pointercancel',dragCancel);
+}
+function dragTarget(x,y){const el=document.elementFromPoint(x,y);if(!el)return null;
+  if(drag.kind==='card'){const lines=el.closest('#paperWrap');return lines?{type:'sheet'}:null;}
+  const reg=el.closest('.reg');if(reg)return{type:'reg',r:+reg.dataset.r,el:reg};
+  if(el.closest('#pot'))return{type:'pot',el:$('#pot')};return null;}
+function dragMove(e){if(!drag)return;
+  if(!drag.moved&&Math.hypot(e.clientX-drag.x0,e.clientY-drag.y0)>6){drag.moved=true;drag.g.style.display='block';}
+  if(!drag.moved)return;drag.g.style.left=e.clientX+'px';drag.g.style.top=e.clientY+'px';
+  $$('.reg.drop,#pot.drop').forEach(x=>x.classList.remove('drop'));$('#dropLine').classList.remove('on');
+  const t=dragTarget(e.clientX,e.clientY);
+  if(t&&t.el&&!(drag.kind==='out'&&t.type==='reg'&&t.r===drag.data.r))t.el.classList.add('drop');
+  if(t&&t.type==='sheet'){const pos=dropPos(e.clientY);const rows=$$('#lines .pl');const dl=$('#dropLine');
+    const y=pos<=rows.length?rows[pos-1].offsetTop:(rows.length?rows[rows.length-1].offsetTop+38:30);dl.style.top=(y-2)+'px';dl.classList.add('on');}
+}
+function dropPos(clientY){const rows=$$('#lines .pl');for(let i=0;i<rows.length;i++){const b=rows[i].getBoundingClientRect();if(clientY<b.top+b.height/2)return i+1;}return rows.length+1;}
+function dragCleanup(){document.removeEventListener('pointermove',dragMove);document.removeEventListener('pointerup',dragEnd);document.removeEventListener('pointercancel',dragCancel);
+  if(drag)drag.g.remove();$$('.reg.drop,#pot.drop').forEach(x=>x.classList.remove('drop'));$('#dropLine').classList.remove('on');}
+function dragCancel(){dragCleanup();drag=null;}
+function dragEnd(e){const d=drag;if(!d)return;dragCleanup();drag=null;
+  if(!d.moved){if(d.kind==='card'){insertLineAt(k.lines()+1,defaultCard(d.data.op));scrollToLine(k.lines());}return;}
+  const t=(()=>{drag=d;const x=dragTarget(e.clientX,e.clientY);drag=null;return x;})();
+  if(d.kind==='card'){if(t&&t.type==='sheet')insertLineAt(dropPos(e.clientY),defaultCard(d.data.op));return;}
+  if(d.kind==='in'){if(t&&t.type==='reg')regClick(t.r,1);return;}
+  if(d.kind==='out'){if(t&&t.type==='reg'&&t.r===d.data.r)return;regClick(d.data.r,-1);
+    if(t&&t.type==='reg'&&!proc)regClick(t.r,1);}
+}
+function renderPot(){
+  $('#potIc').innerHTML=junior?'<span style="font-size:32px">🧺</span>':'<svg width="56" height="38" viewBox="0 0 56 38"><rect x="2" y="8" width="52" height="28" rx="4" fill="#c0392b"/><rect x="2" y="8" width="52" height="9" rx="3" fill="#e9b66b"/><rect x="8" y="2" width="4" height="16" rx="1" fill="#f2cc8a"/><ellipse cx="10" cy="3" rx="3" ry="3.5" fill="#d63a1b"/><rect x="15" y="1" width="4" height="16" rx="1" fill="#f2cc8a"/><ellipse cx="17" cy="2" rx="3" ry="3.5" fill="#d63a1b"/><text x="28" y="31" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">KNOW-HOW</text></svg>';
+  $('#potTxt').innerHTML=junior?'<b>Murmel-Topf</b> – zieh eine Murmel in eine Kiste. Zum Herausnehmen zieh eine Murmel aus der Kiste hierher.':'<b>Streichholzschachtel</b> – zieh ein Streichholz in ein Register. Zum Herausnehmen zieh es aus dem Register zurück.';
+}
+function showHop(line){const r=document.querySelector(`#lines .pl[data-l="${line+1}"]`);if(!r)return;const h=document.createElement('span');h.className='hop';h.textContent='hüpf! ↷';h.style.top=(r.offsetTop+8)+'px';$('#paper').appendChild(h);setTimeout(()=>h.remove(),950);}
+
+/* ===== Umschalten Junior / Profi ===== */
+function setJunior(on,quiet){
+  junior=on;document.body.classList.toggle('junior',on);try{localStorage.setItem('khn-junior',on?'1':'0')}catch(e){}
+  $$('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.m===(on?'junior':'profi')));
+  if(!on&&curLevel!==null)endLevel(true);
+  $('#progTitle').textContent=on?'Programm-Karten':'Programmblatt';$('#regTitle').textContent=on?'Kisten':'Register';
+  $('#regHint').textContent=on?'Jede Murmel zählt 1':'Jedes Streichholz zählt 1';$('#phead').textContent=on?'Mein Programm':'Programm';
+  $('#btnTasks').innerHTML=on?'⭐<span class="t"> Rätsel</span>':'✅<span class="t"> Aufgaben</span>';$('#btnTasks').title=on?'Rätsel':'Aufgaben';
+  $('#tabBtnSheet').textContent=on?'Karten':'Blatt';
+  const nav=$$('#phoneNav button');nav[0].innerHTML=`<span class="i">📝</span>${on?'Karten':'Programm'}`;nav[1].innerHTML=`<span class="i">${on?'🧺':'🔥'}</span>${on?'Kisten':'Register'}`;
+  renderPot();renderPalette();renderSheet();renderRegs();renderCmdRef();renderTourMenu();render();
+  if(!quiet)toast(on?'Junior-Modus: Kisten, Murmeln und Bildkarten 🧒':'Profi-Modus: der originale Know-how-Computer 🎓');
+  emit(on?'junior-on':'profi-on');
+}
+
+/* ===== Rätsel (Junior) ===== */
+const ALL=['inc','dec','jmp','isz','stp'];
+const LEVELS=[
+ {t:'Drei Murmeln',kind:'build',story:'Kiste A ist leer. Leg Karten so aufs Blatt, dass am Ende genau 3 Murmeln in Kiste A liegen.',cards:['inc','stp'],start:{},tests:[[{},{1:3}]],best:4},
+ {t:'Umziehen',kind:'build',story:'In Kiste A liegen 2 Murmeln. Bring beide in Kiste B. Am Ende soll A leer sein.',cards:['inc','dec','stp'],start:{1:2},tests:[[{1:2},{1:0,2:2}]],best:5},
+ {t:'Was passiert hier?',kind:'predict',story:'Schau dir die Karten genau an – ohne auf „Los!“ zu drücken. Wie viele Murmeln liegen am Ende in Kiste A und in Kiste B?',start:{1:3},prog:'inc 2\ninc 2\ndec 1\ninc 2\nstp',ask:[1,2]},
+ {t:'Die Schleife',kind:'predict',story:'Hier gibt es zwei neue Karten: „ist A leer?“ und „springe“. Was passiert mit den Murmeln in Kiste A? Wie viele sind am Ende noch drin?',start:{1:4},prog:'isz 1\njmp 4\nstp\ndec 1\njmp 1',ask:[1]},
+ {t:'Ausleeren',kind:'build',story:'Mach Kiste A leer – egal, wie viele Murmeln drin sind! Tipp: Schau dir das letzte Rätsel noch einmal an.',cards:ALL,start:{1:3},tests:[[{1:3},{1:0}],[{1:0},{1:0}],[{1:7},{1:0}]],best:5},
+ {t:'Fehler finden',kind:'fix',story:'Dieses Programm soll alle Murmeln von A nach B bringen. Aber es hört nie auf! Finde den Fehler und reparier ihn.',cards:ALL,start:{1:3},prog:'isz 1\njmp 4\nstp\ndec 1\ninc 1\njmp 1',tests:[[{1:3},{1:0,2:3}],[{1:0},{1:0,2:0}],[{1:5},{1:0,2:5}]],best:6},
+ {t:'Alles umfüllen',kind:'build',story:'Bring ALLE Murmeln von Kiste A in Kiste B – egal, wie viele es sind.',cards:ALL,start:{1:4},tests:[[{1:4},{1:0,2:4}],[{1:0},{1:0,2:0}],[{1:6},{1:0,2:6}]],best:6},
+ {t:'Verdoppeln',kind:'build',story:'Kiste B soll am Ende doppelt so viele Murmeln haben, wie am Anfang in Kiste A waren.',cards:ALL,start:{1:3},tests:[[{1:3},{2:6}],[{1:0},{2:0}],[{1:5},{2:10}]],best:7},
+ {t:'Wie viele sind es zusammen?',kind:'predict',story:'Dieses Programm kennst du vielleicht schon. Was steht am Ende in Kiste A?',start:{1:2,2:3},prog:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1',ask:[1,2]},
+ {t:'Zusammenzählen',kind:'build',story:'Jetzt du: Leg alle Murmeln aus Kiste B zu Kiste A. Am Ende sollen in A so viele sein wie vorher in A und B zusammen.',cards:ALL,start:{1:2,2:3},tests:[[{1:2,2:3},{1:5}],[{1:0,2:4},{1:4}],[{1:3,2:0},{1:3}]],best:6}
+];
+let curLevel=null,stars={},pendingPredict=null,predictTries=0,lastGuess={};
+const starStr=n=>`<span class="stars">${[1,2,3].map(i=>i<=n?'★':'<span class="off">★</span>').join('')}</span>`;
+function renderLevelList(){
+  $('#levelList').innerHTML=LEVELS.map((L,i)=>`<div class="item lvitem" data-lv="${i}"><div class="kk">${i+1}</div><div class="grow"><div class="t">${esc(L.t)}<span class="tag">${{build:'🧱 bauen',predict:'🔮 vorhersagen',fix:'🔧 reparieren'}[L.kind]}</span></div><div class="d">${esc(L.story)}</div></div>${starStr(stars[i]||0)}</div>`).join('');
+  $$('#levelList .lvitem').forEach(e=>e.onclick=()=>startLevel(+e.dataset.lv));
+}
+function startLevel(i){
+  closeModal('mLevels');if(proc)setProc(false);stopRun();curLevel=i;predictTries=0;lastGuess={};pendingPredict=null;const L=LEVELS[i];
+  k.prog=parseProgram(L.prog||'').prog;startRegs=new Array(NREG+1).fill(0);for(const r in L.start)startRegs[r]=L.start[r];
+  textDirty=false;progChanged();doReset(true);
+  setEdit(L.kind!=='predict');showTab('tabSheet');renderLevelBar();showPanel(L.kind==='predict'?'progPanel':'regPanel');
+  setNow('⭐','Rätsel '+(i+1)+': '+esc(L.t));emit('level-start',i);
+}
+function endLevel(quiet){curLevel=null;pendingPredict=null;$('#levelBar').hidden=true;renderPalette();if(!quiet)toast('Rätsel beendet');}
+function renderLevelBar(res){
+  const bar=$('#levelBar');if(curLevel===null){bar.hidden=true;return;}const L=LEVELS[curLevel];bar.hidden=false;
+  let body='';
+  if(L.kind==='predict')body=`<div class="pred">${L.ask.map(r=>`${kchip(r)} <input type="number" min="0" max="99" id="pr${r}" value="${lastGuess[r]??''}" aria-label="Murmeln in Kiste ${LET(r)}">`).join('')}<button class="btn primary" id="lvCheck">🔮 Prüfen &amp; zuschauen</button></div>`;
+  else body=`<div class="lv-row"><span class="lv-cards">Karten: ${L.cards.map(o=>`<span title="${JCARD[o].name}">${JCARD[o].ic}</span>`).join('')}</span><span style="font-size:12px;color:var(--muted)">⭐⭐⭐ mit höchstens ${L.best} Karten</span><button class="btn primary" id="lvCheck" style="margin-left:auto">✓ Prüfen</button></div>`;
+  bar.innerHTML=`<div class="lv-top"><b>⭐ Rätsel ${curLevel+1}: ${esc(L.t)}</b>${starStr(stars[curLevel]||0)}<button class="xbtn" id="lvX" title="Rätsel beenden">×</button></div><p>${esc(L.story)}</p>${body}${res?`<div class="lvres ${res.ok?'ok':'bad'}">${res.html}</div>`:''}<div style="margin-top:6px;display:flex;gap:6px"><button class="btn small ghost" id="lvList">📋 alle Rätsel</button>${curLevel<LEVELS.length-1?'<button class="btn small ghost" id="lvNext">nächstes Rätsel →</button>':''}</div>`;
+  $('#lvX').onclick=()=>endLevel();$('#lvCheck').onclick=checkLevel;$('#lvList').onclick=()=>{renderLevelList();openModal('mLevels');};
+  if($('#lvNext'))$('#lvNext').onclick=()=>startLevel(curLevel+1);
+}
+function giveStars(n){const i=curLevel;if(n>(stars[i]||0)){stars[i]=n;try{localStorage.setItem('khn-stars',JSON.stringify(stars))}catch(e){}}confetti();}
+function confetti(){const em=['⭐','🎉','✨','🟠','🔵','🟢'];for(let i=0;i<18;i++){const s=document.createElement('span');s.className='confetti';s.textContent=em[i%em.length];
+  s.style.left=(innerWidth/2+(Math.random()-.5)*120)+'px';s.style.top=(innerHeight/2)+'px';s.style.setProperty('--dx',((Math.random()-.5)*innerWidth*.8)+'px');s.style.setProperty('--dy',(-Math.random()*innerHeight*.5-60)+'px');s.style.setProperty('--rot',(Math.random()*720-360)+'deg');document.body.appendChild(s);setTimeout(()=>s.remove(),1500);}}
+function checkLevel(){
+  const L=LEVELS[curLevel];
+  if(L.kind==='predict'){
+    const guess={};for(const r of L.ask){const v=$('#pr'+r).value;if(v===''){toast('Trag erst für jede Kiste eine Zahl ein.','bad');return;}guess[r]=+v;}
+    predictTries++;lastGuess=guess;pendingPredict={guess};doReset(true);if(speed<3){speed=3;$('#speed').value=3;$('#speedLbl').textContent=SPEEDS[3].l;}
+    showPanel('regPanel');startRun();return;}
+  if(!k.lines()){renderLevelBar({ok:false,html:'Leg zuerst Karten aufs Blatt.'});return;}
+  for(let i=1;i<=k.lines();i++)if(!L.cards.includes(k.prog[i].op)){renderLevelBar({ok:false,html:'In diesem Rätsel ist die Karte '+JCARD[k.prog[i].op].ic+' „'+JCARD[k.prog[i].op].name+'“ nicht erlaubt.'});return;}
+  for(const [inp,exp] of L.tests){const regs=new Array(NREG+1).fill(0);for(const r in inp)regs[r]=inp[r];
+    const x=runHeadless(k.prog,regs,20000);
+    const start=Object.entries(inp).map(([r,v])=>LET(+r)+' = '+v).join(', ')||'allen Kisten leer';
+    if(!x.ok){renderLevelBar({ok:false,html:(x.timeout?'Dein Programm hört nicht auf – es läuft immer weiter im Kreis.':'Hoppla: '+esc(errText({...x.k.last,msg:x.error})))+' (Start mit '+start+')'});return;}
+    for(const r in exp)if(x.k.regs[r]!==exp[r]){renderLevelBar({ok:false,html:`Noch nicht ganz: Mit ${start} am Anfang ${x.k.regs[r]===1?'ist':'sind'} am Ende <b>${x.k.regs[r]}</b> in ${kchip(+r)} – es ${exp[r]===1?'sollte':'sollten'} aber <b>${exp[r]}</b> sein.`});return;}}
+  const n=k.lines(),s=n<=L.best?3:n<=L.best+2?2:1;giveStars(s);
+  renderLevelBar({ok:true,html:`🎉 Geschafft! ${starStr(s)} mit ${n} Karten.${s<3?' Schaffst du es mit höchstens '+L.best+' Karten?':''}`});emit('level-solved',curLevel);
+}
+function finishPredict(){
+  const L=LEVELS[curLevel],g=pendingPredict.guess;pendingPredict=null;let ok=true;const parts=[];
+  for(const r of L.ask){const a=k.regs[r];if(a!==g[r])ok=false;parts.push(`${kchip(r)} ${a} (du: ${g[r]}) ${a===g[r]?'✓':'✗'}`);}
+  if(k.error)ok=false;
+  if(ok){const s=predictTries===1?3:2;giveStars(s);renderLevelBar({ok:true,html:`🎉 Richtig vorhergesagt! ${starStr(s)}<br>${parts.join(' · ')}`});emit('level-solved',curLevel);}
+  else renderLevelBar({ok:false,html:`Nicht ganz: ${parts.join(' · ')}<br>Schau mit „Zurück“ oder „Schritt“ genau nach, was passiert – und versuch es nochmal.`});
+}
 
 /* ===== Ansicht ===== */
 let layPref='auto',layNow=null,phonePanel='regPanel';
@@ -1018,10 +1314,33 @@ const TOURS=[
   {sel:'#lines',title:'Zeilen ändern',html:'<p><b>＋</b> fügt darunter eine neue Zeile ein, <b>✕</b> löscht eine Zeile. Sprungziele (<code>jmp</code>) werden dabei automatisch angepasst – praktisch!</p>'},
   {sel:'#btnEdit',title:'Fertig',html:'<p>Mit <b>Fertig</b> siehst du wieder das Programmblatt mit Stift und Sprungpfeilen.</p>',wait:W('edit-off','Klicke auf „Fertig“.')},
   {sel:'#tabBtnText',title:'Oder einfach tippen',html:'<p>Im Reiter <b>Programmtext</b> schreibst du das Programm wie auf Papier: eine Zeile pro Befehl, z. B. <code>isz 2</code>. Mit „Aufs Programmblatt übernehmen“ wird es geprüft und übernommen.</p>'},
-  {sel:'#btnTasks',title:'Aufgaben',html:'<p>Unter <b>Aufgaben</b> warten acht Aufträge – von „Register leeren“ bis „Vergleichen“. Dein Programm wird automatisch mit verschiedenen Startwerten getestet.</p><p>Viel Spaß! 🔥</p>'}]}
+  {sel:'#btnTasks',title:'Aufgaben',html:'<p>Unter <b>Aufgaben</b> warten acht Aufträge – von „Register leeren“ bis „Vergleichen“. Dein Programm wird automatisch mit verschiedenen Startwerten getestet.</p><p>Viel Spaß! 🔥</p>'}]},
+ {id:'jhello',mode:'junior',title:'Hallo, Murmel-Computer!',d:'Kisten, Murmeln, Karten und der Stift – alles, was du wissen musst.',min:4,steps:[
+  {before:()=>{if(proc)setProc(false);if(curLevel!==null)endLevel(true);loadExample('copyAB',true);showTab('tabSheet');},title:'Hallo! 👋',html:'<p>Das ist ein <b>Computer</b>, der mit <b>Murmeln</b> rechnet.</p><p>Du legst <b>Karten</b> hin – und der Computer macht genau das, was auf den Karten steht. Nicht mehr und nicht weniger!</p>'},
+  {sel:'#regs',title:'Die Kisten',html:'<p>Das sind die Kisten <b>A</b>, <b>B</b>, <b>C</b> und <b>D</b>. In ihnen liegen Murmeln. Die Zahl oben zeigt, wie viele.</p><p>Je fünf Murmeln liegen in einer Reihe – so kannst du schnell zählen.</p>'},
+  {sel:'#pot',title:'Der Murmel-Topf',html:'<p>Aus dem Topf kannst du Murmeln in eine Kiste ziehen – mit dem Finger oder der Maus.</p>',wait:W('reg-set','Zieh eine Murmel aus dem Topf in Kiste A.',p=>p&&p.r===1)},
+  {sel:'#progPanel',title:'Die Karten',html:'<p>Hier liegt das <b>Programm</b>: Karten, eine unter der anderen. Es gibt nur fünf Sorten:</p><p>➕ <b>lege</b> · ➖ <b>nimm</b> · ↪️ <b>springe</b> · ❓ <b>leer?</b> · 🛑 <b>stopp</b></p>'},
+  {sel:'#pen',title:'Der Stift',html:'<p>Der <b>Stift</b> zeigt, welche Karte gerade dran ist. Der Computer geht die Karten von oben nach unten durch – außer eine Karte sagt etwas anderes.</p>'},
+  {sel:'#btnStep',title:'Ein Schritt',html:'<p>Mit <b>Schritt</b> macht der Computer genau eine Karte. Rechts unter „Gerade passiert“ steht, was er gemacht hat.</p>',wait:W('step','Tippe auf „Schritt“.')},
+  {sel:'#jumps',title:'Hüpfen und Springen',html:'<p>❓ <b>„ist A leer?“</b> schaut in die Kiste. Ist sie leer, <b>hüpft</b> der Stift über die nächste Karte (blauer Bogen). Sonst geht es normal weiter.</p><p>↪️ <b>„springe“</b> schickt den Stift zu einer anderen Karte (Bogen am Rand). So wiederholt der Computer etwas – eine <b>Schleife</b>!</p>'},
+  {sel:'#btnRun',title:'Los!',html:'<p>Mit <b>Los!</b> läuft das ganze Programm. Schau zu, wie die Murmeln von A nach B wandern.</p>',wait:W('halted','Tippe auf „Los!“ und warte bis zur Stopp-Karte.')},
+  {sel:'#btnTasks',title:'Jetzt du! ⭐',html:'<p>Unter <b>Rätsel</b> warten Aufgaben: Murmeln umfüllen, vorhersagen, Fehler finden … Für jedes Rätsel gibt es Sterne.</p><p>Oder probier <b>„Ich bin der Computer“</b>: Dann bist du selbst der Computer!</p>'}]},
+ {id:'jproc',mode:'junior',title:'Ich bin der Computer',d:'Du schiebst die Murmeln und den Stift selbst – der Computer passt auf, ob alles stimmt.',min:5,steps:[
+  {before:()=>{if(proc)setProc(false);if(curLevel!==null)endLevel(true);loadExample('copyAB',true);startRegs[1]=2;doReset(true);showTab('tabSheet');},title:'Jetzt bist du der Computer!',html:'<p>In Kiste A liegen 2 Murmeln. Das Programm soll sie nach B bringen – und <b>du</b> machst jeden Schritt selbst.</p>'},
+  {sel:'#procToggle',title:'Schalter an',html:'<p>Dann bewegt sich nichts mehr von allein.</p>',wait:W('proc-on','Schalte „Ich bin der Computer“ ein.')},
+  {sel:'#progPanel',title:'Karte 1: ist A leer?',html:'<p>Schau in Kiste A: Da sind 2 Murmeln – also <b>nicht leer</b>. Dann geht es ganz normal zur nächsten Karte.</p>',wait:W('proc-step','Tippe auf Karte 2.',()=>k.pc===2)},
+  {sel:'#progPanel',title:'Karte 2: springe zu 4',html:'<p>Der Stift springt.</p>',wait:W('proc-step','Tippe auf Karte 4.',()=>k.pc===4)},
+  {sel:'#reg1',title:'Karte 4: nimm 1 aus A',html:'<p>Zieh eine Murmel aus Kiste A heraus – zurück in den Topf.</p>',wait:W('proc-reg','Zieh eine Murmel aus Kiste A in den Topf.')},
+  {sel:'#progPanel',title:'Stift weiter',html:'<p>Danach geht es mit der nächsten Karte weiter.</p>',wait:W('proc-step','Tippe auf Karte 5.',()=>k.pc===5)},
+  {sel:'#pot',title:'Karte 5: lege 1 in B',html:'<p>Jetzt eine Murmel aus dem Topf in Kiste B ziehen – und dann auf Karte 6 tippen.</p>',wait:W('proc-step','Murmel in Kiste B ziehen, dann auf Karte 6 tippen.',()=>k.pc===6)},
+  {sel:'#progPanel',title:'Karte 6: springe zu 1',html:'<p>Zurück zum Anfang – das ist die Schleife!</p>',wait:W('proc-step','Tippe auf Karte 1.',()=>k.pc===1)},
+  {sel:'main',pos:'corner',title:'Mach allein weiter!',html:'<p>Jetzt kennst du alles. Mach weiter, bis du bei der Stopp-Karte 🛑 bist. Aufgepasst bei <b>„ist A leer?“</b>: Wenn A leer ist, hüpft der Stift!</p><p>Kein Plan? Tippe rechts auf <b>💡 Tipp</b>.</p>',wait:W('halted','Mach weiter bis zur Stopp-Karte.')},
+  {sel:'#infoPanel',title:'Super gemacht! 🎉',html:'<p>Alle Murmeln sind in Kiste B. Du hast gearbeitet wie ein echter Computer: Karte lesen, machen, weiter – Schritt für Schritt.</p>'}]}
 ];
 let tour=null,tourIv=null;
-function renderTourMenu(){$('#tourList').innerHTML=TOURS.map((t,i)=>`<div class="item" data-t="${t.id}"><div class="kk">${i+1}</div><div class="grow"><div class="t">${esc(t.title)}</div><div class="d">${esc(t.d)}</div></div><span class="tag">ca. ${t.min} Min.</span></div>`).join('');$$('#tourList .item').forEach(e=>e.onclick=()=>startTour(e.dataset.t));}
+function renderTourMenu(){const list=TOURS.filter(t=>(t.mode||'profi')===(junior?'junior':'profi'));
+  $('#tourList').innerHTML=list.map((t,i)=>`<div class="item" data-t="${t.id}"><div class="kk">${i+1}</div><div class="grow"><div class="t">${esc(t.title)}</div><div class="d">${esc(t.d)}</div></div><span class="tag">ca. ${t.min} Min.</span></div>`).join('')+`<p class="infobox" style="margin:8px 0 0">Die Tour für den ${junior?'Profi':'Junior'}-Modus erscheint, wenn du oben auf „${junior?'🎓 Profi':'🧒 Junior'}“ umschaltest.</p>`;
+  $$('#tourList .item').forEach(e=>e.onclick=()=>startTour(e.dataset.t));}
 function startTour(id){closeAllModals();stopRun();tour={t:TOURS.find(x=>x.id===id),i:0,done:false};tourShow();clearInterval(tourIv);tourIv=setInterval(tourPlace,350);}
 function endTour(){tour=null;clearInterval(tourIv);$('#tourSpot').style.display='none';$('#tourCard').style.display='none';}
 async function tourShow(){const st=tour.t.steps[tour.i];tour.done=!st.wait;if(st.before){try{await st.before();}catch(e){console.error(e)}}
@@ -1036,6 +1355,7 @@ function tourPlace(){if(!tour)return;const st=tour.t.steps[tour.i],spot=$('#tour
   const el=st.sel&&$(st.sel);spot.style.display='block';
   if(!el||!el.getClientRects().length){spot.classList.add('center');spot.style.left=vw/2+'px';spot.style.top=vh/2+'px';c.style.left=(vw-cw)/2+'px';c.style.top=Math.max(12,(vh-ch)/2)+'px';return;}
   spot.classList.remove('center');const r=el.getBoundingClientRect(),p=6;Object.assign(spot.style,{left:r.left-p+'px',top:r.top-p+'px',width:r.width+2*p+'px',height:r.height+2*p+'px'});
+  if(st.pos==='corner'){c.style.left=(vw-cw-14)+'px';c.style.top=(vh-ch-14)+'px';return;}
   const cy=y=>Math.max(10,Math.min(vh-ch-10,y)),cx=x=>Math.max(10,Math.min(vw-cw-10,x));
   const cands=[[r.right+g,cy(r.top),r.right+g+cw<=vw-8],[r.left-g-cw,cy(r.top),r.left-g-cw>=8],[cx(r.left),r.bottom+g,r.bottom+g+ch<=vh-8],[cx(r.left),r.top-g-ch,r.top-g-ch>=8]];
   const ok=cands.find(x=>x[2]);let x,y;if(ok){x=ok[0];y=ok[1];}else{x=vw-cw-14;y=vh-ch-14;}c.style.left=x+'px';c.style.top=y+'px';}
@@ -1047,9 +1367,13 @@ function init(){
   $('#btnView').onclick=()=>{renderViewList();openModal('mView');};
   $$('#phoneNav button').forEach(b=>b.onclick=()=>showPanel(b.dataset.p));$('#miniMore').onclick=()=>showPanel('infoPanel');
   buildRegs();renderCmdRef();
+  try{junior=localStorage.getItem('khn-junior')==='1';stars=JSON.parse(localStorage.getItem('khn-stars'))||{};}catch(e){}
+  $$('#modeSeg button').forEach(b=>b.onclick=()=>setJunior(b.dataset.m==='junior'));
+  $('#pot').addEventListener('pointerdown',e=>startDrag(e,'in',{}));
+  $('#btnReal').onclick=()=>{showReal=!showReal;$('#btnReal').classList.toggle('on',showReal);renderSheet();renderCmdRef();};
   const had=restore();if(!had||!k.lines()){loadExample('add',true);}else{progChanged();}
   $('#speed').value=speed;$('#speedLbl').textContent=SPEEDS[speed].l;
-  renderRegs();renderExamples();renderTasks();renderBg();renderTourMenu();render();
+  setJunior(junior,true);renderExamples();renderTasks();renderBg();renderLevelList();render();
   $('#btnStep').onclick=stepClick;$('#btnRun').onclick=()=>running?stopRun():startRun();$('#btnUndo').onclick=doUndo;$('#btnReset').onclick=()=>doReset();
   $('#speed').oninput=e=>{speed=+e.target.value;$('#speedLbl').textContent=SPEEDS[speed].l;save();};
   $('#proc').onchange=e=>setProc(e.target.checked);
@@ -1060,14 +1384,14 @@ function init(){
   $('#progText').oninput=()=>{textDirty=true;};
   $('#progText').onkeydown=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();applyText();}};
   $('#btnApplyText').onclick=applyText;$('#btnFromSheet').onclick=()=>{textDirty=false;$('#progText').value=programText(k.prog);$('#asmMsg').innerHTML='';};
-  $('#btnExamples').onclick=()=>openModal('mExamples');$('#btnTasks').onclick=()=>openModal('mTasks');$('#btnBg').onclick=()=>openModal('mBg');$('#btnFile').onclick=()=>openModal('mFile');$('#btnTour').onclick=()=>openModal('mTour');
+  $('#btnExamples').onclick=()=>openModal('mExamples');$('#btnTasks').onclick=()=>{if(junior){renderLevelList();openModal('mLevels');}else openModal('mTasks');};$('#btnBg').onclick=()=>openModal('mBg');$('#btnFile').onclick=()=>openModal('mFile');$('#btnTour').onclick=()=>openModal('mTour');
   $$('[data-close]').forEach(b=>b.onclick=()=>b.closest('.modal-bg').classList.remove('on'));
   $$('.modal-bg').forEach(bg=>bg.addEventListener('mousedown',e=>{if(e.target===bg&&bg.id!=='mConfirm')bg.classList.remove('on');}));
   $('#fileExport').onclick=()=>{closeModal('mFile');openExport('programm.txt',programText(k.prog));};
   $('#fileImport').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const r=parseProgram(String(rd.result));const hard=r.errors.filter(x=>!x.warn);
     if(hard.length){toast('Die Datei enthält Fehler: '+hard[0].msg,'bad');}else{k.prog=r.prog;textDirty=false;progChanged();closeModal('mFile');toast('„'+f.name+'“ geladen ✓','ok');}e.target.value='';};rd.readAsText(f);};
   $('#btnPrint').onclick=printSheet;
-  $('#wcTour').onclick=()=>{closeModal('mWelcome');startTour('intro');};$('#wcGo').onclick=()=>closeModal('mWelcome');
+  $('#wcTour').onclick=()=>{closeModal('mWelcome');startTour(junior?'jhello':'intro');};$('#wcJunior').onclick=()=>{closeModal('mWelcome');setJunior(true);startTour('jhello');};$('#wcGo').onclick=()=>closeModal('mWelcome');
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){if($('.modal-bg.on')&&!$('#mConfirm.on')){closeAllModals();return;}if(tour){endTour();return;}}
     if(e.target.closest('input,textarea,select')||$('.modal-bg.on'))return;
