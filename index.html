@@ -434,6 +434,12 @@ body.lay-phone .ls-head{flex-direction:row;align-items:center;gap:8px}
 body.lay-phone .ls-story{font-size:14px}
 body.lay-phone .ls-act{justify-content:flex-start}
 
+.pl.edit .argsel{font-family:var(--mono);font-size:14px}
+body:not(.junior) .pl.edit .argsel.reg{width:62px}
+body:not(.junior) .pl.edit .argsel.line{width:92px}
+body.junior .pl.edit .argsel.line{width:96px}
+.pl.edit .noarg{display:inline-block;width:62px;text-align:center;color:#b8ab8f}
+
 </style>
 </head>
 <body>
@@ -775,22 +781,20 @@ function renderSheet(){
       const ops=Object.keys(CMDS).filter(o=>!junior||allowedCards().includes(o)||o===L.op);
       const opSel=`<select class="opsel" data-i="${i}" aria-label="Befehl ${i}">${ops.map(o=>`<option value="${o}" ${o===L.op?'selected':''}>${junior?JCARD[o].ic+' '+JCARD[o].name:o}</option>`).join('')}</select>`;
       let arg='';
-      if(junior&&CMDS[L.op].arg){const opts=CMDS[L.op].arg==='reg'?[...new Set([1,2,3,4,L.arg])].map(r=>[r,LET(r)]):Array.from({length:Math.max(n,L.arg)},(_,j)=>[j+1,'Karte '+(j+1)]);
-        arg=`<select class="argsel" data-a="${i}" aria-label="Wert ${i}">${opts.map(([v,t])=>`<option value="${v}" ${v===L.arg?'selected':''}>${t}</option>`).join('')}</select>`;}
-      else if(!junior)arg=`<input data-i="${i}" inputmode="numeric" value="${L.arg??''}" ${L.op==='stp'?'disabled placeholder="–"':''} aria-label="Zahl Zeile ${i}" title="${CMDS[L.op].arg==='reg'?'Registernummer 1–8':'Zeilennummer'}">`;
+      if(CMDS[L.op].arg){const isReg=CMDS[L.op].arg==='reg';
+        const opts=isReg?(junior?[...new Set([1,2,3,4,L.arg])].sort((x,y)=>x-y).map(r=>[r,LET(r)]):Array.from({length:NREG},(_,j)=>[j+1,'R'+(j+1)]))
+                        :Array.from({length:Math.max(n,L.arg)},(_,j)=>[j+1,(junior?'Karte ':'Zeile ')+(j+1)]);
+        arg=`<select class="argsel ${isReg?'reg':'line'}" data-a="${i}" aria-label="${isReg?(junior?'Kiste':'Register'):(junior?'Karte':'Zeile')} für ${V.line()} ${i}" title="${isReg?(junior?'Welche Kiste?':'Welches Register?'):(junior?'Zu welcher Karte springen?':'Zu welcher Zeile springen?')}">${opts.map(([v,t])=>`<option value="${v}" ${v===L.arg?'selected':''}>${t}</option>`).join('')}</select>`;}
+      else arg=`<span class="noarg" title="stp braucht keine Angabe">–</span>`;
       h+=`<div class="pl edit" data-l="${i}" style="--c:${JCARD[L.op].c};--b:${JCARD[L.op].b}"><span class="no">${i}</span>${opSel}${arg}<span class="grow"></span><button class="ib" data-ins="${i}" title="Neue ${V.line()} darunter einfügen">＋</button><button class="ib" data-del="${i}" title="${V.line()} löschen">✕</button></div>`;
     }else if(junior)h+=`<div class="pl jc" data-l="${i}"><span class="no">${i}</span>${cardHTML(L)}${showReal?`<span class="real">${L.op}${L.arg!==null?' '+L.arg:''}</span>`:''}</div>`;
     else h+=`<div class="pl" data-l="${i}"><span class="no">${i}</span><span class="cmd">${L.op}</span><span class="arg">${L.arg??''}</span><span class="hint">${esc(lineHint(L))}</span></div>`;}
   box.innerHTML=h;
   $('#lineCount').textContent=n?n+' '+(junior?(n===1?'Karte':'Karten'):(n===1?'Zeile':'Zeilen')):'';
   if(editMode){
-    $$('#lines .opsel').forEach(s=>s.onchange=()=>{const i=+s.dataset.i,L=k.prog[i];L.op=s.value;
-      if(CMDS[L.op].arg===null)L.arg=null;else if(L.arg===null||L.arg===undefined)L.arg=1;else if(CMDS[L.op].arg==='reg'&&L.arg>NREG)L.arg=1;progChanged(true);});
+    $$('#lines .opsel').forEach(s=>s.onchange=()=>{const i=+s.dataset.i,L=k.prog[i];const was=CMDS[L.op].arg;L.op=s.value;const now=CMDS[L.op].arg;
+      if(now===null)L.arg=null;else if(now!==was||L.arg===null||L.arg===undefined)L.arg=1;progChanged(true);});
     $$('#lines .argsel').forEach(s=>s.onchange=()=>{k.prog[+s.dataset.a].arg=+s.value;progChanged(true);});
-    $$('#lines input').forEach(inp=>inp.onchange=()=>{const i=+inp.dataset.i,L=k.prog[i];let v=parseInt(inp.value);
-      if(isNaN(v)||v<1){toast('Bitte eine Zahl ab 1 eingeben.','bad');inp.value=L.arg;return;}
-      if(CMDS[L.op].arg==='reg'&&v>NREG){toast('Register gibt es nur von 1 bis '+NREG+'.','bad');inp.value=L.arg;return;}
-      L.arg=v;progChanged(true);});
     $$('#lines [data-ins]').forEach(b=>b.onclick=()=>insertLine(+b.dataset.ins));
     $$('#lines [data-del]').forEach(b=>b.onclick=()=>deleteLine(+b.dataset.del));
   }else $$('#lines .pl').forEach(r=>r.onclick=()=>lineClick(+r.dataset.l));
