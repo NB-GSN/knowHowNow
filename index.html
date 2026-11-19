@@ -412,6 +412,28 @@ body.lay-phone .marble{width:12px;height:12px}
 body.lay-phone #toast{bottom:88px}
 body.lay-phone.junior .reg .rv{font-size:22px}
 
+/* Feste Auftragsleiste */
+.levelbar{position:sticky;top:0;z-index:35;margin:10px 12px 0;padding:9px 12px;border:2px solid #f4b8a3;border-radius:14px;background:linear-gradient(#fff8f2,#fffdfb);box-shadow:0 6px 16px rgba(120,60,20,.12)}
+.ls-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.ls-head{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+.ls-no{font-weight:800;font-size:15px;color:var(--fire-d);white-space:nowrap}
+.ls-story{font-size:15px;line-height:1.4}
+.ls-goal{display:inline-block;font-size:12px;color:var(--muted);margin-left:4px;white-space:nowrap}
+.ls-act{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.ls-act .xbtn{margin-left:2px}
+.levelbar .pred{gap:6px}
+.levelbar .pred input{width:52px}
+.levelbar .lvres{margin-top:8px}
+body.lay-pc{display:flex;flex-direction:column;height:100vh}
+body.lay-pc main{flex:1 1 auto;height:auto;min-height:0}
+body.lay-pc footer{flex:none}
+body.lay-tablet .levelbar{max-width:1176px;margin-left:auto;margin-right:auto}
+body.lay-phone .levelbar{margin:6px 8px 0;padding:8px 10px}
+body.lay-phone .ls-row{grid-template-columns:1fr;gap:6px}
+body.lay-phone .ls-head{flex-direction:row;align-items:center;gap:8px}
+body.lay-phone .ls-story{font-size:14px}
+body.lay-phone .ls-act{justify-content:flex-start}
+
 </style>
 </head>
 <body>
@@ -430,6 +452,7 @@ body.lay-phone.junior .reg .rv{font-size:22px}
   <button class="hbtn tour" id="btnTour" title="Tour">🎓<span class="t"> Tour</span></button>
   <button class="hbtn view" id="btnView" title="Ansicht wählen: PC, Tablet oder Handy">📐<span> Ansicht</span></button>
 </header>
+<div class="levelbar" id="levelBar" hidden></div>
 
 <main>
   <section class="panel" id="progPanel">
@@ -473,7 +496,7 @@ jmp 1</pre>
 
   <section class="panel" id="regPanel">
     <div class="ptitle"><span class="dot" style="background:var(--fire)"></span><h2 id="regTitle">Register</h2><span class="sp" id="regHint">Jedes Streichholz zählt 1</span></div>
-    <div class="regwrap"><div class="levelbar" id="levelBar" hidden></div><div class="regs" id="regs"></div>
+    <div class="regwrap"><div class="regs" id="regs"></div>
       <div class="pot" id="pot"><span class="potic" id="potIc"></span><span class="pottxt" id="potTxt"></span></div>
       <div class="startnote" id="startNote"></div></div>
     <div class="controls" id="controls">
@@ -726,6 +749,7 @@ function cardHTML(L){
 function errText(p){
   if(!junior)return p.msg;
   if(p.op==='dec')return 'Karte '+p.pc+': '+V.reg(p.arg)+' ist leer – da kann man keine Murmel herausnehmen! Tipp: Prüfe vorher mit „ist '+LET(p.arg)+' leer?“.';
+  if(/ist voll/.test(p.msg||''))return 'Kiste '+(p.msg.match(/Register (\d)/)?LET(+p.msg.match(/Register (\d)/)[1]):'')+' ist voll – mehr als 999 Murmeln passen nicht hinein.';
   if(p.pc>k.lines())return 'Der Stift ist unter der letzten Karte angekommen – da fehlt eine Stopp-Karte 🛑 (oder ein „springe“ zeigt auf eine Karte, die es nicht gibt).';
   return p.msg;
 }
@@ -745,7 +769,7 @@ function usedRegs(){const u=new Set();for(let r=1;r<=4;r++)u.add(r);for(let i=1;
 /* --- Programmblatt --- */
 function renderSheet(){
   const n=k.lines(),box=$('#lines');let h='';
-  if(!n)h=`<div class="emptyhint">${junior?'Noch keine Karten.<br>Tippe auf „Bearbeiten“ und zieh Karten hierher.':'Noch kein Programm.<br>Lade ein Beispiel (📂) oder klicke auf „＋ Zeile“.'}</div>`;
+  if(!n)h=`<div class="emptyhint">${junior?(editMode?'Noch keine Karten.<br>Zieh eine Karte von oben hierher – oder tippe sie an.':'Noch keine Karten.<br>Tippe auf „Bearbeiten“ und zieh Karten hierher.'):'Noch kein Programm.<br>Lade ein Beispiel (📂) oder klicke auf „＋ Zeile“.'}</div>`;
   for(let i=1;i<=n;i++){const L=k.prog[i];
     if(editMode){
       const ops=Object.keys(CMDS).filter(o=>!junior||allowedCards().includes(o)||o===L.op);
@@ -789,7 +813,7 @@ function drawJumps(){
   const lanes=[];
   jumps.forEach(([a,b])=>{const lo=Math.min(a,b),hi=Math.max(a,b);let lane=0;while((lanes[lane]||[]).some(([l,hh])=>!(hi<l||lo>hh)))lane++;(lanes[lane]=lanes[lane]||[]).push([lo,hi]);
     const x0=4,w=16+lane*13,y1=y(a),y2=y(b);const hot=lastFx&&lastFx.jmp===a;
-    h+=`<path class="${hot?'hot':''}" d="M${x0} ${y1} C ${x0+w} ${y1}, ${x0+w} ${y2}, ${x0+2} ${y2}" marker-end="url(#${hot?'ahh':'ah'})"><title>Zeile ${a}: jmp ${b}</title></path>`;});
+    h+=`<path class="${hot?'hot':''}" d="M${x0} ${y1} C ${x0+w} ${y1}, ${x0+w} ${y2}, ${x0+2} ${y2}" marker-end="url(#${hot?'ahh':'ah'})"><title>${junior?'Karte '+a+': springe zu '+b:'Zeile '+a+': jmp '+b}</title></path>`;});
   if(lastFx&&lastFx.skip){const a=lastFx.skip,y1=y(a),y2=y(a+2);if(y1!==null&&y2!==null)h+=`<path class="skip" d="M4 ${y1} C 26 ${y1}, 26 ${y2}, 6 ${y2}" marker-end="url(#ahs)"/>`;}
   svg.innerHTML=h;
 }
@@ -831,7 +855,7 @@ function renderRegs(fx){
   if(fx&&fx.reg){const el=$('#reg'+fx.reg);if(fx.test){el.classList.add('test');$('#bdg'+fx.reg).textContent=fx.zero?(junior?'leer? → ja, hüpfen!':'leer? → ja'):(junior?'leer? → nein':'leer? → nein');}else el.classList.add('hot');}
 }
 function editRegValue(r){
-  if(proc)return toast('Im Modus „Ich bin der Computer“ legst du Streichhölzer mit + und −.');
+  if(proc)return toast(junior?'Im Modus „Ich bin der Computer“ ziehst du die Murmeln selbst (oder + und −).':'Im Modus „Ich bin der Computer“ legst du Streichhölzer mit + und − oder ziehst sie.');
   const el=$('#rv'+r);if(el.querySelector('input'))return;
   el.innerHTML=`<input type="number" min="0" max="999" value="${k.regs[r]}">`;const inp=el.querySelector('input');inp.focus();inp.select();
   let fin=false;const done=ok=>{if(fin)return;fin=true;if(ok){let v=parseInt(inp.value);if(isNaN(v)||v<0||v>999){toast('Bitte 0 bis 999 eingeben.','bad');}else setReg(r,v);}renderRegs();};
@@ -875,7 +899,7 @@ function setNow(op,txt){$('#nowOp').textContent=op;$('#nowTxt').innerHTML=txt;$(
 const logItems=[];
 function addLog(r){if(!r||r.kind!=='ok')return;logItems.unshift(`<li>${junior?'K':'Z'}.${r.pc}: <b>${esc(cmdText(r))}</b> → ${r.stop?'Ende':V.line()+' '+r.next}${r.reg?' · '+(junior?LET(r.reg):'R'+r.reg)+' = '+k.regs[r.reg]:''}</li>`);if(logItems.length>60)logItems.length=60;$('#log').innerHTML=logItems.join('');}
 /* --- Ausführen --- */
-function noProgram(){if(k.lines())return false;toast('Auf dem Programmblatt steht noch kein Programm.');setNow('Kein Programm','Lade ein Beispiel über 📂 oder schreibe ein Programm.');return true;}
+function noProgram(){if(k.lines())return false;toast(junior?'Es liegen noch keine Karten auf dem Blatt.':'Auf dem Programmblatt steht noch kein Programm.');setNow(junior?'Keine Karten':'Kein Programm',junior?'Tippe auf <b>Bearbeiten</b> und leg Karten aufs Blatt – oder lade ein Beispiel über 📂.':'Lade ein Beispiel über 📂 oder schreibe ein Programm.');return true;}
 function fxOf(r){if(!r||r.kind!=='ok')return null;return{reg:r.reg,delta:r.delta,test:r.op==='isz',zero:r.zero,jmp:r.op==='jmp'?r.pc:null,skip:r.op==='isz'&&r.zero?r.pc:null};}
 function doStep(anim){
   if(k.halted)return null;const r=k.step();lastFx=fxOf(r);
@@ -885,7 +909,7 @@ function doStep(anim){
   return r;
 }
 function stepClick(){if(proc||noProgram())return;if(k.halted)return;const r=doStep();render();emit('step',r);if(k.halted)onHalt();}
-function onHalt(){running=false;clearTimeout(runTimer);render();if(pendingPredict&&curLevel!==null){finishPredict();emit('halted');return;}if(k.error)toast('Angehalten: Fehler in Zeile '+k.pc,'bad');else toast('Fertig – stp erreicht ✓','ok');emit('halted');}
+function onHalt(){running=false;clearTimeout(runTimer);render();if(pendingPredict&&curLevel!==null){finishPredict();emit('halted');return;}if(k.error)toast('Angehalten: Fehler bei '+V.line()+' '+k.pc,'bad');else toast('Fertig – stp erreicht ✓','ok');emit('halted');}
 function tick(){
   if(!running)return;const sp=SPEEDS[speed];
   if(sp.turbo){const t0=performance.now();let r=null;while(!k.halted&&running&&performance.now()-t0<30){r=doStep(false);}
@@ -898,7 +922,7 @@ function startRun(){if(proc||noProgram())return;if(k.halted)doReset(true);if(edi
 function stopRun(){if(!running)return;running=false;clearTimeout(runTimer);render();}
 function doUndo(){stopRun();const s=k.hist[k.hist.length-1];if(!k.undo())return toast('Nichts mehr zum Zurücknehmen.');delete k.procRegDone;procRegDone=!!(s&&s.procRegDone);lastFx=null;renderRegs();drawJumps();setNow('↶ zurück','Der letzte Schritt wurde rückgängig gemacht.');render();scrollToLine(k.pc);emit('undo');}
 function doReset(quiet){stopRun();k.reset();k.hist=[];k.regs=startRegs.slice();procRegDone=false;procStats={ok:0,bad:0};lastFx=null;renderRegs();drawJumps();logItems.length=0;$('#log').innerHTML='';
-  if(!quiet)setNow('–','Neu gestartet: Der Stift steht wieder in Zeile 1, die Register haben ihre Startwerte.');else setNow('–','Neustart.');render();scrollToLine(1);emit('reset');}
+  if(!quiet)setNow('–',junior?'Neu gestartet: Der Stift steht wieder auf Karte 1, in den Kisten liegen wieder die Murmeln vom Anfang.':'Neu gestartet: Der Stift steht wieder in Zeile 1, die Register haben ihre Startwerte.');else setNow('–','Neustart.');render();scrollToLine(1);emit('reset');}
 
 /* --- „Ich bin der Computer“ --- */
 let procMsg=null;
@@ -969,26 +993,26 @@ function applyText(){
   const r=parseProgram($('#progText').value),hard=r.errors.filter(e=>!e.warn);
   $('#asmMsg').innerHTML=r.errors.length?'<ul class="errlist">'+r.errors.map(e=>`<li class="${e.warn?'warn':''}">${e.line?'Zeile '+e.line+': ':''}${esc(e.msg)}</li>`).join('')+'</ul>':'';
   if(hard.length)return false;
-  k.prog=r.prog;textDirty=false;progChanged();$('#asmMsg').innerHTML+=`<div class="okline">✓ ${k.lines()} Zeilen aufs Programmblatt übernommen.</div>`;emit('applied');toast('Programm übernommen ✓','ok');return true;
+  k.prog=r.prog;textDirty=false;progChanged();$('#asmMsg').innerHTML+=`<div class="okline">✓ ${k.lines()} ${junior?'Karten aufs Blatt gelegt':'Zeilen aufs Programmblatt übernommen'}.</div>`;emit('applied');toast('Programm übernommen ✓','ok');return true;
 }
 
 /* --- Beispiele --- */
 const EX=[
- {id:'add',title:'Addieren',d:'Register 2 wird zu Register 1 addiert – Streichholz für Streichholz. Das klassische Einstiegsprogramm.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1'},
- {id:'copyAB',title:'Umfüllen',d:'Alles aus Register 1 (Kiste A) wandert nach Register 2 (Kiste B) – Stück für Stück.',regs:{1:3},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\njmp 1'},
- {id:'clear',title:'Register leeren',d:'Eine Schleife nimmt so lange Streichhölzer aus Register 1, bis es leer ist.',regs:{1:5},text:'isz 1\njmp 4\nstp\ndec 1\njmp 1'},
- {id:'dbl',title:'Verdoppeln',d:'Für jedes Streichholz aus Register 1 kommen zwei in Register 2.',regs:{1:4},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\ninc 2\njmp 1'},
- {id:'sub',title:'Subtrahieren',d:'Register 1 minus Register 2. Was passiert, wenn Register 2 größer ist? Ausprobieren!',regs:{1:7,2:3},text:'isz 2\njmp 4\nstp\ndec 2\ndec 1\njmp 1'},
- {id:'copy',title:'Kopieren mit Hilfsregister',d:'Register 1 wird nach Register 2 kopiert – und bleibt dabei erhalten. Trick: Register 3 merkt sich die Streichhölzer.',regs:{1:4},text:'isz 1\njmp 4\njmp 8\ndec 1\ninc 2\ninc 3\njmp 1\nisz 3\njmp 11\nstp\ndec 3\ninc 1\njmp 8'},
- {id:'mul',title:'Multiplizieren',d:'Register 1 · Register 2 → Register 3. Zwei Schleifen ineinander, Register 4 hilft.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\nisz 1\njmp 8\njmp 12\ndec 1\ninc 3\ninc 4\njmp 5\nisz 4\njmp 15\njmp 1\ndec 4\ninc 1\njmp 12'},
- {id:'gt',title:'Vergleichen',d:'Ist Register 1 größer als Register 2? Dann liegt am Ende ein Streichholz in Register 3, sonst keins.',regs:{1:5,2:3},text:'isz 2\njmp 6\nisz 1\ninc 3\nstp\nisz 1\njmp 9\nstp\ndec 1\ndec 2\njmp 1'},
- {id:'empty',title:'Leeres Blatt',d:'Alles löschen und selbst programmieren.',regs:{},text:''}
+ {id:'add',tj:'Zusammenzählen',dj:'Die Murmeln aus Kiste B wandern nach und nach in Kiste A – so wird zusammengezählt.',title:'Addieren',d:'Register 2 wird zu Register 1 addiert – Streichholz für Streichholz. Das klassische Einstiegsprogramm.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1'},
+ {id:'copyAB',tj:'Umfüllen',dj:'Alle Murmeln aus Kiste A wandern in Kiste B – eine nach der anderen.',title:'Umfüllen',d:'Alles aus Register 1 (Kiste A) wandert nach Register 2 (Kiste B) – Stück für Stück.',regs:{1:3},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\njmp 1'},
+ {id:'clear',tj:'Kiste leeren',dj:'Eine Schleife nimmt so lange Murmeln aus Kiste A, bis sie leer ist.',title:'Register leeren',d:'Eine Schleife nimmt so lange Streichhölzer aus Register 1, bis es leer ist.',regs:{1:5},text:'isz 1\njmp 4\nstp\ndec 1\njmp 1'},
+ {id:'dbl',tj:'Verdoppeln',dj:'Für jede Murmel aus Kiste A kommen zwei Murmeln in Kiste B.',title:'Verdoppeln',d:'Für jedes Streichholz aus Register 1 kommen zwei in Register 2.',regs:{1:4},text:'isz 1\njmp 4\nstp\ndec 1\ninc 2\ninc 2\njmp 1'},
+ {id:'sub',tj:'Abziehen',dj:'Aus Kiste A und Kiste B wird immer gleichzeitig eine Murmel genommen, bis B leer ist. Was passiert, wenn in B mehr Murmeln sind? Ausprobieren!',title:'Subtrahieren',d:'Register 1 minus Register 2. Was passiert, wenn Register 2 größer ist? Ausprobieren!',regs:{1:7,2:3},text:'isz 2\njmp 4\nstp\ndec 2\ndec 1\njmp 1'},
+ {id:'copy',tj:'Kopieren mit Hilfskiste',dj:'Kiste B bekommt genauso viele Murmeln wie Kiste A – und A behält ihre Murmeln. Trick: Kiste C merkt sich, wie viele es waren.',title:'Kopieren mit Hilfsregister',d:'Register 1 wird nach Register 2 kopiert – und bleibt dabei erhalten. Trick: Register 3 merkt sich die Streichhölzer.',regs:{1:4},text:'isz 1\njmp 4\njmp 8\ndec 1\ninc 2\ninc 3\njmp 1\nisz 3\njmp 11\nstp\ndec 3\ninc 1\njmp 8'},
+ {id:'mul',tj:'Malnehmen',dj:'Kiste A mal Kiste B – das Ergebnis landet in Kiste C. Zwei Schleifen ineinander, Kiste D hilft mit.',title:'Multiplizieren',d:'Register 1 · Register 2 → Register 3. Zwei Schleifen ineinander, Register 4 hilft.',regs:{1:3,2:2},text:'isz 2\njmp 4\nstp\ndec 2\nisz 1\njmp 8\njmp 12\ndec 1\ninc 3\ninc 4\njmp 5\nisz 4\njmp 15\njmp 1\ndec 4\ninc 1\njmp 12'},
+ {id:'gt',tj:'Vergleichen',dj:'Sind in Kiste A mehr Murmeln als in Kiste B? Dann liegt am Ende eine Murmel in Kiste C, sonst keine.',title:'Vergleichen',d:'Ist Register 1 größer als Register 2? Dann liegt am Ende ein Streichholz in Register 3, sonst keins.',regs:{1:5,2:3},text:'isz 2\njmp 6\nisz 1\ninc 3\nstp\nisz 1\njmp 9\nstp\ndec 1\ndec 2\njmp 1'},
+ {id:'empty',tj:'Leeres Blatt',dj:'Alles löschen und selbst Karten legen.',title:'Leeres Blatt',d:'Alles löschen und selbst programmieren.',regs:{},text:''}
 ];
 function loadExample(id,quiet){const ex=EX.find(e=>e.id===id);const r=parseProgram(ex.text);k.prog=r.prog;startRegs=new Array(NREG+1).fill(0);for(const a in ex.regs)startRegs[a]=ex.regs[a];
   textDirty=false;$('#progText').value=ex.text;$('#asmMsg').innerHTML='';if(editMode)setEdit(false);progChanged();doReset(true);closeModal('mExamples');
-  setNow('–','Beispiel „'+esc(ex.title)+'“ geladen. Klicke auf <b>Schritt</b> oder <b>Start</b>.');if(!quiet)toast('Beispiel „'+ex.title+'“ geladen');emit('example',id);}
-function renderExamples(){$('#exList').innerHTML=EX.map(e=>`<div class="item"><div class="grow"><div class="t">${esc(e.title)}</div><div class="d">${esc(e.d)}</div>${Object.keys(e.regs).length?`<div class="d" style="margin-top:3px">Startwerte: ${Object.entries(e.regs).map(([r,v])=>'R'+r+' = '+v).join(', ')}</div>`:''}</div><button class="btn primary small" data-ex="${e.id}">Laden</button></div>`).join('');
-  $$('#exList [data-ex]').forEach(b=>b.onclick=async()=>{if(k.lines()&&!(await confirmBox('Programmblatt ersetzen?','Das Beispiel ersetzt dein aktuelles Programm und die Register.','Laden')))return;loadExample(b.dataset.ex);});}
+  const et=junior?ex.tj:ex.title;setNow('–','Beispiel „'+esc(et)+'“ geladen. '+(junior?'Tippe auf <b>Schritt</b> oder <b>Los!</b>.':'Klicke auf <b>Schritt</b> oder <b>Start</b>.'));if(!quiet)toast('Beispiel „'+et+'“ geladen');emit('example',id);}
+function renderExamples(){$('#exList').innerHTML=EX.map(e=>`<div class="item"><div class="grow"><div class="t">${esc(junior?e.tj:e.title)}</div><div class="d">${esc(junior?e.dj:e.d)}</div>${Object.keys(e.regs).length?`<div class="d" style="margin-top:3px">${junior?'Am Anfang':'Startwerte'}: ${Object.entries(e.regs).map(([r,v])=>(junior?LET(+r):'R'+r)+' = '+v).join(', ')}</div>`:''}</div><button class="btn primary small" data-ex="${e.id}">Laden</button></div>`).join('');
+  $$('#exList [data-ex]').forEach(b=>b.onclick=async()=>{if(k.lines()&&!(await confirmBox(junior?'Karten ersetzen?':'Programmblatt ersetzen?',junior?'Das Beispiel ersetzt deine Karten und die Murmeln in den Kisten.':'Das Beispiel ersetzt dein aktuelles Programm und die Register.','Laden')))return;loadExample(b.dataset.ex);});}
 
 /* --- Aufgaben --- */
 const T=[
@@ -1186,9 +1210,9 @@ function setJunior(on,quiet){
   $('#progTitle').textContent=on?'Programm-Karten':'Programmblatt';$('#regTitle').textContent=on?'Kisten':'Register';
   $('#regHint').textContent=on?'Jede Murmel zählt 1':'Jedes Streichholz zählt 1';$('#phead').textContent=on?'Mein Programm':'Programm';
   $('#btnTasks').innerHTML=on?'⭐<span class="t"> Rätsel</span>':'✅<span class="t"> Aufgaben</span>';$('#btnTasks').title=on?'Rätsel':'Aufgaben';
-  $('#tabBtnSheet').textContent=on?'Karten':'Blatt';
+  $('#tabBtnSheet').textContent=on?'Karten':'Blatt';$('#btnAddLine').innerHTML=on?'＋ Karte':'＋ Zeile';$('#btnAddLine').title=on?'Karte unten anlegen':'Zeile am Ende anfügen';$('#btnClearProg').title=on?'Alle Karten wegräumen':'Programm löschen';
   const nav=$$('#phoneNav button');nav[0].innerHTML=`<span class="i">📝</span>${on?'Karten':'Programm'}`;nav[1].innerHTML=`<span class="i">${on?'🧺':'🔥'}</span>${on?'Kisten':'Register'}`;
-  renderPot();renderPalette();renderSheet();renderRegs();renderCmdRef();renderTourMenu();render();
+  renderPot();renderPalette();renderSheet();renderRegs();renderCmdRef();renderTourMenu();renderExamples();render();
   if(!quiet)toast(on?'Junior-Modus: Kisten, Murmeln und Bildkarten 🧒':'Profi-Modus: der originale Know-how-Computer 🎓');
   emit(on?'junior-on':'profi-on');
 }
@@ -1207,28 +1231,33 @@ const LEVELS=[
  {t:'Wie viele sind es zusammen?',kind:'predict',story:'Dieses Programm kennst du vielleicht schon. Was steht am Ende in Kiste A?',start:{1:2,2:3},prog:'isz 2\njmp 4\nstp\ndec 2\ninc 1\njmp 1',ask:[1,2]},
  {t:'Zusammenzählen',kind:'build',story:'Jetzt du: Leg alle Murmeln aus Kiste B zu Kiste A. Am Ende sollen in A so viele sein wie vorher in A und B zusammen.',cards:ALL,start:{1:2,2:3},tests:[[{1:2,2:3},{1:5}],[{1:0,2:4},{1:4}],[{1:3,2:0},{1:3}]],best:6}
 ];
-let curLevel=null,stars={},pendingPredict=null,predictTries=0,lastGuess={};
+let curLevel=null,stars={},pendingPredict=null,predictTries=0,lastGuess={},lastRes=null;
 const starStr=n=>`<span class="stars">${[1,2,3].map(i=>i<=n?'★':'<span class="off">★</span>').join('')}</span>`;
 function renderLevelList(){
   $('#levelList').innerHTML=LEVELS.map((L,i)=>`<div class="item lvitem" data-lv="${i}"><div class="kk">${i+1}</div><div class="grow"><div class="t">${esc(L.t)}<span class="tag">${{build:'🧱 bauen',predict:'🔮 vorhersagen',fix:'🔧 reparieren'}[L.kind]}</span></div><div class="d">${esc(L.story)}</div></div>${starStr(stars[i]||0)}</div>`).join('');
   $$('#levelList .lvitem').forEach(e=>e.onclick=()=>startLevel(+e.dataset.lv));
 }
 function startLevel(i){
-  closeModal('mLevels');if(proc)setProc(false);stopRun();curLevel=i;predictTries=0;lastGuess={};pendingPredict=null;const L=LEVELS[i];
+  closeModal('mLevels');if(proc)setProc(false);stopRun();curLevel=i;predictTries=0;lastGuess={};lastRes=null;pendingPredict=null;const L=LEVELS[i];
   k.prog=parseProgram(L.prog||'').prog;startRegs=new Array(NREG+1).fill(0);for(const r in L.start)startRegs[r]=L.start[r];
   textDirty=false;progChanged();doReset(true);
   setEdit(L.kind!=='predict');showTab('tabSheet');renderLevelBar();showPanel(L.kind==='predict'?'progPanel':'regPanel');
   setNow('⭐','Rätsel '+(i+1)+': '+esc(L.t));emit('level-start',i);
 }
-function endLevel(quiet){curLevel=null;pendingPredict=null;$('#levelBar').hidden=true;renderPalette();if(!quiet)toast('Rätsel beendet');}
+function endLevel(quiet){curLevel=null;pendingPredict=null;lastRes=null;$('#levelBar').hidden=true;document.body.classList.remove('haslevel');renderPalette();if(!quiet)toast('Rätsel beendet');}
 function renderLevelBar(res){
-  const bar=$('#levelBar');if(curLevel===null){bar.hidden=true;return;}const L=LEVELS[curLevel];bar.hidden=false;
-  let body='';
-  if(L.kind==='predict')body=`<div class="pred">${L.ask.map(r=>`${kchip(r)} <input type="number" min="0" max="99" id="pr${r}" value="${lastGuess[r]??''}" aria-label="Murmeln in Kiste ${LET(r)}">`).join('')}<button class="btn primary" id="lvCheck">🔮 Prüfen &amp; zuschauen</button></div>`;
-  else body=`<div class="lv-row"><span class="lv-cards">Karten: ${L.cards.map(o=>`<span title="${JCARD[o].name}">${JCARD[o].ic}</span>`).join('')}</span><span style="font-size:12px;color:var(--muted)">⭐⭐⭐ mit höchstens ${L.best} Karten</span><button class="btn primary" id="lvCheck" style="margin-left:auto">✓ Prüfen</button></div>`;
-  bar.innerHTML=`<div class="lv-top"><b>⭐ Rätsel ${curLevel+1}: ${esc(L.t)}</b>${starStr(stars[curLevel]||0)}<button class="xbtn" id="lvX" title="Rätsel beenden">×</button></div><p>${esc(L.story)}</p>${body}${res?`<div class="lvres ${res.ok?'ok':'bad'}">${res.html}</div>`:''}<div style="margin-top:6px;display:flex;gap:6px"><button class="btn small ghost" id="lvList">📋 alle Rätsel</button>${curLevel<LEVELS.length-1?'<button class="btn small ghost" id="lvNext">nächstes Rätsel →</button>':''}</div>`;
+  const bar=$('#levelBar');if(curLevel===null){bar.hidden=true;document.body.classList.remove('haslevel');return;}const L=LEVELS[curLevel];bar.hidden=false;document.body.classList.add('haslevel');
+  if(res!==undefined)lastRes=res;
+  let act='';
+  if(L.kind==='predict')act=`<span class="pred">${L.ask.map(r=>`${kchip(r)}<input type="number" min="0" max="99" id="pr${r}" value="${lastGuess[r]??''}" aria-label="Murmeln in Kiste ${LET(r)}">`).join('')}</span><button class="btn primary" id="lvCheck">🔮 Prüfen &amp; zuschauen</button>`;
+  else act=`<span class="lv-cards" title="Diese Karten darfst du benutzen">${L.cards.map(o=>`<span title="${JCARD[o].name}">${JCARD[o].ic}</span>`).join('')}</span><button class="btn primary" id="lvCheck">✓ Prüfen</button>`;
+  bar.innerHTML=`<div class="ls-row"><div class="ls-head"><span class="ls-no">⭐ Rätsel ${curLevel+1}</span>${starStr(stars[curLevel]||0)}</div>
+   <div class="ls-story"><b>${esc(L.t)}:</b> ${esc(L.story)}${L.kind!=='predict'?` <span class="ls-goal">⭐⭐⭐ mit höchstens ${L.best} Karten</span>`:''}</div>
+   <div class="ls-act">${act}<button class="btn small ghost" id="lvList" title="Alle Rätsel">📋</button>${curLevel<LEVELS.length-1?'<button class="btn small ghost" id="lvNext" title="Nächstes Rätsel">→</button>':''}<button class="xbtn" id="lvX" title="Rätsel beenden">×</button></div></div>
+   ${lastRes?`<div class="lvres ${lastRes.ok?'ok':'bad'}">${lastRes.html}</div>`:''}`;
   $('#lvX').onclick=()=>endLevel();$('#lvCheck').onclick=checkLevel;$('#lvList').onclick=()=>{renderLevelList();openModal('mLevels');};
   if($('#lvNext'))$('#lvNext').onclick=()=>startLevel(curLevel+1);
+  setTimeout(()=>{markLines();drawJumps();},30);
 }
 function giveStars(n){const i=curLevel;if(n>(stars[i]||0)){stars[i]=n;try{localStorage.setItem('khn-stars',JSON.stringify(stars))}catch(e){}}confetti();}
 function confetti(){const em=['⭐','🎉','✨','🟠','🔵','🟢'];for(let i=0;i<18;i++){const s=document.createElement('span');s.className='confetti';s.textContent=em[i%em.length];
@@ -1263,10 +1292,10 @@ function curLayout(){if(layPref!=='auto')return layPref;const w=innerWidth;retur
 function applyLayout(){const l=curLayout();if(l===layNow)return;layNow=l;document.body.classList.remove('lay-pc','lay-tablet','lay-phone');document.body.classList.add('lay-'+l);showPanel(phonePanel);setTimeout(()=>{markLines();drawJumps();if(tour)tourPlace();},60);}
 function showPanel(id){phonePanel=id;$$('main>.panel').forEach(p=>p.classList.toggle('pshow',p.id===id));$$('#phoneNav button').forEach(b=>b.classList.toggle('on',b.dataset.p===id));if(id==='progPanel')setTimeout(()=>{markLines();drawJumps();scrollToLine(k.pc);},30);}
 function ensurePanelFor(el){if(layNow!=='phone'||!el||!el.closest)return;const p=el.closest('main>.panel');if(p&&p.id!==phonePanel)showPanel(p.id);}
-const VIEWS=[['auto','📐','Automatisch','passt sich an die Bildschirmgröße an'],['pc','🖥️','PC / Beamer','Programm, Register und Erklärung nebeneinander'],['tablet','📱','Tablet','Register oben, Programm und Erklärung darunter'],['phone','📲','Handy','ein Bereich, Wechsel über die Leiste unten']];
+const VIEWS=[['auto','📐','Automatisch','passt sich an die Bildschirmgröße an'],['pc','🖥️','PC / Beamer','Programm, Register/Kisten und Erklärung nebeneinander'],['tablet','📱','Tablet','Register/Kisten oben, Programm und Erklärung darunter'],['phone','📲','Handy','ein Bereich, Wechsel über die Leiste unten']];
 function renderViewList(){$('#viewList').innerHTML=VIEWS.map(([v,i,t,d])=>`<div class="item viewopt ${v===layPref?'on':''}" data-v="${v}"><span class="vi">${i}</span><div class="grow"><div class="t">${t}</div><div class="d">${d}</div></div></div>`).join('');
   $$('#viewList .viewopt').forEach(e=>e.onclick=()=>setLayout(e.dataset.v));}
-function setLayout(v){closeModal('mView');layPref=v;try{localStorage.setItem('khn-layout',v)}catch(e){}layNow=null;applyLayout();if(v!=='auto')toast({pc:'PC-Ansicht',tablet:'Tablet-Ansicht',phone:'Handy-Ansicht: unten zwischen Programm, Register und Erklärung wechseln'}[v]);}
+function setLayout(v){closeModal('mView');layPref=v;try{localStorage.setItem('khn-layout',v)}catch(e){}layNow=null;applyLayout();if(v!=='auto')toast({pc:'PC-Ansicht',tablet:'Tablet-Ansicht',phone:junior?'Handy-Ansicht: unten zwischen Karten, Kisten und Erklärung wechseln':'Handy-Ansicht: unten zwischen Programm, Register und Erklärung wechseln'}[v]);}
 
 /* ===== TOUR ===== */
 const W=(ev,task,test)=>({ev,task,test});
@@ -1379,7 +1408,7 @@ function init(){
   $('#proc').onchange=e=>setProc(e.target.checked);
   $('#btnEdit').onclick=()=>setEdit(!editMode);
   $('#btnAddLine').onclick=()=>{if(!editMode)setEdit(true);insertLine(k.lines());};
-  $('#btnClearProg').onclick=async()=>{if(!k.lines())return;if(await confirmBox('Programmblatt leeren?','Alle Zeilen werden gelöscht.','Leeren')){k.prog=[null];progChanged();}};
+  $('#btnClearProg').onclick=async()=>{if(!k.lines())return;if(await confirmBox(junior?'Alle Karten wegräumen?':'Programmblatt leeren?',junior?'Alle Karten werden vom Blatt genommen.':'Alle Zeilen werden gelöscht.','Leeren')){k.prog=[null];progChanged();}};
   $$('.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
   $('#progText').oninput=()=>{textDirty=true;};
   $('#progText').onkeydown=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();applyText();}};
